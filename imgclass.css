@@ -1,0 +1,44 @@
+body {
+	background-image: url("3f382c6f.png")
+}
+
+h1 {
+	font-family: 'Bangers';
+	font-size: 64px;
+	color: #ff0066;
+	margin-left:1em;
+}
+
+h2{
+	font-family: 'Bangers';
+	font-size: 24px;
+	color: white;
+	margin-left:3em;
+	margin-bottom:0px;
+	margin-top:0px;
+}
+
+#titlediv {
+	width:30%;
+}
+
+#mainui {
+	display:inline-block;
+	position:relative;
+	float:left;
+	left:50%;
+	-ms-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	width:500px;
+	margin:0;
+}
+
+#mainimage {
+	float:left;
+	margin-top:1em;
+	margin-bottom:1em;
+	padding:0;
+	width:500px;
+	height:500px;
+}
