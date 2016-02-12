@@ -1,6 +1,11 @@
 body {
 	background-image: url("3f382c6f.png");
 	color:white;
+	font-family: 'Bangers';
+}
+
+p {
+	font-size: 24px;
 }
 
 h1 {
