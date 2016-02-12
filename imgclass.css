@@ -1,5 +1,6 @@
 body {
-	background-image: url("3f382c6f.png")
+	background-image: url("3f382c6f.png");
+	color:white;
 }
 
 h1 {
@@ -41,4 +42,8 @@ h2{
 	padding:0;
 	width:500px;
 	height:500px;
+}
+
+form {
+	margin-top:1em;
 }
