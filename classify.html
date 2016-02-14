@@ -27,26 +27,21 @@
   <h1>img<font color="white">&thinsp;class</font></h1>
   <h2>batch image classification</h2>
   <h2>================================</h2>
-  <form role="form">
-	  <div class="form-group">
-		<label for="email">Email address:</label>
-		<input type="email" class="form-control" id="email">
-	  </div>
-    <div class="form-group">
-		<label for="type">User type:</label><br>
-		<input type="radio" name="type" value="worker" checked> Worker<br>
-		<input type="radio" name="type" value="client"> Client <br>
-    </div>  
-	<div class="form-group">
-		<label for="password">Password:</label>
-		<input type="password" class="form-control" id="password">
-	  </div>
-	  <div class="form-group">
-		<label for="password-confirmation">Password confirmation:</label>
-		<input type="password" class="form-control" id="password-confirmation">
-	  </div>
-  <input type="submit" value="Submit" class="btn btn-primary btn-lg">
-  </form>
+  <img class="img-responsive" id="mainimage" src="https://dl.dropboxusercontent.com/u/59343634/7882436942_4b85b1f236_k.jpg">
+  <div class="progress" style="width:500px;height:20px;">
+  <div class="progress-bar" role="progressbar" aria-valuenow="70"
+  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+    <span class="sr-only">70% Complete</span>
+  </div>
+</div>
+	<div id="btncontainer" class="container">
+		<div class="row">
+			<div class="col-sm-3"><button id="car" type="button" class="btn btn-default btn-lg btn-block">Car</button></div>
+			<div class="col-sm-3"><button id="bus" type="button" class="btn btn-default btn-lg btn-block">Bus</button></div>
+			<div class="col-sm-3"><button id="pedestrian" type="button" class="btn btn-default btn-lg btn-block">Person</button></div>
+			<div class="col-sm-3"><button id="garbage" type="button" class="btn btn-default btn-lg btn-block">None</button></div>
+		</div>
+	</div>
   </div>
   
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
