@@ -5,6 +5,10 @@ body {
 	font-size:18px;
 }
 
+button {
+	min-width:89px;
+}
+
 p {
 	font-size: 24px;
 }
