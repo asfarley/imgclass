@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :image_labels
+  resources :jobs
+  resources :image_label_sets
+  resources :labels
+  resources :label_sets
+  resources :images
+  resources :image_sets
   devise_for :admins
   devise_for :users
   #devise_for :users

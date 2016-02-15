@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Image Label Sets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image set</th>
+      <th>Label set</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @image_label_sets.each do |image_label_set| %>
+      <tr>
+        <td><%= image_label_set.image_set %></td>
+        <td><%= image_label_set.label_set %></td>
+        <td><%= image_label_set.user %></td>
+        <td><%= link_to 'Show', image_label_set %></td>
+        <td><%= link_to 'Edit', edit_image_label_set_path(image_label_set) %></td>
+        <td><%= link_to 'Destroy', image_label_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Image label set', new_image_label_set_path %>

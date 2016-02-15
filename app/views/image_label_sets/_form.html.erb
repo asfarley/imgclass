@@ -1,0 +1,29 @@
+<%= form_for(@image_label_set) do |f| %>
+  <% if @image_label_set.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@image_label_set.errors.count, "error") %> prohibited this image_label_set from being saved:</h2>
+
+      <ul>
+      <% @image_label_set.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :image_set_id %><br>
+    <%= f.text_field :image_set_id %>
+  </div>
+  <div class="field">
+    <%= f.label :label_set_id %><br>
+    <%= f.text_field :label_set_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

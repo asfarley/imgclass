@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215094712) do
+ActiveRecord::Schema.define(version: 20160215100449) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -30,6 +30,68 @@ ActiveRecord::Schema.define(version: 20160215094712) do
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+
+  create_table "image_label_sets", force: :cascade do |t|
+    t.integer  "image_set_id"
+    t.integer  "label_set_id"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "image_label_sets", ["image_set_id"], name: "index_image_label_sets_on_image_set_id"
+  add_index "image_label_sets", ["label_set_id"], name: "index_image_label_sets_on_label_set_id"
+  add_index "image_label_sets", ["user_id"], name: "index_image_label_sets_on_user_id"
+
+  create_table "image_labels", force: :cascade do |t|
+    t.integer  "image_id"
+    t.integer  "label_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "image_labels", ["image_id"], name: "index_image_labels_on_image_id"
+  add_index "image_labels", ["label_id"], name: "index_image_labels_on_label_id"
+  add_index "image_labels", ["user_id"], name: "index_image_labels_on_user_id"
+
+  create_table "image_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string   "url"
+    t.integer  "image_set_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "images", ["image_set_id"], name: "index_images_on_image_set_id"
+
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "image_label_set_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "jobs", ["image_label_set_id"], name: "index_jobs_on_image_label_set_id"
+  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id"
+
+  create_table "label_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "label_set_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "labels", ["label_set_id"], name: "index_labels_on_label_set_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

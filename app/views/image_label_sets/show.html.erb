@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Image set:</strong>
+  <%= @image_label_set.image_set %>
+</p>
+
+<p>
+  <strong>Label set:</strong>
+  <%= @image_label_set.label_set %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @image_label_set.user %>
+</p>
+
+<%= link_to 'Edit', edit_image_label_set_path(@image_label_set) %> |
+<%= link_to 'Back', image_label_sets_path %>
