@@ -1,31 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Image Label Sets</h1>
+<div class="container">
 
-<table>
-  <thead>
-    <tr>
-      <th>Image set</th>
-      <th>Label set</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <% @image_label_sets.each do |image_label_set| %>
+    <div class="row">
+    <div class="col-sm-3">Image set <%= image_label_set.image_set.id %> <span class="small">(x<%= image_label_set.image_set.images.count %> images)<br>
+      <% image_label_set.label_set.labels.each do |label| %>
+      <%= label.text %>,
+      <% end %>
+    </span></div>
+    <div class="col-sm-1"><a href="./<%= image_label_set.id %>"><button type="button" class="btn btn-default">View</button></a></div>
+    <div class="col-sm-1">
+      <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <button type="button" class="btn btn-danger">Destroy</button>
+      <% end %>
+    </div>
+    <div class="col-sm-1"><button type="button" class="btn btn-default">Download</button></div>
+    <div class="col-sm-1"><button type="button" class="btn btn-default btn-success">Start Job</button></div>
+    </div>
+    <br><br>
+  <% end %>
+  
+<div class="row">
+<div class="col-sm-3">Upload new set</div><div class="col-sm-1"><a href="./new"><button id="view1" type="button" class="btn btn-primary btn-block">Upload</button></a></div>
+</div>
 
-  <tbody>
-    <% @image_label_sets.each do |image_label_set| %>
-      <tr>
-        <td><%= image_label_set.image_set %></td>
-        <td><%= image_label_set.label_set %></td>
-        <td><%= image_label_set.user %></td>
-        <td><%= link_to 'Show', image_label_set %></td>
-        <td><%= link_to 'Edit', edit_image_label_set_path(image_label_set) %></td>
-        <td><%= link_to 'Destroy', image_label_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Image label set', new_image_label_set_path %>
+</div>
