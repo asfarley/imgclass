@@ -9,7 +9,7 @@
       <%= label.text %>,
       <% end %>
     </span></div>
-    <div class="col-sm-1"><a href="./<%= image_label_set.id %>"><button type="button" class="btn btn-default">View</button></a></div>
+    <div class="col-sm-1"><a href="./image_label_sets/<%= image_label_set.id %>"><button type="button" class="btn btn-default">View</button></a></div>
     <div class="col-sm-1">
       <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
         <button type="button" class="btn btn-danger">Destroy</button>
@@ -20,9 +20,9 @@
     </div>
     <br><br>
   <% end %>
-  
+
 <div class="row">
-<div class="col-sm-3">Upload new set</div><div class="col-sm-1"><a href="./new"><button id="view1" type="button" class="btn btn-primary btn-block">Upload</button></a></div>
+<div class="col-sm-3">Upload new set</div><div class="col-sm-1"><a href="./image_label_sets/new"><button id="view1" type="button" class="btn btn-primary btn-block">Upload</button></a></div>
 </div>
 
 </div>

@@ -1,19 +1,26 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Image set:</strong>
-  <%= @image_label_set.image_set %>
-</p>
+<div class="container">
 
-<p>
-  <strong>Label set:</strong>
-  <%= @image_label_set.label_set %>
-</p>
+<% @image_label_set.image_set.images.each do |image| %>
+  <div class="row">
+  <div class="col-sm-3"><%= image.url %>: ???<br><br>
+  <table class="table" >
+    <tr><% @image_label_set.label_set.labels.each do |label| %>
+      <td><b><%= label.text %></b></td>
+    <% end %></tr>
+    <tr><% @image_label_set.label_set.labels.each do |label| %>
+      <td>?</td>
+    <% end %></tr>
+  </table>
+  </div>
+  <div class="col-sm-2"><img class="img-thumbnail" src="<%= image.url %>"></div>
+  </div>
+  <br><br>
+<% end %>
 
-<p>
-  <strong>User:</strong>
-  <%= @image_label_set.user %>
-</p>
-
-<%= link_to 'Edit', edit_image_label_set_path(@image_label_set) %> |
-<%= link_to 'Back', image_label_sets_path %>
+<br><br><br><br>
+<div class="row" id="pagination-links">
+<div class="col-sm-5"><a href="">1</a>  <a href="">2</a>  <a href="">3</a>  <a href="">4</a>  <a href="">5</a>  <a href="">6</a>  <a href="">7</a>  <a href="">8</a>  <a href="">9</a>  <a href="">10</a> <br> <a href="">Next &#10097;</a></div>
+</div>
+</div>
