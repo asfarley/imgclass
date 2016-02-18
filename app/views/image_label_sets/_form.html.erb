@@ -1,4 +1,4 @@
-<%= form_for(@image_label_set) do |f| %>
+<%= form_for @image_label_set, html: {multipart: true } do |f| %>
   <% if @image_label_set.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@image_label_set.errors.count, "error") %> prohibited this image_label_set from being saved:</h2>
@@ -13,47 +13,38 @@
 
   <div class="container">
   <div class="row">
-  <div class="col-sm-3">(1) Select your images</div><div class="col-sm-2"><button id="selectimages" type="button" class="btn btn-default btn-default btn-block">Select Images</button></div>
+  <div class="col-sm-3">(1) Select your images</div><div class="col-sm-2"><span class="btn btn-default btn-file">Select Images<input type="file" multiple name="upload[uploaded_file]"></span></div>
   </div>
 
-<div class="row">
+<!-- <div class="row">
   <div class="field">
     <%= f.label :image_set_id %><br>
     <%= f.text_field :image_set_id %>
   </div>
-</div>
+</div> -->
 
   <br><br>
   <div class="row">
   <div class="col-sm-3">(2) Choose your classes <br> e.g. cars, people, other </div><div class="col-sm-3"> <input type="text" class="form-control" placeholder="Classes"></div>
   </div>
 
-<div class="row">
+<!-- <div class="row">
   <div class="field">
     <%= f.label :label_set_id %><br>
     <%= f.text_field :label_set_id %>
   </div>
-</div>
+</div> -->
 
   <br><br>
   <div class="row">
-  <div class="col-sm-3">(3) Upload </div><div class="col-sm-2"><button id="upload" type="button" class="btn btn-default btn-primary btn-block">Upload</button></div>
+  <div class="col-sm-3">(3) Upload </div><div class="col-sm-3">
+
+    <span class="actions btn btn-default">
+      <%= submit_tag("Upload") %>
+    </span>
+    </div>
   </div>
 
-<div class="row">
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-</div>
 </div>
 
 <% end %>
-
-<%= form_for @image_label_set, :url => image_label_sets_path, html: {multipart: true } do |f| %>
-<%= f.label :uploaded_file, t('.upload_new_file') %>
-  <%= f.file_field :uploaded_file, multiple: true, name: 'upload[uploaded_file]' %>
-  <%= submit_tag("Save") %>
-<% end %>
- 
-<script id="template-upload" type="text/x-tmpl"><div class="upload">{%=o.name%}<div class="progress"><div class="bar" style="width: 0%"></div></div></div></script>
-
