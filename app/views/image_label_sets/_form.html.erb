@@ -48,3 +48,12 @@
 </div>
 
 <% end %>
+
+<%= form_for @image_label_set, :url => image_label_sets_path, html: {multipart: true } do |f| %>
+<%= f.label :uploaded_file, t('.upload_new_file') %>
+  <%= f.file_field :uploaded_file, multiple: true, name: 'upload[uploaded_file]' %>
+  <%= submit_tag("Save") %>
+<% end %>
+ 
+<script id="template-upload" type="text/x-tmpl"><div class="upload">{%=o.name%}<div class="progress"><div class="bar" style="width: 0%"></div></div></div></script>
+
