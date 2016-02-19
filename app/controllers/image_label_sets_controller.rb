@@ -15,6 +15,8 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets/new
   def new
     @image_label_set = ImageLabelSet.new
+    @image_label_set.image_set = ImageSet.new
+    @image_label_set.label_set = LabelSet.new
   end
 
   # GET /image_label_sets/1/edit
@@ -24,10 +26,13 @@ class ImageLabelSetsController < ApplicationController
   # POST /image_label_sets
   # POST /image_label_sets.json
   def create
+    Rails.logger.level = 0
+    logger.debug "params (Alex Debug): #{params.inspect}"
     @image_label_set = ImageLabelSet.new(image_label_set_params)
-
+    @image_label_set.image_set = ImageSet.new
+    @image_label_set.label_set = LabelSet.new
     respond_to do |format|
-      if @image_label_set.save
+      if (@image_label_set.save && @image_label_set.image_set.save && @image_label_set.label_set.save)
         format.html { redirect_to @image_label_set, notice: 'Image label set was successfully created.' }
         format.json { render :show, status: :created, location: @image_label_set }
       else
@@ -69,6 +74,7 @@ class ImageLabelSetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def image_label_set_params
-      params.require(:image_label_set).permit(:image_set_id, :label_set_id, :user_id)
+      params.permit("utf8", "authenticity_token", "commit", "upload")
+      #params.require(:image_label_set).permit(:image_set_id, :label_set_id, :user_id)
     end
 end
