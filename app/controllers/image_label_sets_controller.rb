@@ -60,7 +60,8 @@ class ImageLabelSetsController < ApplicationController
         i.image_set_id = @image_label_set.image_set_id
         i.save
       end
-      ObjectSpace.undefine_finalizer(uf.tempfile)
+      uf.tempfile.close
+      uf.tempfile.unlink
     end
 
     respond_to do |format|
@@ -82,6 +83,13 @@ class ImageLabelSetsController < ApplicationController
       il.save
     end
     redirect_to action: "index"
+  end
+
+  def download
+    fileLabelsString=""
+    downloadString = ImageLabelSet.find(params[:id]).fileLabelPairs.inject("") {|fileLabelString,fileLabelPair| fileLabelString + "\"" + fileLabelPair["url"] + "\" " + fileLabelPair["label"] + "\r\n"}
+    #render :text => downloadString, :layout => false, :content_type => "text/html"
+    send_data downloadString, :filename => "filelabels.txt", disposition: 'attachment'
   end
 
   # PATCH/PUT /image_label_sets/1

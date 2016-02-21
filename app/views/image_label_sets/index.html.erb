@@ -17,7 +17,9 @@
     </div>
     <div class="col-sm-1">
       <% if image_label_set.isComplete? %>
+      <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
       <button type="button" class="btn btn-default">Download</button>
+      <% end %>
       <% else %>
       <button type="button" class="btn btn-default disabled">Download</button>
       <% end %>

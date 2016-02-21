@@ -25,4 +25,9 @@ class ImageLabelSet < ActiveRecord::Base
   def isComplete?
     (percent_remaining == 0) && (image_labels.count >= images.count)
   end
+
+  def fileLabelPairs
+    images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text  } }
+  end
+
 end
