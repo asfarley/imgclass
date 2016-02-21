@@ -4,13 +4,13 @@
 
 <% @image_label_set.image_set.images.each do |image| %>
   <div class="row">
-  <div class="col-sm-3"><%= image.url %>: ???<br><br>
+  <div class="col-sm-3"><%= File.basename image.url %>: <%= image.most_likely_label_text %><br><br>
   <table class="table" >
     <tr><% @image_label_set.label_set.labels.each do |label| %>
       <td><b><%= label.text %></b></td>
     <% end %></tr>
     <tr><% @image_label_set.label_set.labels.each do |label| %>
-      <td>?</td>
+      <td><%= image.count_labels(label) %></td>
     <% end %></tr>
   </table>
   </div>

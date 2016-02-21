@@ -81,7 +81,6 @@ class ImageLabelSetsController < ApplicationController
   # DELETE /image_label_sets/1
   # DELETE /image_label_sets/1.json
   def destroy
-    FileUtils.rm_rf("/srv/imgclass/public/images/#{@image_label_set.image_set_id}")
     @image_label_set.destroy
     respond_to do |format|
       format.html { redirect_to image_label_sets_url, notice: 'Image label set was successfully destroyed.' }
