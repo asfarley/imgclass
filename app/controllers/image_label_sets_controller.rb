@@ -2,6 +2,8 @@ class ImageLabelSetsController < ApplicationController
   before_action :set_image_label_set, only: [:show, :edit, :update, :destroy]
   require 'fileutils'
   require 'pathname'
+  require 'kaminari'
+  require 'fastimage'
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -11,6 +13,11 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets/1
   # GET /image_label_sets/1.json
   def show
+    if params.has_key?(:page)
+      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(params[:page])
+    else
+      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1)
+    end
   end
 
   # GET /image_label_sets/new
@@ -44,12 +51,15 @@ class ImageLabelSetsController < ApplicationController
     FileUtils::mkdir_p "/srv/imgclass/public/images/#{image_set.id}"
     @image_label_set.image_set_id = image_set.id
     params["upload"].each do |uf|
-      i = Image.new
-      new_path = "/srv/imgclass/public/images/#{image_set.id}/" + uf.original_filename.to_s
-      FileUtils.mv(uf.tempfile.path, new_path)
-      i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
-      i.image_set_id = @image_label_set.image_set_id
-      i.save
+      fs = FastImage.size(uf.tempfile.path)
+      if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
+        i = Image.new
+        new_path = "/srv/imgclass/public/images/#{image_set.id}/" + uf.original_filename.to_s
+        FileUtils.mv(uf.tempfile.path, new_path)
+        i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
+        i.image_set_id = @image_label_set.image_set_id
+        i.save
+      end
       ObjectSpace.undefine_finalizer(uf.tempfile)
     end
 
@@ -62,6 +72,16 @@ class ImageLabelSetsController < ApplicationController
         format.json { render json: @image_label_set.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def makejob
+    #Create a new ImageLabel for each image in this set
+    ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
+      il = ImageLabel.new()
+      il.image = image
+      il.save
+    end
+    redirect_to action: "index"
   end
 
   # PATCH/PUT /image_label_sets/1

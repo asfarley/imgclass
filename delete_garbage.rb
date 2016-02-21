@@ -3,3 +3,4 @@ ImageSet.delete_all
 LabelSet.delete_all
 Image.delete_all
 Label.delete_all
+ImageLabel.delete_all

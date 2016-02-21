@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  get 'image_label_sets/makejob/:id' => 'image_label_sets#makejob'
+  get 'image_labels/next' => 'image_labels#next'
+  get 'image_labels/outofwork' => 'image_labels#outofwork'
+
   resources :image_labels
   resources :jobs
   resources :image_label_sets
@@ -17,6 +22,7 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

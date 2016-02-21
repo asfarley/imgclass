@@ -2,7 +2,7 @@
 
 <div class="container">
 
-<% @image_label_set.image_set.images.each do |image| %>
+<% @images.each do |image| %>
   <div class="row">
   <div class="col-sm-3"><%= File.basename image.url %>: <%= image.most_likely_label_text %><br><br>
   <table class="table" >
@@ -21,6 +21,6 @@
 
 <br><br><br><br>
 <div class="row" id="pagination-links">
-<div class="col-sm-5"><a href="">1</a>  <a href="">2</a>  <a href="">3</a>  <a href="">4</a>  <a href="">5</a>  <a href="">6</a>  <a href="">7</a>  <a href="">8</a>  <a href="">9</a>  <a href="">10</a> <br> <a href="">Next &#10097;</a></div>
+  <div class="col-sm-5"><%= paginate @images %></div>
 </div>
 </div>

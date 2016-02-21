@@ -7,6 +7,14 @@ class ImageLabelsController < ApplicationController
     @image_labels = ImageLabel.all
   end
 
+  def next
+    @unlabeled = ImageLabel.where("label_id IS ?", nil).first
+    if @unlabeled.nil? then redirect_to action: "outofwork" end
+  end
+
+  def outofwork
+  end
+
   # GET /image_labels/1
   # GET /image_labels/1.json
   def show
@@ -42,7 +50,7 @@ class ImageLabelsController < ApplicationController
   def update
     respond_to do |format|
       if @image_label.update(image_label_params)
-        format.html { redirect_to @image_label, notice: 'Image label was successfully updated.' }
+        format.html { redirect_to action: "next", notice: 'Image label was successfully updated.' }
         format.json { render :show, status: :ok, location: @image_label }
       else
         format.html { render :edit }
@@ -69,6 +77,6 @@ class ImageLabelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def image_label_params
-      params.require(:image_label).permit(:image_id, :label_id, :user_id)
+      params.permit(:image_id, :label_id, :user_id)
     end
 end

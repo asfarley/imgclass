@@ -1,6 +1,7 @@
 class Image < ActiveRecord::Base
   #mount_uploader :url, ImageUploader
   belongs_to :image_set
+  has_many :image_labels
 
   def count_labels(label)
       ImageLabel.where("image_id = ? and label_id = ?", self.id, label.id).count
@@ -12,5 +13,9 @@ class Image < ActiveRecord::Base
     most_likely = labels.max_by { |v| freq[v] }
     most_likely.nil? ? "Unknown" : most_likely.text
   end
+
+  before_destroy {|image|
+    image.image_labels.destroy_all
+  }
 
 end
