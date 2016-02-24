@@ -4,6 +4,7 @@ class ImageLabelSetsController < ApplicationController
   require 'pathname'
   require 'kaminari'
   require 'fastimage'
+  require 'zip'
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -88,8 +89,25 @@ class ImageLabelSetsController < ApplicationController
   def download
     fileLabelsString=""
     downloadString = ImageLabelSet.find(params[:id]).fileLabelPairs.inject("") {|fileLabelString,fileLabelPair| fileLabelString + "\"" + fileLabelPair["url"] + "\" " + fileLabelPair["label"] + "\r\n"}
-    #render :text => downloadString, :layout => false, :content_type => "text/html"
-    send_data downloadString, :filename => "filelabels.txt", disposition: 'attachment'
+    labelsPath = "/tmp/labels.txt"
+    File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
+
+    folder = "/srv/imgclass/public/images/#{params[:id]}"
+    input_filenames = Dir.entries(folder) - %w(. ..)
+    zipfile_name = "/tmp/trainingset.zip"
+
+    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      input_filenames.each do |filename|
+        # Two arguments:
+        # - The name of the file as it will appear in the archive
+        # - The original file, including the path to find it
+        zipfile.add(filename, folder + '/' + filename)
+      end
+      zipfile.add("labels.txt", labelsPath)
+      zipfile.get_output_stream("myFile") { |os| os.write "myFile contains just this" }
+    end
+
+    send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
   end
 
   # PATCH/PUT /image_label_sets/1
