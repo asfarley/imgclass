@@ -88,9 +88,7 @@ class ImageLabelSetsController < ApplicationController
 
   def download
     fileLabelsString=""
-    downloadString = ImageLabelSet.find(params[:id]).fileLabelPairs.inject("") {|fileLabelString,fileLabelPair| fileLabelString + "\"" + fileLabelPair["url"] + "\" " + fileLabelPair["label"] + "\r\n"}
-    labelsPath = "/tmp/labels.txt"
-    File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
+    labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
     image_set_id = ImageLabelSet.find(params[:id]).image_set.id
     folder = "/srv/imgclass/public/images/#{image_set_id}"
     input_filenames = Dir.entries(folder) - %w(. ..)

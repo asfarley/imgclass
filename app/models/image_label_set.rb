@@ -30,4 +30,11 @@ class ImageLabelSet < ActiveRecord::Base
     images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text  } }
   end
 
+  def generateLabelsTextfile
+    downloadString = fileLabelPairs.inject("") {|fileLabelString,fileLabelPair| fileLabelString + "\"" + fileLabelPair["url"] + "\" " + fileLabelPair["label"] + "\r\n"}
+    labelsPath = "/tmp/labels.txt"
+    File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
+    return labelsPath
+  end
+
 end
