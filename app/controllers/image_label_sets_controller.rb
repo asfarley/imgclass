@@ -91,11 +91,11 @@ class ImageLabelSetsController < ApplicationController
     downloadString = ImageLabelSet.find(params[:id]).fileLabelPairs.inject("") {|fileLabelString,fileLabelPair| fileLabelString + "\"" + fileLabelPair["url"] + "\" " + fileLabelPair["label"] + "\r\n"}
     labelsPath = "/tmp/labels.txt"
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
-
-    folder = "/srv/imgclass/public/images/#{params[:id]}"
+    image_set_id = ImageLabelSet.find(params[:id]).image_set.id
+    folder = "/srv/imgclass/public/images/#{image_set_id}"
     input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = "/tmp/trainingset.zip"
-
+    FileUtils.rm_rf(zipfile_name)
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|
         # Two arguments:
@@ -104,7 +104,7 @@ class ImageLabelSetsController < ApplicationController
         zipfile.add(filename, folder + '/' + filename)
       end
       zipfile.add("labels.txt", labelsPath)
-      zipfile.get_output_stream("myFile") { |os| os.write "myFile contains just this" }
+      #zipfile.get_output_stream("myFile") { |os| os.write "myFile contains just this" }
     end
 
     send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
