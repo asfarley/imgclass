@@ -14,6 +14,13 @@ class Image < ActiveRecord::Base
     most_likely.nil? ? "Unknown" : most_likely.text
   end
 
+  def most_likely_label_onehot
+    labels = ImageLabel.where("image_id = ?", self.id).map{ |il| il.label }
+    freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    most_likely = labels.max_by { |v| freq[v] }
+    most_likely.nil? ? "Unknown" : most_likely.getOneHotVector
+  end
+
   before_destroy {|image|
     image.image_labels.destroy_all
   }
