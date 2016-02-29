@@ -102,7 +102,6 @@ class ImageLabelSetsController < ApplicationController
         zipfile.add(filename, folder + '/' + filename)
       end
       zipfile.add("labels.txt", labelsPath)
-      #zipfile.get_output_stream("myFile") { |os| os.write "myFile contains just this" }
     end
 
     send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
