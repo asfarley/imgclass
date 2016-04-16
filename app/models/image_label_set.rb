@@ -19,7 +19,11 @@ class ImageLabelSet < ActiveRecord::Base
 
   def percent_remaining
     num_unlabeled = image_labels.where(:label_id => nil).count
-    percent_remaining = 100 * num_unlabeled / images.count
+    if(images.count > 0)
+      percent_remaining = 100 * num_unlabeled / images.count
+    else
+      percent_remaining = 0
+    end
   end
 
   def isComplete?

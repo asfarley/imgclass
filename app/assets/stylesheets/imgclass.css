@@ -1,6 +1,7 @@
 body {
-	background-image: url("3f382c6f.png");
-	color:white;
+	/*background-image: url("3f382c6f.png");*/
+	background-color:white;
+	color:grey;
 	font-family: 'Inconsolata';
 	font-size:18px;
 }
@@ -58,7 +59,7 @@ h1 {
 
 h2{
 	font-size: 24px;
-	color: white;
+	color: grey;
 	margin-left:3em;
 	margin-bottom:0px;
 	margin-top:0px;
