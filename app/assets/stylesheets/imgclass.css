@@ -65,12 +65,31 @@ h2{
 	margin-top:0px;
 }
 
+.bottom-buffer{
+	margin-bottom:20px;
+}
+
+.top-buffer{
+	margin-top:60px;
+}
+
 #titlediv {
 	width:30%;
 }
 
 #btncontainer{
 	width:500px;
+}
+
+.container{
+	display:inline-block;
+	position:relative;
+	float:left;
+	left:50%;
+	-ms-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	margin:0;
 }
 
 #pagination-links{
@@ -109,4 +128,9 @@ h2{
 
 form {
 	margin-top:1em;
+}
+
+.numdisplay {
+	margin:5em;
+	font-size:24px;
 }

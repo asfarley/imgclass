@@ -100,6 +100,7 @@ class ImageLabelSetsController < ApplicationController
 
   def makejob
     #Create a new ImageLabel for each image in this set
+    #TODO: Rename this function since it's not actually creating/manipulating Job objects
     ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
       il = ImageLabel.new()
       il.image = image
@@ -127,6 +128,17 @@ class ImageLabelSetsController < ApplicationController
     end
 
     send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
+  end
+
+  def assign
+    @image_label_set = ImageLabelSet.find(params[:id])
+  end
+
+  def createjob
+    #Create a new Job
+    #Assign this job to worker
+    #Assign the next N image_labels to this job
+    redirect_to action: "assign", id: params[:id]
   end
 
   # PATCH/PUT /image_label_sets/1

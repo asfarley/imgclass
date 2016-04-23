@@ -1,8 +1,26 @@
 body {
-	background-image: url("3f382c6f.png");
-	color:white;
+	/*background-image: url("3f382c6f.png");*/
+	background-color:white;
+	color:grey;
 	font-family: 'Inconsolata';
 	font-size:18px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 
 button {
@@ -41,7 +59,7 @@ h1 {
 
 h2{
 	font-size: 24px;
-	color: white;
+	color: grey;
 	margin-left:3em;
 	margin-bottom:0px;
 	margin-top:0px;
@@ -53,6 +71,17 @@ h2{
 
 #btncontainer{
 	width:500px;
+}
+
+#container{
+	display:inline-block;
+	position:relative;
+	float:left;
+	left:50%;
+	-ms-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	margin:0;
 }
 
 #pagination-links{
@@ -71,41 +100,52 @@ h2{
 	margin:0;
 }
 
+#imgframe {
+	width:500px;
+	height:500px;
+}
+
 #mainimage {
-	float:left;
-	margin-top:1em;
-	margin-bottom:1em;
+	margin: 0 auto;
+	min-width:300px;
+	max-width: 500px;
+	max-height: 500px;
+	width: auto;
+	height: auto;
+	position: relative;
+ 	top: 50%;
+ 	transform: translateY(-50%);
 	padding:0;
 }
 
 form {
 	margin-top:1em;
 }
-/* line 1, /home/asfarley/imgclass/app/assets/stylesheets/scaffolds.scss */
+/* line 1, /srv/imgclass/app/assets/stylesheets/scaffolds.scss */
 pre {
   background-color: #eee;
   padding: 10px;
   font-size: 11px;
 }
 
-/* line 8, /home/asfarley/imgclass/app/assets/stylesheets/scaffolds.scss */
+/* line 8, /srv/imgclass/app/assets/stylesheets/scaffolds.scss */
 div.field, div.actions {
   margin-bottom: 10px;
 }
 
-/* line 13, /home/asfarley/imgclass/app/assets/stylesheets/scaffolds.scss */
+/* line 13, /srv/imgclass/app/assets/stylesheets/scaffolds.scss */
 #notice {
   color: green;
 }
 
-/* line 17, /home/asfarley/imgclass/app/assets/stylesheets/scaffolds.scss */
+/* line 17, /srv/imgclass/app/assets/stylesheets/scaffolds.scss */
 .field_with_errors {
   padding: 2px;
   background-color: red;
   display: table;
 }
 
-/* line 23, /home/asfarley/imgclass/app/assets/stylesheets/scaffolds.scss */
+/* line 23, /srv/imgclass/app/assets/stylesheets/scaffolds.scss */
 #error_explanation {
   width: 450px;
   border: 2px solid red;
