@@ -3,67 +3,52 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
-      <div class="numdisplay"><b>15%</b> <br> assigned</div>
+      <div class="numdisplay"><b><%= @image_label_set.percentAssigned %>%</b> <br> assigned</div>
     </div>
     <div class="col-sm-4">
-      <div class="numdisplay"><b>12%</b> <br> complete</div>
+      <div class="numdisplay"><b><%= @image_label_set.percentComplete %>%</b> <br> labeled</div>
     </div>
     <div class="col-sm-4">
-      <div class="numdisplay"><b>88092</b> <br> remaining</div>
+      <div class="numdisplay"><b><%= @image_label_set.numImagesRemaining %></b> <br> to be labeled</div>
     </div>
   </div>
 <hr>
 <div class="row bottom-buffer"><h2>Assign new job</h2></div>
   <div class="row">
-    <div class="col-sm-4">
-      <select class="form-control">
-      <option>rickest@rick.com</option>
-      <option>mortiest@morty.com</option>
-      <option>shutup@jerry.com</option>
-      <option>by availability</option>
-      </select>
+    <div class="col-sm-6" id="jobform">
+      <%= form_for @job, url: {action: "createjob"} do |f| %>
+      <%= select_tag "userid", options_from_collection_for_select(@workers, "id", "email") %>
+      <%= f.submit "Create Job", :class => 'btn btn-primary' %>
+      <% end %>
     </div>
-  <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "createjob", :id => @image_label_set.id}) do %><button type="button" class="btn btn-primary">Create Job</button><% end %></div>
   </div>
 <hr class="top-buffer">
 <div class="row bottom-buffer">
   <h2 >Open Jobs</h2>
 </div>
+<% @openjobs.each do |j| %>
 <div class="row bottom-buffer">
-  <div class="col-sm-2">rickest@rick.com</div>
-  <div class="col-sm-2">90% remaining</div>
-  <div class="col-sm-2">100% agreement</div>
-  <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "createjob", :id => @image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
-  <div class="col-sm-1"><%= link_to @image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
+  <div class="col-sm-3"><%= j.user.email %></div>
+  <div class="col-sm-2"><%= j.percent_remaining %>% remaining</div>
+  <div class="col-sm-2"><%= j.percent_agreement %>% agreement</div>
+  <div class="col-sm-1"><%= link_to ({:controller => "jobs", :action => "show", :id => j.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
+  <div class="col-sm-1"><%= link_to @job, method: :delete, data: { confirm: 'Are you sure?' } do %>
     <button type="button" class="btn btn-danger">Destroy</button>
   <% end %></div>
 </div>
-<div class="row bottom-buffer">
-  <div class="col-sm-2">rickest@rick.com</div>
-  <div class="col-sm-2">90% remaining</div>
-  <div class="col-sm-2">100% agreement</div>
-  <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "createjob", :id => @image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
-  <div class="col-sm-1"><%= link_to @image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
-    <button type="button" class="btn btn-danger">Destroy</button>
-  <% end %></div>
-</div>
+<% end %>
 
 <hr class="top-buffer">
 <div class="row bottom-buffer"><h2>Completed Jobs</h2></div>
+<% @completedjobs.each do |j| %>
 <div class="row bottom-buffer">
-  <div class="col-sm-4">rickest@rick.com</div>
-  <div class="col-sm-2">100% agreement</div>
-  <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "createjob", :id => @image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
-  <div class="col-sm-1"><%= link_to @image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
+  <div class="col-sm-5"><%= j.user.email %></div>
+  <div class="col-sm-2"><%= j.percent_agreement %>% agreement</div>
+  <div class="col-sm-1"><%= link_to ({:controller => "jobs", :action => "show", :id => j.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
+  <div class="col-sm-1"><%= link_to @job, method: :delete, data: { confirm: 'Are you sure?' } do %>
     <button type="button" class="btn btn-danger">Destroy</button>
   <% end %></div>
 </div>
-<div class="row bottom-buffer">
-  <div class="col-sm-4">rickest@rick.com</div>
-  <div class="col-sm-2">100% agreement</div>
-  <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "createjob", :id => @image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">View</button><% end %></div>
-  <div class="col-sm-1"><%= link_to @image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
-    <button type="button" class="btn btn-danger">Destroy</button>
-  <% end %></div>
-</div>
+<% end %>
+
 </div>

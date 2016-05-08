@@ -20,10 +20,28 @@ class ImageLabelSet < ActiveRecord::Base
   def percent_remaining
     num_unlabeled = image_labels.where(:label_id => nil).count
     if(images.count > 0)
-      percent_remaining = 100 * num_unlabeled / images.count
+      percent_remaining = 100.0 * num_unlabeled.to_f / images.count
     else
-      percent_remaining = 0
+      percent_remaining = 0.0
     end
+  end
+
+  def percentAssigned
+    totalImages = image_labels.count
+    assignedImages = image_labels.select{ |il| ! il.job.nil? }
+    pct = (assignedImages.count.to_f/totalImages)*100.0
+    pct.round(1)
+  end
+
+  def percentComplete
+    totalImages = image_labels.count
+    labelledImages = image_labels.select{ |il| ! il.label.nil? }
+    pct = (labelledImages.count.to_f/totalImages)*100.0
+    pct.round(1)
+  end
+
+  def numImagesRemaining
+    num_remaining = image_labels.count - image_labels.select{ |il| ! il.label.nil? }.count
   end
 
   def isComplete?
@@ -48,6 +66,15 @@ class ImageLabelSet < ActiveRecord::Base
     labelsPath = "/tmp/labels.txt"
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
     return labelsPath
+  end
+
+  def remainingImageLabels
+    image_labels.select{ |il| il.job.nil? }
+  end
+
+  def batchOfRemainingLabels(max)
+    rem = remainingImageLabels
+    rem[0..max]
   end
 
 end
