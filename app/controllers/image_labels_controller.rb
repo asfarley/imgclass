@@ -48,9 +48,11 @@ class ImageLabelsController < ApplicationController
   # PATCH/PUT /image_labels/1
   # PATCH/PUT /image_labels/1.json
   def update
+    @job = ImageLabel.find(params[:id]).job
     respond_to do |format|
       if @image_label.update(image_label_params)
-        format.html { redirect_to action: "next", notice: 'Image label was successfully updated.' }
+        #format.html { redirect_to action: "next", notice: 'Image label was successfully updated.' }
+        format.html { redirect_to @job }
         format.json { render :show, status: :ok, location: @image_label }
       else
         format.html { render :edit }

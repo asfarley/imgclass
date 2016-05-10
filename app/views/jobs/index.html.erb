@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Jobs</h1>
+<div class="container">
+<h1>Jobs</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Image label set</th>
@@ -15,15 +16,11 @@
     <% @jobs.each do |job| %>
       <tr>
         <td><%= job.image_label_set %></td>
-        <td><%= job.user %></td>
-        <td><%= link_to 'Show', job %></td>
-        <td><%= link_to 'Edit', edit_job_path(job) %></td>
-        <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= job.user.email %></td>
+        <td><%= link_to 'Start Labeling', job %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Job', new_job_path %>
+</div>

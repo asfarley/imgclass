@@ -4,12 +4,22 @@ class JobsController < ApplicationController
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.all
+    #@jobs = Job.all
+
+  if current_user
+    @jobs = current_user.jobs
+  else
+    redirect_to new_user_session_path, notice: 'You are not logged in.'
+  end
   end
 
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @unlabeled = Job.find(params[:id]).image_labels.select{ |il| il.label.nil? }.first
+    #binding.pry
+    #@unlabeled = ImageLabel.where("label_id IS ?", nil).first
+    if @unlabeled.nil? then redirect_to action: "index" end
   end
 
   # GET /jobs/new
