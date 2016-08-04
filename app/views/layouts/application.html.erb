@@ -24,8 +24,10 @@
    })();
   </script>
   </head>
-  <body >
+  <body>
+  <% if current_user %>
     <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+  <% end %>
   <div id="mainui">
   <h1>img<font color="grey">&thinsp;class</font></h1>
   <h2>batch image classification</h2>
