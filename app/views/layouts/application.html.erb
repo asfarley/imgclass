@@ -31,16 +31,41 @@ no google analytics for now
 
   </head>
   <body>
-<p id="notice"><%= notice %></p>  
-  <% if current_user %>
-    <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
-  <% end %>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">img<font color="grey">&thinsp;class</font></a>
+      </div>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+      <li>
+        <% if current_user %>
+          <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+        <% else %>
+          <a href="/users/sign_in" class="btn btn-small">Sign In</a>        
+        <% end %>
+    </li>
+      </ul>
+    </div>
+
+    </div>
+  </nav>
+
   
-  <div id="mainui">
+  <div class="container">
+    <% if notice %>
+      <div class="row">
+        <div class="alert alert-success" role="alert"><%= notice %></div>    
+      </div>
+
+    <% end %>  
+  <%#
   <h1>img<font color="grey">&thinsp;class</font></h1>
   <h2>batch image classification</h2>
   <h2>================================</h2>
   <br><br>
+  #%>
   <%= yield %>
   </div>
 
