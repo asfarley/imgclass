@@ -27,13 +27,15 @@ no google analytics for now
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
    })();
   </script>
-  %>
+  #%>
 
   </head>
   <body>
+<p id="notice"><%= notice %></p>  
   <% if current_user %>
     <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
   <% end %>
+  
   <div id="mainui">
   <h1>img<font color="grey">&thinsp;class</font></h1>
   <h2>batch image classification</h2>
@@ -41,32 +43,6 @@ no google analytics for now
   <br><br>
   <%= yield %>
   </div>
-
-<%#
-  <script type="text/javascript">
-   function autorun()
-   {
-    $("#car").click(function() {
-	 alert($(this).text());
-	});
-
-	$("#bus").click(function() {
-	 alert($(this).text());
-	});
-
-	$("#pedestrian").click(function() {
-	 alert($(this).text());
-	});
-
-	$("#garbage").click(function() {
-	 alert($(this).text());
-	});
-   }
-   if (window.addEventListener) window.addEventListener("load", autorun, false);
-   else if (window.attachEvent) window.attachEvent("onload", autorun);
-   else window.onload = autorun;
-  </script>
-  %>
 
   </body>
 </html>
