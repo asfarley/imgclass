@@ -1,4 +1,6 @@
-class ImageLabelsController < ApplicationController
+class ImageLabelsController < UserController
+
+
   before_action :set_image_label, only: [:show, :edit, :update, :destroy]
 
   # GET /image_labels
