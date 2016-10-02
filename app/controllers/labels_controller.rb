@@ -1,4 +1,4 @@
-class LabelsController < ApplicationController
+class LabelsController < UserController
   before_action :set_label, only: [:show, :edit, :update, :destroy]
 
   # GET /labels

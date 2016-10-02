@@ -5,7 +5,7 @@
 
 <p>
   <strong>Label set:</strong>
-  <%= @label.label_set %>
+  <%= safe_label_set @label %>
 </p>
 
 <%= link_to 'Edit', edit_label_path(@label) %> |
