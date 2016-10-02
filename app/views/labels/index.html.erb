@@ -13,7 +13,7 @@
     <% @labels.each do |label| %>
       <tr>
         <td><%= label.text %></td>
-        <td><%= label.label_set %></td>
+        <td><%= label.label_set.id %></td>
         <td><%= link_to 'Show', label %></td>
         <td><%= link_to 'Edit', edit_label_path(label) %></td>
         <td><%= link_to 'Destroy', label, method: :delete, data: { confirm: 'Are you sure?' } %></td>
