@@ -1,5 +1,7 @@
 class ImageLabelSet < ActiveRecord::Base
   require 'fileutils'
+  include ImageFileUtils
+
   belongs_to :image_set
   belongs_to :label_set
   belongs_to :user
@@ -16,6 +18,11 @@ class ImageLabelSet < ActiveRecord::Base
     LabelSet.find(ils.label_set_id).labels.destroy_all
     LabelSet.find(ils.label_set_id).destroy
   }
+
+  # path to local dir with images
+  def local_dir
+    dir_for_set(id)
+  end
 
   def percent_remaining
     num_unlabeled = image_labels.where(:label_id => nil).count

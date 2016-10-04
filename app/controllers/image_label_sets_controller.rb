@@ -6,6 +6,10 @@ class ImageLabelSetsController < ApplicationController
   require 'fastimage'
   require 'zip'
   require 'pry'
+
+  require 'image_file_utils'
+  include ImageFileUtils
+  
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -50,7 +54,7 @@ class ImageLabelSetsController < ApplicationController
 
     image_set = ImageSet.new
     image_set.save
-    FileUtils::mkdir_p "/srv/imgclass/public/images/#{image_set.id}"
+    FileUtils::mkdir_p image_set.local_dir
     @image_label_set.image_set_id = image_set.id
 
     params["upload"].each do |uf|
