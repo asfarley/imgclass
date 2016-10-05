@@ -45,7 +45,9 @@ class ImageLabelSetsController < ApplicationController
     label_set = LabelSet.new
     label_set.save
     @image_label_set.label_set_id = label_set.id
-    params["labels"].split(",").each do |l|
+
+    # whitespace and comma are separators
+    params["labels"].split(/[\s,]/).reject { |l| l.empty? }.each do |l|
       lb = Label.new
       lb.text = l
       lb.label_set_id = @image_label_set.label_set_id
@@ -54,7 +56,9 @@ class ImageLabelSetsController < ApplicationController
 
     image_set = ImageSet.new
     image_set.save
-    FileUtils::mkdir_p image_set.local_dir
+
+    imageDir = image_set.local_dir
+    FileUtils::mkdir_p imageDir
     @image_label_set.image_set_id = image_set.id
 
     params["upload"].each do |uf|
@@ -63,15 +67,17 @@ class ImageLabelSetsController < ApplicationController
         Zip::File.open(uf.tempfile.path) do |zipfile|
         zipfile.each do |file|
           if(file.ftype == :file)
-            new_path = "/srv/imgclass/public/images/#{image_set.id}/" + File.basename(file.name)
+            new_path = imageDir + File.basename(file.name)
+            puts new_path
             zipfile.extract(file, new_path) unless File.exist?(new_path)
             fs = FastImage.size(new_path)
-            if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
+            if (fs and fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
               i = Image.new
               i.url = "/images/#{image_set.id}/" + File.basename(file.name)
               i.image_set_id = @image_label_set.image_set_id
               i.save
             else
+              logger.warn "Skip " + new_path
               FileUtils.rm(new_path)
             end
           end
@@ -81,7 +87,7 @@ class ImageLabelSetsController < ApplicationController
         fs = FastImage.size(uf.tempfile.path)
         if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
           i = Image.new
-          new_path = "/srv/imgclass/public/images/#{image_set.id}/" + uf.original_filename.to_s
+          new_path = imageDir + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
           i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
           i.image_set_id = @image_label_set.image_set_id
@@ -117,8 +123,9 @@ class ImageLabelSetsController < ApplicationController
   def download
     fileLabelsString=""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    image_set_id = ImageLabelSet.find(params[:id]).image_set.id
-    folder = "/srv/imgclass/public/images/#{image_set_id}"
+    image_set_id = ImageLabelSet.find(params[:id]).image_set.id 
+    # ER: TODO - verify if it works after refactoring
+    folder = ImageFileUtils.dir_for_set(image_set_id)
     input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = "/tmp/trainingset.zip"
     FileUtils.rm_rf(zipfile_name)

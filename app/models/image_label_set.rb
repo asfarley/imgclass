@@ -1,5 +1,6 @@
 class ImageLabelSet < ActiveRecord::Base
-  require 'fileutils'
+
+  require 'image_file_utils'
   include ImageFileUtils
 
   belongs_to :image_set
@@ -12,17 +13,14 @@ class ImageLabelSet < ActiveRecord::Base
   has_many :image_labels, through: :images
 
   before_destroy {|ils|
-    FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.image_set_id}")
+    # ER TODO: verify if it works
+    imageDir = ImageFileUtils.dir_for_set(ils.image_set_id)
+    FileUtils.rm_rf(imageDir)
     ImageSet.find(ils.image_set_id).images.destroy_all
     ImageSet.find(ils.image_set_id).destroy
     LabelSet.find(ils.label_set_id).labels.destroy_all
     LabelSet.find(ils.label_set_id).destroy
   }
-
-  # path to local dir with images
-  def local_dir
-    dir_for_set(id)
-  end
 
   def percent_remaining
     num_unlabeled = image_labels.where(:label_id => nil).count
