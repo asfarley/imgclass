@@ -22,7 +22,7 @@ class ImageLabelSetsController < UserController
     if params.has_key?(:page)
       @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(params[:page])
     else
-      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1).per(1)
+      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1) # .per(1)
     end
   end
 
