@@ -1,5 +1,5 @@
+<% if ! @image_sets.empty? %>
 <h2>Listing Image Sets</h2>
-
 <table class="table table-condensed .table-striped">
   <thead>
     <tr>
@@ -22,5 +22,8 @@
 </table>
 
 <br>
+<% else %>
+<h2>No image sets available</h2>
+<% end %>
 
 <%= link_to 'New Image set', new_image_set_path %>
