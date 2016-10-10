@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'image_label_sets/createjob/:id' => 'image_label_sets#createjob'
   get 'image_labels/next' => 'image_labels#next'
   get 'image_labels/outofwork' => 'image_labels#outofwork'
+  get 'images/:set_id/:filename' => 'images#one', :constraints => {:filename => /[^\/]+/} #ER: is it correct?
 
   resources :image_labels
   resources :jobs
