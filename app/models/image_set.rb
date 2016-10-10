@@ -1,5 +1,5 @@
 class ImageSet < ActiveRecord::Base
-  require 'fileutils'
+  require 'image_file_utils'
   include ImageFileUtils
 
   has_many :images
