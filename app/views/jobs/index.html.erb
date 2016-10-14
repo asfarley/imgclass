@@ -13,7 +13,7 @@
   <tbody>
     <% @jobs.each do |job| %>
       <tr>
-        <td><%= job.image_label_set %></td>
+        <td><%= job.image_label_set.try(:id) || "<span class='text-danger'>no name</span>".html_safe %></td>
         <td><%= job.user.email %></td>
         <td><%= link_to 'Start Labeling', job %></td>
       </tr>

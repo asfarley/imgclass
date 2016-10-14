@@ -1,4 +1,4 @@
-class JobsController < ApplicationController
+class JobsController < UserController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
 
   # GET /jobs
@@ -16,7 +16,8 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
-    @unlabeled = Job.find(params[:id]).image_labels.select{ |il| il.label.nil? }.first
+    @job = Job.find(params[:id])
+    @unlabeled = @job.image_labels.select{ |il| il.label.nil? }.first
     #binding.pry
     #@unlabeled = ImageLabel.where("label_id IS ?", nil).first
     if @unlabeled.nil? then redirect_to action: "index" end
