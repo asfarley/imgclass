@@ -17,7 +17,7 @@ Once the complete image set has been labeled, a textfile containing labels for e
 2. Clone imgclass repository
 3. Prepare site
     1. Create database 
-        1. `rake db:create`
+        1. _(??? not necessary ???)_ `rake db:create`
         1. `rake db:migrate`
     1. Install Gems etc
     1. Set config values for your environment

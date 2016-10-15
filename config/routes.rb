@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'image_label_sets/makejob/:id' => 'image_label_sets#makejob'
+  get 'image_label_sets/alloc/:id' => 'image_label_sets#alloc'
   get 'image_label_sets/download/:id' => 'image_label_sets#download'
   get 'image_label_sets/assign/:id' => 'image_label_sets#assign'
   post 'image_label_sets/createjob/:id' => 'image_label_sets#createjob'

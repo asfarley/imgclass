@@ -112,9 +112,9 @@ class ImageLabelSetsController < UserController
     end
   end
 
-  def makejob
+  # pre-allocate images for labeling
+  def alloc
     #Create a new ImageLabel for each image in this set
-    #TODO: Rename this function since it's not actually creating/manipulating Job objects
     ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
       il = ImageLabel.new()
       il.image = image
