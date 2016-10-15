@@ -1,6 +1,6 @@
 <% 
   ils = @unlabeled.image.image_set.image_label_set
-  percentageDone = 100 - @job.percent_remaining
+  percentageDone = (100 - @job.percent_remaining).round(0)
 %>
 
 <div id="imgframe">
@@ -19,7 +19,7 @@
   <div class="row">
     <% ils.label_set.labels.each do |label| %>
     <div class="col-sm-4">
-        <button value="<%= label.id %>" name="label_id" type="submit" class="btn btn-default btn-lg btn-block"><%= label.text %></button>
+        <button value="<%= label.id %>" name="label_id" type="submit" class="btn btn-default btn-block"><%= label.text %></button>
       </div>
     <% end %>
   </div>

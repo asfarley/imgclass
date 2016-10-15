@@ -31,6 +31,8 @@ class ImageLabelSetsController < UserController
     @image_label_set = ImageLabelSet.new
     @image_label_set.image_set = ImageSet.new
     @image_label_set.label_set = LabelSet.new
+    @image_label_set.user = current_user # controller assumes logged-in user, so it's safe
+
   end
 
   # GET /image_label_sets/1/edit
@@ -41,6 +43,7 @@ class ImageLabelSetsController < UserController
   # POST /image_label_sets.json
   def create
     @image_label_set = ImageLabelSet.new
+    @image_label_set.user = current_user # controller assumes logged-in user, so it's safe
 
     label_set = LabelSet.new
     label_set.save
