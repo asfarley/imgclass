@@ -127,11 +127,13 @@ class ImageLabelSetsController < UserController
     fileLabelsString=""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
     image_set_id = ImageLabelSet.find(params[:id]).image_set.id 
-    # ER: TODO - verify if it works after refactoring
-    folder = ImageFileUtils.dir_for_set(image_set_id)
+
+    folder = dir_for_set(image_set_id)
     input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = "/tmp/trainingset.zip"
     FileUtils.rm_rf(zipfile_name)
+
+    # TODO: will fail if several users generating downloads. low prio
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|
         # Two arguments:
@@ -159,6 +161,7 @@ class ImageLabelSetsController < UserController
 
     #Assign this job to worker
     j.user_id = params[:userid]
+    j.image_label_set_id = params[:id] # store related ILS
     j.save
 
     #Get the next N image_labels for this image_label_set
