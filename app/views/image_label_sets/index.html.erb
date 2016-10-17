@@ -1,38 +1,49 @@
-<p id="notice"><%= notice %></p>
-
-<div class="container">
-
-  <% @image_label_sets.each do |image_label_set| %>
-    <div class="row">
-    <div class="col-sm-3">Image set <%= image_label_set.image_set.id %> <span class="small">(x<%= image_label_set.image_set.images.count %> images)<br>
-      <% image_label_set.label_set.labels.each_with_index do |label,index| %>
-      <%= label.text %><%= (index == image_label_set.label_set.labels.count - 1)? '' : ',' %>
-      <% end %>
-    </span></div>
-    <div class="col-sm-1"><a href="<%= image_label_set_path(image_label_set.id) %>"><button type="button" class="btn btn-default">View</button></a></div>
-    <div class="col-sm-1">
-      <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
-        <button type="button" class="btn btn-danger">Destroy</button>
-      <% end %>
-    </div>
-    <div class="col-sm-1">
-      <% if image_label_set.isComplete? %>
-      <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
-      <button type="button" class="btn btn-default">Download</button>
-      <% end %>
-      <% else %>
-      <button type="button" class="btn btn-default disabled">Download</button>
-      <% end %>
-    </div>
-    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "assign", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Assign Job</button><% end %></div>
-    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "makejob", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Start</button><% end %></div>
-    <div class="col-sm-1"><%= image_label_set.percent_remaining.round(1) %>% remaining</div>
-    </div>
-    <br><br>
+  <% if @image_label_sets.empty? %>
+    <h3 class="text-muted">No image label sets available</h3>
+  <% else %>
+    <% @image_label_sets.each do |image_label_set| %>
+      <div class="row">
+      <div class="col-sm-3">Image set <%= image_label_set.image_set.id %> <span class="small">(x<%= image_label_set.image_set.images.count %> images)<br>
+        <% image_label_set.label_set.labels.each_with_index do |label,index| %>
+        <%= label.text %><%= (index == image_label_set.label_set.labels.count - 1)? '' : ',' %>
+        <% end %>
+      </span></div>
+      <div class="col-sm-1"><a href="<%= image_label_set_path(image_label_set.id) %>"><button type="button" class="btn btn-default">View</button></a></div>
+      <div class="col-sm-1">
+        <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <button type="button" class="btn btn-danger">Destroy</button>
+        <% end %>
+      </div>
+      <div class="col-sm-1">
+        <% if image_label_set.isComplete? %>
+        <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
+        <button type="button" class="btn btn-default">Download</button>
+        <% end %>
+        <% else %>
+        <button type="button" class="btn btn-default disabled">Download</button>
+        <% end %>
+      </div>
+      <div class="col-sm-1">
+        <%= link_to ({:controller => "image_label_sets", :action => "assign", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success">Assign Job</button>
+        <% end %>
+      </div>
+      <div class="col-sm-1">
+        <%= link_to ({:controller => "image_label_sets", :action => "alloc", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success" title="Allocate images for labeling">Allocate</button>
+        <% end %>
+      </div>
+      <div class="col-sm-1"><%= image_label_set.percent_remaining.round(1) %>% remaining</div>
+      </div>
+      <br><br>
+    <% end %>
   <% end %>
 
 <div class="row">
-<div class="col-sm-3">Upload new set</div><div class="col-sm-1"><a href="<%= new_image_label_set_path %>"><button id="view1" type="button" class="btn btn-primary btn-block">Upload</button></a></div>
+  <div class="col-md-4">
+    <a href="<%= new_image_label_set_path %>">
+      <button id="view1" type="button" class="btn btn-primary" title="Upload new image label set">Create new</button>
+    </a>
+  </div>
 </div>
 
-</div>

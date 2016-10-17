@@ -1,4 +1,6 @@
-<%- if controller_name != 'sessions' %>
+
+<%# Log In link is always in navigation bar, so no need to show it %>
+<%- if false && controller_name != 'sessions' %>
   <%= link_to "Log in", new_session_path(resource_name) %><br />
 <% end -%>
 

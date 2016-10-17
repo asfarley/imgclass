@@ -1,4 +1,4 @@
-class ImageSetsController < ApplicationController
+class ImageSetsController < UserController
   before_action :set_image_set, only: [:show, :edit, :update, :destroy]
 
   # GET /image_sets

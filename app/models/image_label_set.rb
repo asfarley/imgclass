@@ -1,5 +1,8 @@
 class ImageLabelSet < ActiveRecord::Base
-  require 'fileutils'
+
+  require 'image_file_utils'
+  include ImageFileUtils
+
   belongs_to :image_set
   belongs_to :label_set
   belongs_to :user
@@ -10,7 +13,9 @@ class ImageLabelSet < ActiveRecord::Base
   has_many :image_labels, through: :images
 
   before_destroy {|ils|
-    FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.image_set_id}")
+    # ER TODO: verify if it works
+    imageDir = ImageFileUtils.dir_for_set(ils.image_set_id)
+    FileUtils.rm_rf(imageDir)
     ImageSet.find(ils.image_set_id).images.destroy_all
     ImageSet.find(ils.image_set_id).destroy
     LabelSet.find(ils.label_set_id).labels.destroy_all
@@ -49,15 +54,15 @@ class ImageLabelSet < ActiveRecord::Base
   end
 
   def fileLabelPairs
-    images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text  } }
+    images.map{ |image| { "url" => image.filename, "label" => image.most_likely_label_text  } }
   end
 
   def fileVectorPairs
-    images.map{ |image| { "url" => File.basename(image.url), "vector" => image.most_likely_label_onehot  } }
+    images.map{ |image| { "url" => image.filename, "vector" => image.most_likely_label_onehot  } }
   end
 
   def fileLabelVectorTriples
-    images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text, "vector" => image.most_likely_label_onehot  } }
+    images.map{ |image| { "url" => image.filename, "label" => image.most_likely_label_text, "vector" => image.most_likely_label_onehot  } }
   end
 
   def generateLabelsTextfile

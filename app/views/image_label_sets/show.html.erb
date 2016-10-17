@@ -1,26 +1,31 @@
-<p id="notice"><%= notice %></p>
+<% labels = @image_label_set.label_set.labels %>
+<table class="table table-striped">
+  <tr>
+    <th></th>
+    <% labels.each do |label| %>
+      <th><%= label.text %></th>
+    <% end %>
+    <th><span class="glyphicon glyphicon-stats"></span>&nbsp;&nbsp;Most likely</th>
+  </tr>
 
-<div class="container">
+  <% @images.each do |image| %>
+    <tr>
+      <td>
+        <img class="img-thumbnail" src="<%= @imageDir + image.filename %>" title="<%= image.filename %>">
+      </td>
 
-<% @images.each do |image| %>
-  <div class="row">
-  <div class="col-sm-3"><%= File.basename image.url %>: <%= image.most_likely_label_text %><br><br>
-  <table class="table" >
-    <tr><% @image_label_set.label_set.labels.each do |label| %>
-      <td><b><%= label.text %></b></td>
-    <% end %></tr>
-    <tr><% @image_label_set.label_set.labels.each do |label| %>
-      <td><%= image.count_labels(label) %></td>
-    <% end %></tr>
-  </table>
-  </div>
-  <div class="col-sm-2"><img class="img-thumbnail" src="<%= image.url %>"></div>
-  </div>
-  <br><br>
-<% end %>
+      <% labels.each do |label| %>
+        <td><%= image.count_labels(label) %></td>
+      <% end %>
 
-<br><br><br><br>
+      <td>
+        <%= image.most_likely_label_text %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
 <div class="row" id="pagination-links">
   <div class="col-sm-5"><%= paginate @images %></div>
 </div>
-</div>
+

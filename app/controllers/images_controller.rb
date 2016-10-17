@@ -1,6 +1,7 @@
-class ImagesController < ApplicationController
+class ImagesController < UserController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
-
+  require 'image_file_utils'
+  include ImageFileUtils  
   # GET /images
   # GET /images.json
   def index
@@ -59,6 +60,18 @@ class ImagesController < ApplicationController
       format.html { redirect_to images_url, notice: 'Image was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # get image
+  #  set_id - ID of image label set
+  #  filename - name of image to show
+  def one
+    set_id = params[:set_id].to_i
+    filename = params[:filename]
+
+    local_path = dir_for_set(set_id) + filename # ER: TODO: ensure it's without path
+    send_file local_path, type: "image/bmp", disposition: "inline" # ER: TODO: should not be BMP?
+    # ER: TODO: get rid of warning 'Could not determine content-length of response body. Set content-length of the response or set Response#chunked = true'
   end
 
   private

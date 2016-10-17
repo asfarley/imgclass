@@ -1,4 +1,4 @@
-class ImageLabelSetsController < ApplicationController
+class ImageLabelSetsController < UserController
   before_action :set_image_label_set, only: [:show, :edit, :update, :destroy]
   require 'fileutils'
   require 'pathname'
@@ -6,6 +6,10 @@ class ImageLabelSetsController < ApplicationController
   require 'fastimage'
   require 'zip'
   require 'pry'
+
+  require 'image_file_utils'
+  include ImageFileUtils
+  
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -15,10 +19,11 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets/1
   # GET /image_label_sets/1.json
   def show
+    @imageDir = @image_label_set.image_set.vdir
     if params.has_key?(:page)
       @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(params[:page])
     else
-      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1)
+      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1) # .per(1)
     end
   end
 
@@ -27,6 +32,8 @@ class ImageLabelSetsController < ApplicationController
     @image_label_set = ImageLabelSet.new
     @image_label_set.image_set = ImageSet.new
     @image_label_set.label_set = LabelSet.new
+    @image_label_set.user = current_user # controller assumes logged-in user, so it's safe
+
   end
 
   # GET /image_label_sets/1/edit
@@ -37,11 +44,14 @@ class ImageLabelSetsController < ApplicationController
   # POST /image_label_sets.json
   def create
     @image_label_set = ImageLabelSet.new
+    @image_label_set.user = current_user # controller assumes logged-in user, so it's safe
 
     label_set = LabelSet.new
     label_set.save
     @image_label_set.label_set_id = label_set.id
-    params["labels"].split(",").each do |l|
+
+    # whitespace and comma are separators
+    params["labels"].split(/[\s,]/).reject { |l| l.empty? }.each do |l|
       lb = Label.new
       lb.text = l
       lb.label_set_id = @image_label_set.label_set_id
@@ -50,7 +60,9 @@ class ImageLabelSetsController < ApplicationController
 
     image_set = ImageSet.new
     image_set.save
-    FileUtils::mkdir_p "/srv/imgclass/public/images/#{image_set.id}"
+
+    imageDir = image_set.local_dir
+    FileUtils::mkdir_p imageDir
     @image_label_set.image_set_id = image_set.id
 
     params["upload"].each do |uf|
@@ -59,15 +71,17 @@ class ImageLabelSetsController < ApplicationController
         Zip::File.open(uf.tempfile.path) do |zipfile|
         zipfile.each do |file|
           if(file.ftype == :file)
-            new_path = "/srv/imgclass/public/images/#{image_set.id}/" + File.basename(file.name)
+            new_path = imageDir + File.basename(file.name)
+            puts new_path
             zipfile.extract(file, new_path) unless File.exist?(new_path)
             fs = FastImage.size(new_path)
-            if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
+            if (fs and fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
               i = Image.new
-              i.url = "/images/#{image_set.id}/" + File.basename(file.name)
+              i.filename = File.basename(file.name)
               i.image_set_id = @image_label_set.image_set_id
               i.save
             else
+              logger.warn "Skip " + new_path
               FileUtils.rm(new_path)
             end
           end
@@ -77,9 +91,9 @@ class ImageLabelSetsController < ApplicationController
         fs = FastImage.size(uf.tempfile.path)
         if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
           i = Image.new
-          new_path = "/srv/imgclass/public/images/#{image_set.id}/" + uf.original_filename.to_s
+          new_path = imageDir + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
-          i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
+          i.filename = uf.original_filename.to_s
           i.image_set_id = @image_label_set.image_set_id
           i.save
         end
@@ -99,9 +113,9 @@ class ImageLabelSetsController < ApplicationController
     end
   end
 
-  def makejob
+  # pre-allocate images for labeling
+  def alloc
     #Create a new ImageLabel for each image in this set
-    #TODO: Rename this function since it's not actually creating/manipulating Job objects
     ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
       il = ImageLabel.new()
       il.image = image
@@ -111,13 +125,16 @@ class ImageLabelSetsController < ApplicationController
   end
 
   def download
-    fileLabelsString=""
+    fileLabelsString = ""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    image_set_id = ImageLabelSet.find(params[:id]).image_set.id
-    folder = "/srv/imgclass/public/images/#{image_set_id}"
+    image_set_id = ImageLabelSet.find(params[:id]).image_set.id 
+
+    folder = dir_for_set(image_set_id)
     input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = "/tmp/trainingset.zip"
     FileUtils.rm_rf(zipfile_name)
+
+    # TODO: will fail if several users generating downloads. low prio
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|
         # Two arguments:
@@ -145,6 +162,7 @@ class ImageLabelSetsController < ApplicationController
 
     #Assign this job to worker
     j.user_id = params[:userid]
+    j.image_label_set_id = params[:id] # store related ILS
     j.save
 
     #Get the next N image_labels for this image_label_set
