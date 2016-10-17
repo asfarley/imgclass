@@ -9,4 +9,9 @@ class ImageSet < ActiveRecord::Base
   def local_dir
     dir_for_set(id)
   end
+
+  def vdir
+    vdir_for_set(id)
+  end
+
 end

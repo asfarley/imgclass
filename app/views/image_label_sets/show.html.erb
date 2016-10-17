@@ -11,7 +11,7 @@
   <% @images.each do |image| %>
     <tr>
       <td>
-        <img class="img-thumbnail" src="<%= image.url %>" title="<%= File.basename image.url %>">
+        <img class="img-thumbnail" src="<%= @imageDir + image.filename %>" title="<%= image.filename %>">
       </td>
 
       <% labels.each do |label| %>

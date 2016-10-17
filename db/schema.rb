@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20160423003815) do
   create_table "image_labels", force: :cascade do |t|
     t.integer  "image_id"
     t.integer  "label_id"
-    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "job_id"
@@ -54,7 +53,6 @@ ActiveRecord::Schema.define(version: 20160423003815) do
 
   add_index "image_labels", ["image_id"], name: "index_image_labels_on_image_id"
   add_index "image_labels", ["label_id"], name: "index_image_labels_on_label_id"
-  add_index "image_labels", ["user_id"], name: "index_image_labels_on_user_id"
 
   create_table "image_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -62,7 +60,7 @@ ActiveRecord::Schema.define(version: 20160423003815) do
   end
 
   create_table "images", force: :cascade do |t|
-    t.string   "url"
+    t.string   "filename"
     t.integer  "image_set_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false

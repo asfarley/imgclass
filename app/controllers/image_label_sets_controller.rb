@@ -19,6 +19,7 @@ class ImageLabelSetsController < UserController
   # GET /image_label_sets/1
   # GET /image_label_sets/1.json
   def show
+    @imageDir = @image_label_set.image_set.vdir
     if params.has_key?(:page)
       @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(params[:page])
     else
@@ -76,7 +77,7 @@ class ImageLabelSetsController < UserController
             fs = FastImage.size(new_path)
             if (fs and fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
               i = Image.new
-              i.url = "/images/#{image_set.id}/" + File.basename(file.name)
+              i.filename = File.basename(file.name)
               i.image_set_id = @image_label_set.image_set_id
               i.save
             else
@@ -92,7 +93,7 @@ class ImageLabelSetsController < UserController
           i = Image.new
           new_path = imageDir + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
-          i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
+          i.filename = uf.original_filename.to_s
           i.image_set_id = @image_label_set.image_set_id
           i.save
         end
@@ -124,7 +125,7 @@ class ImageLabelSetsController < UserController
   end
 
   def download
-    fileLabelsString=""
+    fileLabelsString = ""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
     image_set_id = ImageLabelSet.find(params[:id]).image_set.id 
 

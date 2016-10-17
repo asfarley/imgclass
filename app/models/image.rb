@@ -1,5 +1,7 @@
 class Image < ActiveRecord::Base
-  #mount_uploader :url, ImageUploader
+  require 'image_file_utils'
+  include ImageFileUtils
+
   belongs_to :image_set
   has_many :image_labels
 
@@ -19,6 +21,11 @@ class Image < ActiveRecord::Base
     freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
     most_likely = labels.max_by { |v| freq[v] }
     most_likely.nil? ? "Unknown" : most_likely.getOneHotVector
+  end
+
+  # virtual path for the image. Calculated based on the site settings and image set id
+  def vpath
+    vdir_for_set(image_set_id) + filename
   end
 
   before_destroy {|image|

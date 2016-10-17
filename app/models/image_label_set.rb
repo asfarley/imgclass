@@ -54,15 +54,15 @@ class ImageLabelSet < ActiveRecord::Base
   end
 
   def fileLabelPairs
-    images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text  } }
+    images.map{ |image| { "url" => image.filename, "label" => image.most_likely_label_text  } }
   end
 
   def fileVectorPairs
-    images.map{ |image| { "url" => File.basename(image.url), "vector" => image.most_likely_label_onehot  } }
+    images.map{ |image| { "url" => image.filename, "vector" => image.most_likely_label_onehot  } }
   end
 
   def fileLabelVectorTriples
-    images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text, "vector" => image.most_likely_label_onehot  } }
+    images.map{ |image| { "url" => image.filename, "label" => image.most_likely_label_text, "vector" => image.most_likely_label_onehot  } }
   end
 
   def generateLabelsTextfile
