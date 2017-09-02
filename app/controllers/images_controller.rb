@@ -10,6 +10,10 @@ class ImagesController < ApplicationController
   # GET /images/1
   # GET /images/1.json
   def show
+    respond_to do |format|
+        format.html { render :show }
+        format.json { render :show }
+    end
   end
 
   # GET /images/new

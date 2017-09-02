@@ -50,7 +50,8 @@ class ImageLabelSetsController < ApplicationController
 
     image_set = ImageSet.new
     image_set.save
-    FileUtils::mkdir_p "/srv/imgclass/public/images/#{image_set.id}"
+    images_folder_path = Rails.root.join('public', "images/#{image_set.id}")
+    FileUtils::mkdir_p images_folder_path
     @image_label_set.image_set_id = image_set.id
 
     params["upload"].each do |uf|
@@ -59,7 +60,7 @@ class ImageLabelSetsController < ApplicationController
         Zip::File.open(uf.tempfile.path) do |zipfile|
         zipfile.each do |file|
           if(file.ftype == :file)
-            new_path = "/srv/imgclass/public/images/#{image_set.id}/" + File.basename(file.name)
+            new_path = images_folder_path + File.basename(file.name)
             zipfile.extract(file, new_path) unless File.exist?(new_path)
             fs = FastImage.size(new_path)
             if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
@@ -77,7 +78,7 @@ class ImageLabelSetsController < ApplicationController
         fs = FastImage.size(uf.tempfile.path)
         if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
           i = Image.new
-          new_path = "/srv/imgclass/public/images/#{image_set.id}/" + uf.original_filename.to_s
+          new_path = images_folder_path + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
           i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
           i.image_set_id = @image_label_set.image_set_id

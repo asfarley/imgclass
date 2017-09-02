@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -26,10 +25,9 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_admins_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
-
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
 
   create_table "image_label_sets", force: :cascade do |t|
     t.integer  "image_set_id"
@@ -37,11 +35,10 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["image_set_id"], name: "index_image_label_sets_on_image_set_id"
+    t.index ["label_set_id"], name: "index_image_label_sets_on_label_set_id"
+    t.index ["user_id"], name: "index_image_label_sets_on_user_id"
   end
-
-  add_index "image_label_sets", ["image_set_id"], name: "index_image_label_sets_on_image_set_id"
-  add_index "image_label_sets", ["label_set_id"], name: "index_image_label_sets_on_label_set_id"
-  add_index "image_label_sets", ["user_id"], name: "index_image_label_sets_on_user_id"
 
   create_table "image_labels", force: :cascade do |t|
     t.integer  "image_id"
@@ -50,11 +47,10 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "job_id"
+    t.index ["image_id"], name: "index_image_labels_on_image_id"
+    t.index ["label_id"], name: "index_image_labels_on_label_id"
+    t.index ["user_id"], name: "index_image_labels_on_user_id"
   end
-
-  add_index "image_labels", ["image_id"], name: "index_image_labels_on_image_id"
-  add_index "image_labels", ["label_id"], name: "index_image_labels_on_label_id"
-  add_index "image_labels", ["user_id"], name: "index_image_labels_on_user_id"
 
   create_table "image_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -66,19 +62,17 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.integer  "image_set_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["image_set_id"], name: "index_images_on_image_set_id"
   end
-
-  add_index "images", ["image_set_id"], name: "index_images_on_image_set_id"
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "image_label_set_id"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["image_label_set_id"], name: "index_jobs_on_image_label_set_id"
+    t.index ["user_id"], name: "index_jobs_on_user_id"
   end
-
-  add_index "jobs", ["image_label_set_id"], name: "index_jobs_on_image_label_set_id"
-  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id"
 
   create_table "label_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -90,9 +84,8 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.integer  "label_set_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["label_set_id"], name: "index_labels_on_label_set_id"
   end
-
-  add_index "labels", ["label_set_id"], name: "index_labels_on_label_set_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -107,9 +100,8 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
