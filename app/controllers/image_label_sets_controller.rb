@@ -28,8 +28,6 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets/new
   def new
     @image_label_set = ImageLabelSet.new
-    @image_label_set.image_set = ImageSet.new
-    @image_label_set.label_set = LabelSet.new
   end
 
   # GET /image_label_sets/1/edit
@@ -40,22 +38,17 @@ class ImageLabelSetsController < ApplicationController
   # POST /image_label_sets.json
   def create
     @image_label_set = ImageLabelSet.new
+    save_success = @image_label_set.save
 
-    label_set = LabelSet.new
-    label_set.save
-    @image_label_set.label_set_id = label_set.id
     params["labels"].split(",").each do |l|
       lb = Label.new
       lb.text = l
-      lb.label_set_id = @image_label_set.label_set_id
+      lb.image_label_set_id = @image_label_set.id
       lb.save
     end
 
-    image_set = ImageSet.new
-    image_set.save
-    images_folder_path = Rails.root.join('public', "images/#{image_set.id}")
+    images_folder_path = Rails.root.join('public', "images/#{@image_label_set.id}")
     FileUtils::mkdir_p images_folder_path
-    @image_label_set.image_set_id = image_set.id
 
     params["upload"].each do |uf|
       #Check if zipfile or raw images
@@ -68,8 +61,8 @@ class ImageLabelSetsController < ApplicationController
             fs = FastImage.size(new_path)
             if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
               i = Image.new
-              i.url = "/images/#{image_set.id}/" + File.basename(file.name)
-              i.image_set_id = @image_label_set.image_set_id
+              i.url = "/images/#{@image_label_set.id}/" + File.basename(file.name)
+              i.image_label_set_id = @image_label_set.id
               i.save
             else
               FileUtils.rm(new_path)
@@ -84,7 +77,7 @@ class ImageLabelSetsController < ApplicationController
           new_path = images_folder_path + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
           i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
-          i.image_set_id = @image_label_set.image_set_id
+          i.image_label_set_id = @image_label_set.id
           i.save
         end
       end
@@ -93,7 +86,7 @@ class ImageLabelSetsController < ApplicationController
     end
 
     respond_to do |format|
-      if (@image_label_set.save)
+      if save_success
         format.html { redirect_to @image_label_set, notice: 'Image label set was successfully created.' }
         format.json { render :show, status: :created, location: @image_label_set }
       else
@@ -106,7 +99,7 @@ class ImageLabelSetsController < ApplicationController
   def makejob
     #Create a new ImageLabel for each image in this set
     #TODO: Rename this function since it's not actually creating/manipulating Job objects
-    ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
+    ils = ImageLabelSet.find(params[:id]).images.each do |image|
       il = ImageLabel.new()
       #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
 
@@ -121,8 +114,7 @@ class ImageLabelSetsController < ApplicationController
   def download
     fileLabelsString=""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    image_set_id = ImageLabelSet.find(params[:id]).image_set.id
-    folder = File.join(Rails.root, "public", "images", "#{image_set_id}")
+    folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
     input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip")
     FileUtils.rm_rf(zipfile_name)

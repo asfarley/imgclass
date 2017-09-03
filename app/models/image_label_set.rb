@@ -75,11 +75,20 @@ class ImageLabelSet < ActiveRecord::Base
 
   # Generate labels.txt file containing user class responses (ground truth) for a particular ImageLabelSet.
   def generateLabelsTextfile
-    downloadString = label_set.textfileHeader + "\r\n"
+    downloadString = textfileHeader + "\r\n"
     downloadString += fileLabelVectorTriples.inject("") {|textfileString,fileLabelVectorTriple| textfileString + "\"" + fileLabelVectorTriple["url"] + "\" " + fileLabelVectorTriple["label"] + " " + fileLabelVectorTriple["vector"] + "\r\n"}
     labelsPath = File.join(Rails.root, "tmp", "labels.txt")
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
     return labelsPath
+  end
+
+  # Generate the header (first line) of a textfile containing
+  # ground-truth answers for an image set. The purpose of the first line
+  # is to provide human-readable string mappings to the one-hot output
+  # vector format in labels.txt.
+  def textfileHeader
+    raw_header = labels.inject("") { |header, l| header + " " + l.text}
+    header = "Classes: " + raw_header
   end
 
   # Return a list of image labels which haven't been assigned to a job.
