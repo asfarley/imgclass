@@ -1,6 +1,10 @@
-## The ImageLabel class represents a single answer for a training image.
-# Right now, ImageLabel objects can only represent a single-class label.
-# Soon, this class will be extended to allow for (multiple) bounding box labels per image.
+## The ImageLabel class represents a single user-identified answer
+# for a single image in a training set.
+#
+# Multiple ImageLabels may be associated with one image, in order to provide
+# redundant labeling. ImageLabels may consist of discrete class vectors
+# (one-hot vector output) or a more generic string representation
+# capable of storing bounding-box lists.
 
 class ImageLabel < ActiveRecord::Base
   belongs_to :image
