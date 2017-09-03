@@ -1,7 +1,11 @@
 <%= javascript_include_tag 'image_labels' %>
 
 <div id="imgframe">
-<img class="img-responsive" id="mainimage" src="<%= @unlabeled.image.url %>">
+  <div id="imgtight">
+    <img class="img-responsive" id="mainimage" src="<%= @unlabeled.image.url %>" draggable="false">
+    <svg id="overlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;">
+    </svg>
+  </div>
 </div>
 <div class="progress" style="width:500px;height:20px;">
 <div class="progress-bar" role="progressbar" aria-valuenow="<%= 100- (@unlabeled.image.image_label_set.percent_remaining/2) %>"

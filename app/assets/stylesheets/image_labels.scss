@@ -1,3 +1,19 @@
 // Place all the styles related to the ImageLabels controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+svg {
+  z-index: 10;
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+img {
+  position:absolute;
+  z-index:8;
+}
+
+#imgtight {
+  height:100%;
+}
