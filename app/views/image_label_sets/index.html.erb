@@ -5,8 +5,8 @@
   <% @image_label_sets.each do |image_label_set| %>
     <div class="row">
     <div class="col-sm-3">Image set <%= image_label_set.id %> <span class="small">(x<%= image_label_set.images.count %> images)<br>
-      <% image_label_set.label_set.labels.each_with_index do |label,index| %>
-      <%= label.text %><%= (index == image_label_set.label_set.labels.count - 1)? '' : ',' %>
+      <% image_label_set.labels.each_with_index do |label,index| %>
+      <%= label.text %><%= (index == image_label_set.labels.count - 1)? '' : ',' %>
       <% end %>
     </span></div>
     <div class="col-sm-1"><a href="<%= image_label_set_path(image_label_set.id) %>"><button type="button" class="btn btn-default">View</button></a></div>

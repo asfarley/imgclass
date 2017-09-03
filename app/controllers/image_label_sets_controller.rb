@@ -16,9 +16,9 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets/1.json
   def show
     if params.has_key?(:page)
-      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(params[:page])
+      @images = Kaminari.paginate_array(@image_label_set.images).page(params[:page])
     else
-      @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1)
+      @images = Kaminari.paginate_array(@image_label_set.images).page(1)
     end
   end
 
@@ -124,7 +124,7 @@ class ImageLabelSetsController < ApplicationController
     image_set_id = ImageLabelSet.find(params[:id]).image_set.id
     folder = File.join(Rails.root, "public", "images", "#{image_set_id}")
     input_filenames = Dir.entries(folder) - %w(. ..)
-    zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip") 
+    zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip")
     FileUtils.rm_rf(zipfile_name)
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|
