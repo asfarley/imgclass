@@ -7,4 +7,5 @@ class ImageLabel < ActiveRecord::Base
   belongs_to :label
   belongs_to :user
   belongs_to :job
+  belongs_to :image_label_set
 end

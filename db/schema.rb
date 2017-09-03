@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423003815) do
+ActiveRecord::Schema.define(version: 20170903054425) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -30,13 +30,9 @@ ActiveRecord::Schema.define(version: 20160423003815) do
   end
 
   create_table "image_label_sets", force: :cascade do |t|
-    t.integer  "image_set_id"
-    t.integer  "label_set_id"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["image_set_id"], name: "index_image_label_sets_on_image_set_id"
-    t.index ["label_set_id"], name: "index_image_label_sets_on_label_set_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_image_label_sets_on_user_id"
   end
 
@@ -52,17 +48,12 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.index ["user_id"], name: "index_image_labels_on_user_id"
   end
 
-  create_table "image_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "images", force: :cascade do |t|
     t.string   "url"
-    t.integer  "image_set_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["image_set_id"], name: "index_images_on_image_set_id"
+    t.integer  "image_label_set_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["image_label_set_id"], name: "index_images_on_image_label_set_id"
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -74,17 +65,12 @@ ActiveRecord::Schema.define(version: 20160423003815) do
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
-  create_table "label_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "labels", force: :cascade do |t|
     t.string   "text"
-    t.integer  "label_set_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["label_set_id"], name: "index_labels_on_label_set_id"
+    t.integer  "image_label_set_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["image_label_set_id"], name: "index_labels_on_image_label_set_id"
   end
 
   create_table "users", force: :cascade do |t|

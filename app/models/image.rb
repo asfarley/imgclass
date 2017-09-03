@@ -2,7 +2,7 @@
 
 class Image < ActiveRecord::Base
   #mount_uploader :url, ImageUploader
-  belongs_to :image_set
+  belongs_to :image_label_set
   has_many :image_labels
 
   def count_labels(label)
