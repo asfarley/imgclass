@@ -1,3 +1,5 @@
+## The Image class represents the input image for each single element in a training set.
+
 class Image < ActiveRecord::Base
   #mount_uploader :url, ImageUploader
   belongs_to :image_set

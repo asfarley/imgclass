@@ -1,3 +1,9 @@
+## The Job class represents a (potentially redundant) subset of images in a particular
+# ImageLabelSet. The purpose of Job objects is to:
+# 1) Break ImageLabelSets into a manageable size for a single worker
+# 2) Provide a mechanism for redundantly classifying images in a particular ImageLabelSet in order to guage agreement
+#    between users' label responses.
+
 class Job < ActiveRecord::Base
   belongs_to :image_label_set
   belongs_to :user

@@ -1,3 +1,12 @@
+## The ImageLabelSet is the primary, top-most class managing an entire training image set
+# along with labels/user responses.
+# ImageLabelSets may contain redundant labelling of inidividual training set images
+# in order to evaluate the agreement between different users' responses.
+#
+# If redundant labels are present (multiple user responses for a single image), this class
+# provides the functionality for flagging incorrectly-labelled images and for determining
+# the most-likely label for a particular image in the case of conflicting labels.
+
 class ImageLabelSet < ActiveRecord::Base
   require 'fileutils'
   belongs_to :image_set
