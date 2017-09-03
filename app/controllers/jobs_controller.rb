@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
+  before_action :set_image_label_set, only: [:new]
 
   # GET /jobs
   # GET /jobs.json
@@ -25,6 +26,8 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     @job = Job.new
+    @job.image_label_set_id = @image_label_set.id
+    @job.user_id = current_user.id
   end
 
   # GET /jobs/1/edit
@@ -35,6 +38,17 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
+    @job.image_label_set.image_set.images.each do |image|
+      il = ImageLabel.new()
+      #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
+
+      #Assign user id to image label
+      #Assign job to image
+      il.job_id = @job.id
+      il.user_id = current_user.id
+      il.image = image
+      il.save
+    end
 
     respond_to do |format|
       if @job.save
@@ -75,6 +89,10 @@ class JobsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_job
       @job = Job.find(params[:id])
+    end
+
+    def set_image_label_set
+      @image_label_set = ImageLabelSet.find(params[:image_label_set_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

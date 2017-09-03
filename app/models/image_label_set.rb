@@ -63,7 +63,7 @@ class ImageLabelSet < ActiveRecord::Base
   def generateLabelsTextfile
     downloadString = label_set.textfileHeader + "\r\n"
     downloadString += fileLabelVectorTriples.inject("") {|textfileString,fileLabelVectorTriple| textfileString + "\"" + fileLabelVectorTriple["url"] + "\" " + fileLabelVectorTriple["label"] + " " + fileLabelVectorTriple["vector"] + "\r\n"}
-    labelsPath = "/tmp/labels.txt"
+    labelsPath = File.join(Rails.root, "tmp", "labels.txt")
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
     return labelsPath
   end

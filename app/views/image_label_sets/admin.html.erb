@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+<h2>Jobs</h2>
+<br><br>
+<table>
+  <tr>
+    <th>ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th>Assigned to:&nbsp;&nbsp;</th>
+    <th>Total image count&nbsp;&nbsp;</th>
+    <th>Labelled images&nbsp;&nbsp;</th>
+    <th>% Complete&nbsp;&nbsp;</th>
+    <th>% Agreement</th>
+  </tr>
+<% @image_label_set.jobs.each do |job| %>
+  <tr>
+    <td><%= job.id %></td>
+    <td><%= User.find(job.user_id).email %>&nbsp;&nbsp;</td>
+    <td><%= job.image_label_set.image_labels.count %></td>
+    <td><%= job.image_label_set.image_labels.select{ |il| (il.label.nil? == false) }.count %></thd>
+    <td><%= job.percent_complete %></td>
+    <td><%= job.percent_agreement %></td>
+  </tr>
+<% end %>
+</table>
+<br>
+<%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id)%>
+</div>

@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
@@ -20,6 +20,9 @@ class ImageLabelSetsController < ApplicationController
     else
       @images = Kaminari.paginate_array(@image_label_set.image_set.images).page(1)
     end
+  end
+
+  def admin
   end
 
   # GET /image_label_sets/new
@@ -105,6 +108,10 @@ class ImageLabelSetsController < ApplicationController
     #TODO: Rename this function since it's not actually creating/manipulating Job objects
     ils = ImageLabelSet.find(params[:id]).image_set.images.each do |image|
       il = ImageLabel.new()
+      #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
+
+      #Assign user id to image label
+      #Assign job to image
       il.image = image
       il.save
     end
@@ -115,9 +122,9 @@ class ImageLabelSetsController < ApplicationController
     fileLabelsString=""
     labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
     image_set_id = ImageLabelSet.find(params[:id]).image_set.id
-    folder = "/srv/imgclass/public/images/#{image_set_id}"
+    folder = File.join(Rails.root, "public", "images", "#{image_set_id}")
     input_filenames = Dir.entries(folder) - %w(. ..)
-    zipfile_name = "/tmp/trainingset.zip"
+    zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip") 
     FileUtils.rm_rf(zipfile_name)
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       input_filenames.each do |filename|

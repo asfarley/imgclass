@@ -24,9 +24,7 @@
       <button type="button" class="btn btn-default disabled">Download</button>
       <% end %>
     </div>
-    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "assign", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Assign Job</button><% end %></div>
-    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "makejob", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Start</button><% end %></div>
-    <div class="col-sm-1"><%= image_label_set.percent_remaining.round(1) %>% remaining</div>
+    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "admin", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Admin</button><% end %></div>
     </div>
     <br><br>
   <% end %>
