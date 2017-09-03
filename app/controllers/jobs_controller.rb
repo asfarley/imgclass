@@ -38,7 +38,7 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
-    @job.image_label_set.image_set.images.each do |image|
+    @job.image_label_set.images.each do |image|
       il = ImageLabel.new()
       #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
 
