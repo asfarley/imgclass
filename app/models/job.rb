@@ -11,15 +11,17 @@ class Job < ActiveRecord::Base
 
   before_destroy :reset_imagelabels
 
-
+  # Determine whether this job has remaining images to classify.
   def isOpen
     percent_remaining > 0
   end
 
+  # Determine whether this job is complete.
   def isComplete
     ! isOpen
   end
 
+  # Determine the percentage of remaining images to be classified by users.
   def percent_remaining
     totalImages = image_labels.count
     remainingImages = image_labels.select{ |il| il.label.nil? }
@@ -27,6 +29,7 @@ class Job < ActiveRecord::Base
     pct.round(1)
   end
 
+  # Determine the percentage of images already classified by users.
   def percent_complete
     totalImages = image_label_set.image_labels.count
     if totalImages == 0
@@ -37,10 +40,13 @@ class Job < ActiveRecord::Base
     pct.round(1)
   end
 
+  # Determine the percentage agreement between this job and other jobs containing
+  # the same images.
   def percent_agreement
     100.0
   end
 
+  # Clear all image labels in this job.
   def reset_imagelabels
     image_labels.each do |il|
       il.job_id = nil

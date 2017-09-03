@@ -9,6 +9,12 @@ class Image < ActiveRecord::Base
       ImageLabel.where("image_id = ? and label_id = ?", self.id, label.id).count
   end
 
+  # Attempt to determine the most-likely correct label/ground-truth for a
+  # particular image despite potentially conflicting labels.
+  #
+  # This method takes the most-frequently selected label as the ground truth.
+  # This method returns a human-readable string to identify the
+  # image ground-truth class.
   def most_likely_label_text
     labels = ImageLabel.where("image_id = ?", self.id).map{ |il| il.label }
     freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
@@ -16,6 +22,13 @@ class Image < ActiveRecord::Base
     most_likely.nil? ? "Unknown" : most_likely.text
   end
 
+
+  # Attempt to determine the most-likely correct label/ground-truth for a
+  # particular image despite potentially conflicting labels.
+  #
+  # This method takes the most-frequently selected label as the ground truth.
+  # This method returns a one-hot vector (array) correponding to the image ground-truth
+  # class.
   def most_likely_label_onehot
     labels = ImageLabel.where("image_id = ?", self.id).map{ |il| il.label }
     freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
