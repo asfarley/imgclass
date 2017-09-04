@@ -1,6 +1,22 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
+var BoundingBoxes = [];
+
+function GetSelectedClass()
+{
+  return "Car";
+}
+
+function BoundingBox(x,y,width,height,classname)
+{
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.classname = classname;
+}
+
 function FindPosition(oElement)
 {
   var rect = oElement.getBoundingClientRect();
@@ -29,8 +45,25 @@ function GetCoordinatesDown(e)
 
   PosXDown =  Math.round(PosX - ImgPos[0]);
   PosYDown =  Math.round(PosY - ImgPos[1]);
-  document.getElementById("x").innerHTML = PosXDown;
-  document.getElementById("y").innerHTML = PosYDown;
+}
+
+function DrawBoundingBox(x,y,width,height)
+{
+  var svgns = "http://www.w3.org/2000/svg";
+  var rect = document.createElementNS(svgns, 'rect');
+  rect.setAttributeNS(null, 'x', x - width);
+  rect.setAttributeNS(null, 'y', y - height);
+  rect.setAttributeNS(null, 'height', height.toString());
+  rect.setAttributeNS(null, 'width', width.toString());
+  rect.setAttributeNS(null, 'stroke', '#FFFFFF');
+  rect.setAttributeNS(null, 'stroke-width', '3');
+  rect.setAttributeNS(null, 'fill-opacity', '0.0');
+  document.getElementById('overlay').appendChild(rect);
+}
+
+function DrawEachBoundingBox(boundingBox,index)
+{
+  DrawBoundingBox(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
 }
 
 function GetCoordinatesUp(e)
@@ -55,22 +88,20 @@ function GetCoordinatesUp(e)
 
   PosXUp = Math.round(PosX - ImgPos[0]);
   PosYUp = Math.round(PosY - ImgPos[1]);
-  document.getElementById("x").innerHTML = PosXUp;
-  document.getElementById("y").innerHTML = PosYUp;
 
   var height = PosYUp - PosYDown;
   var width = PosXUp - PosXDown;
 
-  var svgns = "http://www.w3.org/2000/svg";
-  var rect = document.createElementNS(svgns, 'rect');
-  rect.setAttributeNS(null, 'x', PosXDown);
-  rect.setAttributeNS(null, 'y', PosYDown);
-  rect.setAttributeNS(null, 'height', height.toString());
-  rect.setAttributeNS(null, 'width', width.toString());
-  rect.setAttributeNS(null, 'stroke', '#FFFFFF');
-  rect.setAttributeNS(null, 'stroke-width', '3');
-  rect.setAttributeNS(null, 'fill-opacity', '0.0');
-  document.getElementById('overlay').appendChild(rect);
+  //Delete old rectangles
+  var overlay = document.getElementById('overlay')
+  while (overlay.hasChildNodes()) {
+    overlay.removeChild(overlay.lastChild);
+  }
+
+  var classname = GetSelectedClass();
+  var bb = new BoundingBox(PosXUp,PosYUp,width,height,classname);
+  BoundingBoxes.push(bb);
+  BoundingBoxes.forEach(DrawEachBoundingBox);
 }
 
 $(function() {
@@ -84,4 +115,6 @@ $(function() {
 
    var PosXDown, PosYDown;
    var PosXUp, PosYUp;
+
+   //Select first item as default selected radiocontainer
 });
