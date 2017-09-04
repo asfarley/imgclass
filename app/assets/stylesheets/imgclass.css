@@ -122,8 +122,10 @@ h2{
 	min-width:300px;
 	max-width: 500px;
 	max-height: 500px;
-	width: auto;
-	height: auto;
+	/*width: auto;
+	height: auto;*/
+ 	/*top: 50%;
+ 	transform: translateY(-50%);*/
 	padding:0;
 }
 
