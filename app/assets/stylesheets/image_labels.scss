@@ -15,5 +15,13 @@ img {
 }
 
 #imgtight {
-  height:100%;
+  margin: 0 auto;
+  min-width:300px;
+  max-width: 500px;
+  max-height: 500px;
+  width: auto;
+  height: 100%;
+  position: relative;
+  padding:0;
+  overflow:hidden;
 }
