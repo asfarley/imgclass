@@ -5,12 +5,35 @@ var BoundingBoxes = [];
 
 function GetSelectedClass()
 {
-  return "Car";
+  var selectedRadio = $("input:radio:checked")[0];
+  return selectedRadio.value;
 }
 
 function DeleteBoundingBox(index)
 {
-  
+
+}
+
+function insertBoundingBoxListElement(boundingBox, index)
+{
+  var li = document.createElement("li");
+  li.innerHTML = boundingBox.classname;
+  li.classList.add('list-group-item');
+  document.getElementById('bblist').appendChild(li);
+}
+
+function UpdateBoundingBoxList()
+{
+  var bblist = document.getElementById('bblist');
+  while (bblist.hasChildNodes()) {
+    bblist.removeChild(bblist.lastChild);
+  }
+   BoundingBoxes.forEach(insertBoundingBoxListElement);
+}
+
+function HighlightSelectedBoundingBox(index)
+{
+
 }
 
 function BoundingBox(x,y,width,height,classname)
@@ -107,6 +130,8 @@ function GetCoordinatesUp(e)
   var bb = new BoundingBox(PosXUp,PosYUp,width,height,classname);
   BoundingBoxes.push(bb);
   BoundingBoxes.forEach(DrawEachBoundingBox);
+
+  UpdateBoundingBoxList();
 }
 
 $(function() {
@@ -117,6 +142,9 @@ $(function() {
    var overlay = document.getElementById("overlay");
    overlay.onmousedown = GetCoordinatesDown;
    overlay.onmouseup = GetCoordinatesUp;
+
+   var firstRadioSelection = $(":radio")[0];
+   firstRadioSelection.checked = true;
 
    var PosXDown, PosYDown;
    var PosXUp, PosYUp;

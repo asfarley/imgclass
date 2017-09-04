@@ -8,9 +8,6 @@
   <div id="bblist">
     <span class="glyphicon glyphicon-trash"></span>
     <ul class="listgroup">
-      <li class="list-group-item">Car 1</li>
-      <li class="list-group-item">Car 2</li>
-      <li class="list-group-item">Car 3</li>
     </ul>
   </div>
 </div>
@@ -26,7 +23,8 @@ aria-valuemin="0" aria-valuemax="100" style="width:<%= 100- (@unlabeled.image.im
   <div class="row">
     <% @unlabeled.image.image_label_set.labels.each do |label| %>
     <div class="col-sm-4">
-        <input value="<%= label.id %>" name="label_id" type="radio" ><%= label.text %></input>
+        <input value="<%= label.text %>" name="classname" type="radio" >
+        <%= label.text %>
       </div>
     <% end %>
   </div>
