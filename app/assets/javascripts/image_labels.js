@@ -8,6 +8,11 @@ function GetSelectedClass()
   return "Car";
 }
 
+function DeleteBoundingBox(index)
+{
+  
+}
+
 function BoundingBox(x,y,width,height,classname)
 {
   this.x = x;
