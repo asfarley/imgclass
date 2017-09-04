@@ -3,15 +3,40 @@
 
 var BoundingBoxes = [];
 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+function SerializeBoundingBoxes()
+{
+
+}
+
 function GetSelectedClass()
 {
   var selectedRadio = $("input:radio:checked")[0];
   return selectedRadio.value;
 }
 
-function DeleteBoundingBox(index)
+function DeleteSelectedBoxes()
 {
+  var selectedBoxes = $("li.active");
+  selectedBoxes.each(DeleteBoundingBox);
+  RedrawBoundingBoxes();
+}
 
+function DeleteBoundingBox(index, boundingBoxLi)
+{
+  var uuid = boundingBoxLi.getAttribute("uuid");
+  BoundingBoxes = BoundingBoxes.filter(function(boundingBox){
+    return (boundingBox.uuid != uuid);
+  });
+
+  boundingBoxLi.outerHTML = "";
+  delete boundingBoxLi;
 }
 
 function insertBoundingBoxListElement(boundingBox, index)
@@ -19,6 +44,8 @@ function insertBoundingBoxListElement(boundingBox, index)
   var li = document.createElement("li");
   li.innerHTML = boundingBox.classname;
   li.classList.add('list-group-item');
+  li.setAttribute("uuid", boundingBox.uuid);
+  li.onclick = function() { $(this).toggleClass('active'); };
   document.getElementById('bblist').appendChild(li);
 }
 
@@ -43,6 +70,7 @@ function BoundingBox(x,y,width,height,classname)
   this.width = width;
   this.height = height;
   this.classname = classname;
+  this.uuid = uuidv4();
 }
 
 function FindPosition(oElement)
@@ -73,6 +101,16 @@ function GetCoordinatesDown(e)
 
   PosXDown =  Math.round(PosX - ImgPos[0]);
   PosYDown =  Math.round(PosY - ImgPos[1]);
+}
+
+function RedrawBoundingBoxes()
+{
+  //Delete old rectangles
+  var overlay = document.getElementById('overlay')
+  while (overlay.hasChildNodes()) {
+    overlay.removeChild(overlay.lastChild);
+  }
+  BoundingBoxes.forEach(DrawEachBoundingBox);
 }
 
 function DrawBoundingBox(x,y,width,height)
@@ -120,18 +158,12 @@ function GetCoordinatesUp(e)
   var height = PosYUp - PosYDown;
   var width = PosXUp - PosXDown;
 
-  //Delete old rectangles
-  var overlay = document.getElementById('overlay')
-  while (overlay.hasChildNodes()) {
-    overlay.removeChild(overlay.lastChild);
-  }
 
   var classname = GetSelectedClass();
   var bb = new BoundingBox(PosXUp,PosYUp,width,height,classname);
   BoundingBoxes.push(bb);
-  BoundingBoxes.forEach(DrawEachBoundingBox);
-
   UpdateBoundingBoxList();
+  RedrawBoundingBoxes();
 }
 
 $(function() {
