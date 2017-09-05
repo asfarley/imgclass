@@ -45,8 +45,28 @@ function insertBoundingBoxListElement(boundingBox, index)
   li.innerHTML = boundingBox.classname;
   li.classList.add('list-group-item');
   li.setAttribute("uuid", boundingBox.uuid);
-  li.onclick = function() { $(this).toggleClass('active'); };
+  li.onclick = ToggleBoundingBoxListElement;
   document.getElementById('bblist').appendChild(li);
+}
+
+function ToggleBoundingBoxListElement()
+{
+  $(this).toggleClass('active');
+
+  var uuid = $(this).attr("uuid");
+  var thisbox = BoundingBoxes.filter(function(boundingBox){
+    return (boundingBox.uuid == uuid);
+  })[0];
+
+  if($(this).hasClass('active'))
+  {
+    thisbox.selected = true;
+  }
+  else {
+    thisbox.selected = false;
+  }
+
+  RedrawBoundingBoxes();
 }
 
 function UpdateBoundingBoxList()
@@ -58,11 +78,6 @@ function UpdateBoundingBoxList()
    BoundingBoxes.forEach(insertBoundingBoxListElement);
 }
 
-function HighlightSelectedBoundingBox(index)
-{
-
-}
-
 function BoundingBox(x,y,width,height,classname)
 {
   this.x = x;
@@ -71,6 +86,7 @@ function BoundingBox(x,y,width,height,classname)
   this.height = height;
   this.classname = classname;
   this.uuid = uuidv4();
+  this.selected = false;
 }
 
 function FindPosition(oElement)
@@ -113,7 +129,7 @@ function RedrawBoundingBoxes()
   BoundingBoxes.forEach(DrawEachBoundingBox);
 }
 
-function DrawBoundingBox(x,y,width,height)
+function DrawBoundingBox(x,y,width,height,selected)
 {
   var svgns = "http://www.w3.org/2000/svg";
   var rect = document.createElementNS(svgns, 'rect');
@@ -121,7 +137,14 @@ function DrawBoundingBox(x,y,width,height)
   rect.setAttributeNS(null, 'y', y - height);
   rect.setAttributeNS(null, 'height', height.toString());
   rect.setAttributeNS(null, 'width', width.toString());
-  rect.setAttributeNS(null, 'stroke', '#FFFFFF');
+  if(selected)
+  {
+    rect.setAttributeNS(null, 'stroke', '#00FFFF');
+  }
+  else {
+    rect.setAttributeNS(null, 'stroke', '#FFFFFF');
+  }
+
   rect.setAttributeNS(null, 'stroke-width', '3');
   rect.setAttributeNS(null, 'fill-opacity', '0.0');
   document.getElementById('overlay').appendChild(rect);
@@ -129,7 +152,7 @@ function DrawBoundingBox(x,y,width,height)
 
 function DrawEachBoundingBox(boundingBox,index)
 {
-  DrawBoundingBox(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+  DrawBoundingBox(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.selected);
 }
 
 function GetCoordinatesUp(e)
