@@ -3,6 +3,22 @@
 
 var BoundingBoxes = [];
 
+function djb2(str){
+  var hash = 5381;
+  for (var i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i); /* hash * 33 + c */
+  }
+  return hash;
+}
+
+function hashStringToColor(str) {
+  var hash = djb2(str);
+  var r = (hash & 0xFF0000) >> 16;
+  var g = (hash & 0x00FF00) >> 8;
+  var b = hash & 0x0000FF;
+  return "#" + ("0" + r.toString(16)).substr(-2) + ("0" + g.toString(16)).substr(-2) + ("0" + b.toString(16)).substr(-2);
+}
+
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -136,7 +152,7 @@ function RedrawBoundingBoxes()
   BoundingBoxes.forEach(DrawEachBoundingBox);
 }
 
-function DrawBoundingBox(x,y,width,height,selected)
+function DrawBoundingBox(x,y,width,height,selected, classname)
 {
   var svgns = "http://www.w3.org/2000/svg";
   var rect = document.createElementNS(svgns, 'rect');
@@ -144,22 +160,26 @@ function DrawBoundingBox(x,y,width,height,selected)
   rect.setAttributeNS(null, 'y', y);
   rect.setAttributeNS(null, 'height', height.toString());
   rect.setAttributeNS(null, 'width', width.toString());
+
+  var color = hashStringToColor(classname);
+  rect.setAttributeNS(null, 'stroke', color);
+  rect.setAttributeNS(null, 'fill', color);
+
   if(selected)
   {
-    rect.setAttributeNS(null, 'stroke', '#00FFFF');
+    rect.setAttributeNS(null, 'fill-opacity', '0.5');
   }
   else {
-    rect.setAttributeNS(null, 'stroke', '#FFFFFF');
+    rect.setAttributeNS(null, 'fill-opacity', '0.0');
   }
 
   rect.setAttributeNS(null, 'stroke-width', '3');
-  rect.setAttributeNS(null, 'fill-opacity', '0.0');
   document.getElementById('overlay').appendChild(rect);
 }
 
 function DrawEachBoundingBox(boundingBox,index)
 {
-  DrawBoundingBox(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.selected);
+  DrawBoundingBox(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.selected, boundingBox.classname);
 }
 
 function GetCoordinatesUp(e)
