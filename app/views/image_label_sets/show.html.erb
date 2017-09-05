@@ -8,6 +8,7 @@
   <div class="row">
   <div class="col-sm-3"><%= File.basename image.url %><br><br>
   <% if @image_label_set.bounding_box_mode %>
+    <%= @image_label_set.image_labels[0].target %>
   <% else %>
     <%= image.most_likely_label_text %>
     <table class="table" >
@@ -20,7 +21,11 @@
     </table>
   <% end %>
   </div>
-  <div class="col-sm-2"><img class="img-thumbnail" src="<%= image.url %>"></div>
+  <div class="col-sm-2">
+    <img class="img-thumbnail" src="<%= image.url %>">
+    <svg id="overlay#{}" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;">
+    </svg>
+  </div>
   </div>
   <br><br>
 <% end %>
