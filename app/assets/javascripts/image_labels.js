@@ -175,6 +175,12 @@ function DrawBoundingBox(x,y,width,height,selected, classname)
 
   rect.setAttributeNS(null, 'stroke-width', '3');
   document.getElementById('overlay').appendChild(rect);
+
+  var text = document.createElementNS(svgns, 'text');
+  text.setAttributeNS(null, 'x', x);
+  text.setAttributeNS(null, 'y', y);
+  text.innerHTML = classname;
+  document.getElementById('overlay').appendChild(text);
 }
 
 function DrawEachBoundingBox(boundingBox,index)
