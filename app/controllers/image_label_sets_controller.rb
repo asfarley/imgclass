@@ -5,7 +5,7 @@ class ImageLabelSetsController < ApplicationController
   require 'kaminari'
   require 'fastimage'
   require 'zip'
-  require 'pry'
+  require 'byebug'
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -50,12 +50,22 @@ class ImageLabelSetsController < ApplicationController
     images_folder_path = Rails.root.join('public', "images/#{@image_label_set.id}")
     FileUtils::mkdir_p images_folder_path
 
+    accepted_formats = [".jpg", ".png", ".bmp"]
+
     params["upload"].each do |uf|
       #Check if zipfile or raw images
       if (File.extname(uf.tempfile.path)==".zip")
         Zip::File.open(uf.tempfile.path) do |zipfile|
         zipfile.each do |file|
           if(file.ftype == :file)
+            extension = File.extname(file.name)
+            basename = File.basename(file.name)
+            if not accepted_formats.include? extension
+              next #Ignore non-image files
+            end
+            if basename[0] == '.'
+              next #This case catches some non-image files with image extensions created by OSX
+            end
             new_path = images_folder_path + File.basename(file.name)
             zipfile.extract(file, new_path) unless File.exist?(new_path)
             fs = FastImage.size(new_path)
