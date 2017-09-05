@@ -156,7 +156,6 @@ $(function() {
      overlay.onmouseup = GetCoordinatesUp;
    }
 
-
    //Select first item as default selected radiocontainer
    var firstRadioSelection = $(":radio")[0];
    if(firstRadioSelection != null)
@@ -171,5 +170,12 @@ $(function() {
    {
      UpdateBoundingBoxList();
      RedrawBoundingBoxes(BoundingBoxes, 'overlay');
+   }
+
+   if(BoundingBoxesGroups != null)
+   {
+     BoundingBoxesGroups.forEach(function(item,index) {
+       RedrawBoundingBoxes(item.BoundingBoxes, item.overlayElementId);
+     });
    }
 });
