@@ -10,9 +10,16 @@ function uuidv4() {
   });
 }
 
+function replacer(key,value)
+{
+    if (key=="uuid") return undefined;
+    else if (key=="selected") return undefined;
+    else return value;
+}
+
 function SerializeBoundingBoxes()
 {
-
+    return JSON.stringify(BoundingBoxes,replacer);
 }
 
 function GetSelectedClass()
@@ -133,8 +140,8 @@ function DrawBoundingBox(x,y,width,height,selected)
 {
   var svgns = "http://www.w3.org/2000/svg";
   var rect = document.createElementNS(svgns, 'rect');
-  rect.setAttributeNS(null, 'x', x - width);
-  rect.setAttributeNS(null, 'y', y - height);
+  rect.setAttributeNS(null, 'x', x);
+  rect.setAttributeNS(null, 'y', y);
   rect.setAttributeNS(null, 'height', height.toString());
   rect.setAttributeNS(null, 'width', width.toString());
   if(selected)
@@ -178,12 +185,13 @@ function GetCoordinatesUp(e)
   PosXUp = Math.round(PosX - ImgPos[0]);
   PosYUp = Math.round(PosY - ImgPos[1]);
 
-  var height = PosYUp - PosYDown;
-  var width = PosXUp - PosXDown;
-
+  var height = Math.abs(PosYUp - PosYDown);
+  var width = Math.abs(PosXUp - PosXDown);
+  var x = Math.min(PosXUp, PosXDown);
+  var y = Math.min(PosYUp, PosYDown);
 
   var classname = GetSelectedClass();
-  var bb = new BoundingBox(PosXUp,PosYUp,width,height,classname);
+  var bb = new BoundingBox(x,y,width,height,classname);
   BoundingBoxes.push(bb);
   UpdateBoundingBoxList();
   RedrawBoundingBoxes();
