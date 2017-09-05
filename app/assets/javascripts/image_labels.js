@@ -99,6 +99,10 @@ function UpdateBoundingBoxList()
     bblist.removeChild(bblist.lastChild);
   }
    BoundingBoxes.forEach(insertBoundingBoxListElement);
+
+   var target = document.getElementById('target');
+   var serializedBoundingBoxes = SerializeBoundingBoxes();
+   target.setAttribute("value", serializedBoundingBoxes);
 }
 
 function BoundingBox(x,y,width,height,classname)
@@ -232,11 +236,13 @@ $(function() {
    overlay.onmousedown = GetCoordinatesDown;
    overlay.onmouseup = GetCoordinatesUp;
 
+   //Select first item as default selected radiocontainer
    var firstRadioSelection = $(":radio")[0];
    firstRadioSelection.checked = true;
 
    var PosXDown, PosYDown;
    var PosXUp, PosYUp;
 
-   //Select first item as default selected radiocontainer
+   UpdateBoundingBoxList();
+   RedrawBoundingBoxes();
 });

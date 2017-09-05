@@ -80,6 +80,6 @@ class ImageLabelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def image_label_params
-      params.permit(:image_id, :label_id, :user_id)
+      params.permit(:image_id, :label_id, :user_id, :target)
     end
 end
