@@ -1,18 +1,24 @@
 <p id="notice"><%= notice %></p>
 
+<%= javascript_include_tag "bb" %>
+
 <div class="container">
 
 <% @images.each do |image| %>
   <div class="row">
-  <div class="col-sm-3"><%= File.basename image.url %>: <%= image.most_likely_label_text %><br><br>
-  <table class="table" >
-    <tr><% @image_label_set.labels.each do |label| %>
-      <td><b><%= label.text %></b></td>
-    <% end %></tr>
-    <tr><% @image_label_set.labels.each do |label| %>
-      <td><%= image.count_labels(label) %></td>
-    <% end %></tr>
-  </table>
+  <div class="col-sm-3"><%= File.basename image.url %><br><br>
+  <% if @image_label_set.bounding_box_mode %>
+  <% else %>
+    <%= image.most_likely_label_text %>
+    <table class="table" >
+      <tr><% @image_label_set.labels.each do |label| %>
+        <td><b><%= label.text %></b></td>
+      <% end %></tr>
+      <tr><% @image_label_set.labels.each do |label| %>
+        <td><%= image.count_labels(label) %></td>
+      <% end %></tr>
+    </table>
+  <% end %>
   </div>
   <div class="col-sm-2"><img class="img-thumbnail" src="<%= image.url %>"></div>
   </div>

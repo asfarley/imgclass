@@ -11,4 +11,5 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( imgclass.css )
 Rails.application.config.assets.precompile += %w( image_labels.js )
+Rails.application.config.assets.precompile += %w( bb.js )
 Rails.application.config.assets.precompile += %w( 3f382c6f.png )
