@@ -3,6 +3,7 @@
 
 var BoundingBoxes = [];
 
+
 function SerializeBoundingBoxes()
 {
     return JSON.stringify(BoundingBoxes,replacer);
@@ -118,12 +119,12 @@ function GetCoordinatesUp(e)
     PosY = e.pageY;
   }
   else if (e.clientX || e.clientY)
-    {
-      PosX = e.clientX + document.body.scrollLeft
-        + document.documentElement.scrollLeft;
-      PosY = e.clientY + document.body.scrollTop
-        + document.documentElement.scrollTop;
-    }
+  {
+    PosX = e.clientX + document.body.scrollLeft
+      + document.documentElement.scrollLeft;
+    PosY = e.clientY + document.body.scrollTop
+      + document.documentElement.scrollTop;
+  }
 
   PosXUp = Math.round(PosX - ImgPos[0]);
   PosYUp = Math.round(PosY - ImgPos[1]);
@@ -134,7 +135,15 @@ function GetCoordinatesUp(e)
   var y = Math.min(PosYUp, PosYDown);
 
   var classname = GetSelectedClass();
-  var bb = new BoundingBox(x,y,width,height,classname);
+
+  //Map x,y,height,width to coordinates in normalized coordinates (0.0->1.0 for each dimension)
+  var mainimagejq = $("#mainimage");
+  var x_scaled = x / mainimagejq.width();
+  var y_scaled = y / mainimagejq.height();
+  var width_scaled = width / mainimagejq.width();
+  var height_scaled = height / mainimagejq.height();
+
+  var bb = new BoundingBox(x_scaled,y_scaled,width_scaled,height_scaled,classname);
   BoundingBoxes.push(bb);
   UpdateBoundingBoxList();
   RedrawBoundingBoxes(BoundingBoxes, 'overlay');
@@ -172,10 +181,12 @@ $(function() {
      RedrawBoundingBoxes(BoundingBoxes, 'overlay');
    }
 
-   if(BoundingBoxesGroups != null)
+   if (typeof BoundingBoxesGroups !== 'undefined')
    {
      BoundingBoxesGroups.forEach(function(item,index) {
        RedrawBoundingBoxes(item.BoundingBoxes, item.overlayElementId);
      });
    }
+
+
 });

@@ -129,6 +129,19 @@ h2{
 	padding:0;
 }
 
+.imtight {
+	display:inline-block;
+	position:relative;
+}
+
+.bbthumbnail {
+	min-width:300px;
+	max-width: 500px;
+	max-height: 500px;
+	padding:0;
+	display:block;
+}
+
 form {
 	margin-top:1em;
 }

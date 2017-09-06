@@ -10,7 +10,7 @@
 
 <% @images.each do |image| %>
   <div class="row">
-  <div class="col-sm-3"><%= File.basename image.url %><br><br>
+  <div class="col-sm-2"><%= File.basename image.url %><br><br>
   <% if @image_label_set.bounding_box_mode %>
   <script type="text/javascript">
     <%  image.image_labels.select{ |il| (not il.target.nil?) }.each do |il| %>
@@ -33,10 +33,11 @@
     </table>
   <% end %>
   </div>
-  <div class="col-sm-2">
-    <img class="img-thumbnail" src="<%=image.url %>">
-    <svg id="overlay<%=image.id%>" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;">
-    </svg>
+  <div class="col-sm-8">
+    <div class="imtight">
+      <img class="bbthumbnail" src="<%=image.url %>">
+      <svg id="overlay<%=image.id%>" class="svgoverlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;"></svg>
+    </div>
   </div>
   </div>
   <br><br>

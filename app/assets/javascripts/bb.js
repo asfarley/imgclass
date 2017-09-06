@@ -57,10 +57,22 @@ function DrawBoundingBox(x,y,width,height,selected, classname, overlayElementId)
 {
   var svgns = "http://www.w3.org/2000/svg";
   var rect = document.createElementNS(svgns, 'rect');
-  rect.setAttributeNS(null, 'x', x);
-  rect.setAttributeNS(null, 'y', y);
-  rect.setAttributeNS(null, 'height', height.toString());
-  rect.setAttributeNS(null, 'width', width.toString());
+
+  //Map x,y,height,width to coordinates in normalized coordinates (0.0->1.0 for each dimension)
+  var overlayjq = $("#" + overlayElementId);
+  var imagejq = $("#" + overlayElementId).prev();
+  var x_scaled = x * imagejq.width();
+  var y_scaled = y * imagejq.height();
+  var width_scaled = width * imagejq.width();
+  var height_scaled = height * imagejq.height();
+
+  var viewbox = "0 0 " + imagejq.width().toString() + " " + imagejq.height().toString();
+  overlayjq.attr("viewbox",viewbox);
+
+  rect.setAttributeNS(null, 'x', x_scaled);
+  rect.setAttributeNS(null, 'y', y_scaled);
+  rect.setAttributeNS(null, 'height', height_scaled.toString());
+  rect.setAttributeNS(null, 'width', width_scaled.toString());
 
   var color = hashStringToColor(classname);
   rect.setAttributeNS(null, 'stroke', color);
@@ -78,8 +90,8 @@ function DrawBoundingBox(x,y,width,height,selected, classname, overlayElementId)
   document.getElementById(overlayElementId).appendChild(rect);
 
   var text = document.createElementNS(svgns, 'text');
-  text.setAttributeNS(null, 'x', x);
-  text.setAttributeNS(null, 'y', y);
+  text.setAttributeNS(null, 'x', x_scaled);
+  text.setAttributeNS(null, 'y', y_scaled);
   text.innerHTML = classname;
   document.getElementById(overlayElementId).appendChild(text);
 }
