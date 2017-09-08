@@ -8,9 +8,13 @@ class ImageLabelsController < ApplicationController
   end
 
   def next
-    @unlabeled = ImageLabel.where("label_id IS ?", nil).first
-    if @unlabeled.nil? then redirect_to action: "outofwork" end
-    @image_label_set = @unlabeled.image.image_label_set
+    @unlabeled = ImageLabel.where("target IS ?", nil).first
+    
+    if @unlabeled.nil?
+      redirect_to action: "outofwork"
+    else
+      @image_label_set = @unlabeled.image.image_label_set
+    end
   end
 
   def outofwork

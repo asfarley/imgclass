@@ -25,9 +25,13 @@ class JobsController < ApplicationController
 
   # GET /jobs/new
   def new
-    @job = Job.new
-    @job.image_label_set_id = @image_label_set.id
-    @job.user_id = current_user.id
+    if(current_user.nil?)
+      redirect_to action: "index"
+    else
+      @job = Job.new
+      @job.image_label_set_id = @image_label_set.id
+      @job.user_id = current_user.id
+    end
   end
 
   # GET /jobs/1/edit
