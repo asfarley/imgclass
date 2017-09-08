@@ -1,7 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-<%= javascript_include_tag "bb" %>
-
 <div class="container">
 
 <script type="text/javascript">
@@ -35,7 +33,7 @@
   </div>
   <div class="col-sm-8">
     <div class="imtight">
-      <img class="bbthumbnail" src="<%=image.url %>">
+      <img class="bbthumbnail" src="<%=image.url %>" onload="RedrawAllBoundingBoxes()">
       <svg id="overlay<%=image.id%>" class="svgoverlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;"></svg>
     </div>
   </div>

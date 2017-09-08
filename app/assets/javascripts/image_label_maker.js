@@ -149,14 +149,27 @@ function GetCoordinatesUp(e)
   RedrawBoundingBoxes(BoundingBoxes, 'overlay');
 }
 
-$(function() {
+function RedrawAllBoundingBoxes()
+{
+  if (typeof BoundingBoxesGroups !== 'undefined')
+  {
+      console.log("Drawing from BoundingBoxesGroups.");
+      BoundingBoxesGroups.forEach(function(item,index) {
+      console.log("Drawing box...");
+      RedrawBoundingBoxes(item.BoundingBoxes, item.overlayElementId);
+      console.log("Done.");
+    });
+  }
+}
+
+//$(function() {
+$(document).on("ready, turbolinks:load", function() {
   var mainimage = document.getElementById("mainimage");
   if(mainimage != null)
   {
     mainimage.onmousedown = GetCoordinatesDown;
     mainimage.onmouseup = GetCoordinatesUp;
   }
-
 
    var overlay = document.getElementById("overlay");
    if(overlay != null)
@@ -180,13 +193,4 @@ $(function() {
      UpdateBoundingBoxList();
      RedrawBoundingBoxes(BoundingBoxes, 'overlay');
    }
-
-   if (typeof BoundingBoxesGroups !== 'undefined')
-   {
-     BoundingBoxesGroups.forEach(function(item,index) {
-       RedrawBoundingBoxes(item.BoundingBoxes, item.overlayElementId);
-     });
-   }
-
-
 });
