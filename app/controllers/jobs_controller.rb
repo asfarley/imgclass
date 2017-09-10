@@ -42,6 +42,7 @@ class JobsController < ApplicationController
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
+    save_response = @job.save
     @job.image_label_set.images.each do |image|
       il = ImageLabel.new()
       #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
@@ -55,7 +56,7 @@ class JobsController < ApplicationController
     end
 
     respond_to do |format|
-      if @job.save
+      if save_response
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
