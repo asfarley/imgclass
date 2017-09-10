@@ -31,11 +31,11 @@ class Job < ActiveRecord::Base
 
   # Determine the percentage of images already classified by users.
   def percent_complete
-    totalImages = image_label_set.image_labels.count
+    totalImages = image_labels.count
     if totalImages == 0
       totalImages = 1;
     end
-    completeImages = image_label_set.labelledImagesCount()
+    completeImages = labelledImagesCount()
     pct = (completeImages.to_f/totalImages)*100.0
     pct.round(1)
   end
@@ -52,6 +52,10 @@ class Job < ActiveRecord::Base
       il.job_id = nil
       il.save
     end
+  end
+
+  def labelledImagesCount
+    image_labels.select{ |il| !(il.target.nil? and il.label.nil?) }.count
   end
 
 
