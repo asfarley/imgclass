@@ -24,7 +24,7 @@ class Job < ActiveRecord::Base
   # Determine the percentage of remaining images to be classified by users.
   def percent_remaining
     totalImages = image_labels.count
-    remainingImages = image_labels.select{ |il| il.label.nil? }
+    remainingImages = image_labels.count - labelledImagesCount()
     pct = (remainingImages.count.to_f/totalImages)*100.0
     pct.round(1)
   end
@@ -35,8 +35,8 @@ class Job < ActiveRecord::Base
     if totalImages == 0
       totalImages = 1;
     end
-    completeImages = image_label_set.image_labels.select{ |il| (il.label.nil? == false) }
-    pct = (completeImages.count.to_f/totalImages)*100.0
+    completeImages = image_label_set.labelledImagesCount()
+    pct = (completeImages.to_f/totalImages)*100.0
     pct.round(1)
   end
 

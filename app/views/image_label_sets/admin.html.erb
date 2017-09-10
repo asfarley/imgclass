@@ -17,7 +17,7 @@
     <td><%= job.id %></td>
     <td><%= User.find(job.user_id).email %>&nbsp;&nbsp;</td>
     <td><%= job.image_label_set.image_labels.count %></td>
-    <td><%= job.image_label_set.image_labels.select{ |il| (il.label.nil? == false) }.count %></thd>
+    <td><%= job.image_label_set.labelledImagesCount() %></thd>
     <td><%= job.percent_complete %></td>
     <td><%= job.percent_agreement %></td>
   </tr>

@@ -24,7 +24,8 @@ class ImageLabelSet < ActiveRecord::Base
 
   # Determine the percentage of unclassified images in this training set.
   def percent_remaining
-    num_unlabeled = image_labels.where(:label_id => nil).count
+    #num_unlabeled = image_labels.where(:label_id => nil).count
+    num_unlabeled = image_labels.count - labelledImagesCount()
     if(images.count > 0)
       percent_remaining = 100.0 * num_unlabeled.to_f / images.count
     else
@@ -43,8 +44,7 @@ class ImageLabelSet < ActiveRecord::Base
   # Determine the percentage of images which have been classified by users.
   def percentComplete
     totalImages = image_labels.count
-    labelledImages = image_labels.select{ |il| ! il.label.nil? }
-    pct = (labelledImages.count.to_f/totalImages)*100.0
+    pct = (labelledImagesCount()/totalImages)*100.0
     pct.round(1)
   end
 
@@ -107,6 +107,11 @@ class ImageLabelSet < ActiveRecord::Base
   def batchOfRemainingLabels(max)
     rem = remainingImageLabels
     rem[0..max]
+  end
+
+  def labelledImagesCount
+    labelledImages = image_labels.select{ |il| ! (il.label.nil? and il.target.nil?) }
+    return labelledImages.count
   end
 
 end
