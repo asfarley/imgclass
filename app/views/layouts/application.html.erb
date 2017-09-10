@@ -29,9 +29,22 @@
   </script>
   </head>
   <body>
-  <% if current_user %>
-    <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
-  <% end %>
+
+
+  <nav class="navbar navbar-default">
+     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       <% if current_user %>
+        <ul class="nav navbar-nav">
+          <li><%= link_to "ImageLabelSets", image_label_sets_url %></li>
+          <li><%= link_to "Jobs", jobs_url %></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+        </ul>
+      <% end %>
+    </div>
+  </nav>
+
   <div id="mainui">
   <h1>img<font color="grey">&thinsp;class</font></h1>
   <h2>batch image classification</h2>

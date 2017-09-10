@@ -39,6 +39,7 @@ class ImageLabelSetsController < ApplicationController
   def create
     @image_label_set = ImageLabelSet.new
     @image_label_set.bounding_box_mode = true
+    @image_label_set.name = params["name"]
     save_success = @image_label_set.save
 
     params["labels"].split(",").each do |l|
