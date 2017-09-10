@@ -91,22 +91,33 @@ function GetCoordinatesDown(e)
   var PosY = 0;
   var ImgPos;
   ImgPos = FindPosition(mainimage);
+  console.log(ImgPos);
   if (!e) var e = window.event;
-  if (e.pageX || e.pageY)
+  //if (e.pageX || e.pageY)
+  if(false)
   {
+    console.log("e.pageX || e.pageY");
+    console.log("e.pageX: " + e.pageX.toString())
+    console.log("e.pageY: " + e.pageY.toString())
     PosX = e.pageX;
     PosY = e.pageY;
   }
   else if (e.clientX || e.clientY)
     {
-      PosX = e.clientX + document.body.scrollLeft
-        + document.documentElement.scrollLeft;
-      PosY = e.clientY + document.body.scrollTop
-        + document.documentElement.scrollTop;
+      console.log("e.clientX || e.clientY");
+      console.log("e.clientX: " + e.clientX.toString())
+      console.log("e.clientY: " + e.clientY.toString())
+      PosX = e.clientX;// + document.body.scrollLeft
+        //+ document.documentElement.scrollLeft;
+      PosY = e.clientY; + document.body.scrollTop
+        //+ document.documentElement.scrollTop;
     }
 
   PosXDown =  Math.round(PosX - ImgPos[0]);
   PosYDown =  Math.round(PosY - ImgPos[1]);
+
+  console.log("PosXDown: " + PosXDown.toString())
+  console.log("PosYDown: " + PosYDown.toString())
 }
 
 function GetCoordinatesUp(e)
@@ -115,22 +126,33 @@ function GetCoordinatesUp(e)
   var PosY = 0;
   var ImgPos;
   ImgPos = FindPosition(mainimage);
+  console.log(ImgPos);
   if (!e) var e = window.event;
-  if (e.pageX || e.pageY)
+  //if (e.pageX || e.pageY)
+  if(false)
   {
+    console.log("e.pageX || e.pageY");
+    console.log("e.pageX: " + e.pageX.toString())
+    console.log("e.pageY: " + e.pageY.toString())
     PosX = e.pageX;
     PosY = e.pageY;
   }
   else if (e.clientX || e.clientY)
   {
-    PosX = e.clientX + document.body.scrollLeft
-      + document.documentElement.scrollLeft;
-    PosY = e.clientY + document.body.scrollTop
-      + document.documentElement.scrollTop;
+    console.log("e.clientX || e.clientY");
+    console.log("e.clientX: " + e.clientX.toString())
+    console.log("e.clientY: " + e.clientY.toString())
+    PosX = e.clientX;// + document.body.scrollLeft
+      //+ document.documentElement.scrollLeft;
+    PosY = e.clientY;// + document.body.scrollTop
+      //+ document.documentElement.scrollTop;
   }
 
   PosXUp = Math.round(PosX - ImgPos[0]);
   PosYUp = Math.round(PosY - ImgPos[1]);
+
+  console.log("PosXUp: " + PosXUp.toString())
+  console.log("PosYUp: " + PosYUp.toString())
 
   var height = Math.abs(PosYUp - PosYDown);
   var width = Math.abs(PosXUp - PosXDown);
