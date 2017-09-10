@@ -22,6 +22,14 @@ class Image < ActiveRecord::Base
     most_likely.nil? ? "Unknown" : most_likely.text
   end
 
+  def most_likely_bounding_boxes
+    targets = ImageLabel.where("image_id = ?", self.id).map{ |il| il.target }
+    #TODO: Replace below calculation with something similar for bounding boxes
+    #freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    most_likely = targets[0]
+    most_likely.nil? ? "Unknown" : most_likely
+  end
+
 
   # Attempt to determine the most-likely correct label/ground-truth for a
   # particular image despite potentially conflicting labels.

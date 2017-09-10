@@ -73,10 +73,19 @@ class ImageLabelSet < ActiveRecord::Base
     images.map{ |image| { "url" => File.basename(image.url), "label" => image.most_likely_label_text, "vector" => image.most_likely_label_onehot  } }
   end
 
+  def fileTargetBoundingBoxes
+    images.map{ |image| {"url" => File.basename(image.url), "target" => image.most_likely_bounding_boxes} }
+  end
+
   # Generate labels.txt file containing user class responses (ground truth) for a particular ImageLabelSet.
   def generateLabelsTextfile
-    downloadString = textfileHeader + "\r\n"
-    downloadString += fileLabelVectorTriples.inject("") {|textfileString,fileLabelVectorTriple| textfileString + "\"" + fileLabelVectorTriple["url"] + "\" " + fileLabelVectorTriple["label"] + " " + fileLabelVectorTriple["vector"] + "\r\n"}
+    downloadString = ""
+    if bounding_box_mode
+      downloadString += fileTargetBoundingBoxes.inject("") {|textfileString,targetBoundingBox| textfileString + "\"" + targetBoundingBox["url"] + "\" " + targetBoundingBox["target"] + "\n"}
+    else
+      downloadString += textfileHeader + "\r\n"
+      downloadString += fileLabelVectorTriples.inject("") {|textfileString,fileLabelVectorTriple| textfileString + "\"" + fileLabelVectorTriple["url"] + "\" " + fileLabelVectorTriple["label"] + " " + fileLabelVectorTriple["vector"] + "\n"}
+    end
     labelsPath = File.join(Rails.root, "tmp", "labels.txt")
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
     return labelsPath
