@@ -66,14 +66,17 @@ function ToggleBoundingBoxListElement()
 function UpdateBoundingBoxList()
 {
   var bblist = document.getElementById('bblist');
-  while (bblist.hasChildNodes()) {
-    bblist.removeChild(bblist.lastChild);
-  }
-   BoundingBoxes.forEach(insertBoundingBoxListElement);
+  if(bblist != null)
+  {
+    while (bblist.hasChildNodes()) {
+      bblist.removeChild(bblist.lastChild);
+    }
+     BoundingBoxes.forEach(insertBoundingBoxListElement);
 
-   var target = document.getElementById('target');
-   var serializedBoundingBoxes = SerializeBoundingBoxes();
-   target.setAttribute("value", serializedBoundingBoxes);
+     var target = document.getElementById('target');
+     var serializedBoundingBoxes = SerializeBoundingBoxes();
+     target.setAttribute("value", serializedBoundingBoxes);
+  }
 }
 
 function FindPosition(oElement)
