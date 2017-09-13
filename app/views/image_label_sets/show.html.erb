@@ -10,7 +10,7 @@
   <div class="row">
   <div class="col-sm-2"><%= File.basename image.url %><br><br>
   <% if @image_label_set.bounding_box_mode %>
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     <%  image.image_labels.select{ |il| (not il.target.nil?) }.each do |il| %>
       var BoundingBoxes<%=image.id%>_<%=il.id%>=<%=raw(il.target)%>;
       var BoundingBoxInfo<%=image.id%>_<%=il.id%> = {};
@@ -18,7 +18,7 @@
       BoundingBoxInfo<%=image.id%>_<%=il.id%>["BoundingBoxes"] = BoundingBoxes<%=image.id%>_<%=il.id%>;
       BoundingBoxesGroups.push(BoundingBoxInfo<%=image.id%>_<%=il.id%>);
     <% end %>
-  </script>
+  </script> -->
   <% else %>
     <%= image.most_likely_label_text %>
     <table class="table" >
@@ -32,10 +32,11 @@
   <% end %>
   </div>
   <div class="col-sm-8">
-    <div class="imtight">
-      <img class="bbthumbnail" src="<%=image.url %>" onload="RedrawAllBoundingBoxes()">
-      <svg id="overlay<%=image.id%>" class="svgoverlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;"></svg>
-    </div>
+    <%= render partial: "bbimage", locals: {image: image} %>
+     <!-- <div class="imtight">
+       <img class="bbthumbnail" src="<%=image.url %>" onload="RedrawAllBoundingBoxes()">
+       <svg id="overlay<%=image.id%>" class="svgoverlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;"></svg>
+     </div> -->
   </div>
   </div>
   <br><br>
