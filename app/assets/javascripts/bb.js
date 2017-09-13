@@ -44,9 +44,9 @@ function RedrawBoundingBoxes(BoundingBoxes,overlayElementId)
 {
   //Delete old rectangles
   var overlay = document.getElementById(overlayElementId)
-  while (overlay.hasChildNodes()) {
-    overlay.removeChild(overlay.lastChild);
-  }
+  // while (overlay.hasChildNodes()) {
+  //   overlay.removeChild(overlay.lastChild);
+  // }
 
   BoundingBoxes.forEach(function (item,index) {
     DrawEachBoundingBox(item,overlayElementId);

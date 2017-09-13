@@ -25,7 +25,20 @@ class Image < ActiveRecord::Base
   def most_likely_bounding_boxes
     targets = ImageLabel.where("image_id = ?", self.id).map{ |il| il.target }
     #TODO: Replace below calculation with something similar for bounding boxes
-    #freq = labels.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    #1. Transform targets in database strings into JSON objects
+    targetsJSON = targets.map{ |t| JSON.parse(t) }
+
+    #2. Calculate the number of objects of each type, in each target JSON object
+    #2.1 Identify all classes present in targets
+    byebug
+    #2.2 Calculate the number of each previously-identified object type
+
+    #3. Calculate the average number of object of each type in targets
+
+    #4. Compare each target against the average count
+
+    #5. Select the target nearest to the average
+
     most_likely = targets[0]
     most_likely.nil? ? "Unknown" : most_likely
   end
