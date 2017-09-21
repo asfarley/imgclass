@@ -1,0 +1,4 @@
+---
+- volumes: {}
+  static_ips: {}
+  vpc: {}

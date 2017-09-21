@@ -1,0 +1,4 @@
+-> create ImageLabelSet with an image/images
+-> as ImageLabelSet is created labels also get created from comma seperated values entered (classes label field from frontend)
+-> from admin create a job for this ImageLabelSet
+-> On creation of job ImageLabel will be created for each image on ImageLabelSet 

@@ -34,6 +34,7 @@ class JobsController < ApplicationController
       @job.image_label_set_id = @image_label_set.id
       @job.user_id = current_user.id
     end
+    
   end
 
   # GET /jobs/1/edit

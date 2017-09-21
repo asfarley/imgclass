@@ -1,0 +1,25 @@
+Your app is it in early phase. I am glad that you brought it to the right person at right time, as I know the application architecture and how to build application in optimized and scalable manner.
+
+I am expert in payment gateway integration, full-stack development i.e frontend + backend, server monitoring/scaling/deploying.
+So you will find a complete architect solution from me.
+
+Your app is not currently fluent. It just crashes anywhere.
+
+Secondly how was your app deployed to server. I don't see automated tools used.
+
+
+
+-get some unit tests written
+Currently there doesn't seem tests written for current code, except the default ones.
+I will build all, I am expert in it.
+
+-fix loose ends, UX issues, etc
+Please make a list for all the issues that you want to fix. I see that there are alot of loose ends.
+
+-ensure application is reliable
+please describe your expectations from the app, I will make sure it is reliable.
+
+-add safety checks at various points (make sure user doesn't upload more files than remaining server HDD space, etc)
+we will be monitoring server. As later on we will be moving to S3 so this is not a thing to worry about. Initially server has good enough space to handle alot of images.
+
+
