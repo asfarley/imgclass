@@ -67,20 +67,20 @@
   - !ruby/object:Rubber::Configuration::RoleItem
     name: web_tools
     options: {}
-  instance_id: i-0cab5871c8ee528ba
+  instance_id: i-0cd2e7dd81180ef1d
   image_type: m1.medium
   image_id: ami-20f71940
   security_groups:
   - default
   - web
   - web_tools
-  zone: us-west-2a
+  zone: us-west-2b
   network: 
   gateway: 
-  external_host: ec2-34-214-154-221.us-west-2.compute.amazonaws.com
-  external_ip: 34.214.154.221
-  internal_host: ip-172-31-16-28.us-west-2.compute.internal
-  internal_ip: 172.31.16.28
+  external_host: ec2-35-167-156-201.us-west-2.compute.amazonaws.com
+  external_ip: 35.167.156.201
+  internal_host: ip-172-31-38-69.us-west-2.compute.internal
+  internal_ip: 172.31.38.69
   provider: aws
   platform: linux
   root_device_type: ebs
