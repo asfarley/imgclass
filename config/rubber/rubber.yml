@@ -10,8 +10,8 @@ admin_email: "root@#{full_host}"
 
 # OPTIONAL: If not set, you won't be able to access web_tools
 # server (graphite, graylog, monit status, haproxy status, etc)
-# web_tools_user: admin
-# web_tools_password: sekret
+web_tools_user: admin
+web_tools_password: sekret
 
 # REQUIRED: The timezone the server should be in
 timezone: US/Eastern
@@ -121,8 +121,8 @@ cloud_providers:
     # Ubuntu 14.04.1 Trusty instance-store 64-bit: ami-92f569fa
     #
     # m1.small or m1.large or m1.xlarge
-    image_type: t2.micro
-    image_id: ami-d732f0b7
+    image_type: m1.medium
+    image_id: ami-20f71940
 
     # OPTIONAL: Provide fog-specific options directly.  This should only be used if you need a special setting that
     # Rubber does not directly expose.  Since these settings will be passed directly through to fog, we can't make any

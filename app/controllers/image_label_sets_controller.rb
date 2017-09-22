@@ -1,4 +1,4 @@
-fclass ImageLabelSetsController < ApplicationController
+class ImageLabelSetsController < ApplicationController
   before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin]
   require 'fileutils'
   require 'pathname'
