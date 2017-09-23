@@ -8,12 +8,20 @@ class ImageLabelsController < ApplicationController
   end
 
   def next
-    @unlabeled = ImageLabel.where("target IS ?", nil).first
-    
-    if @unlabeled.nil?
+    if current_user.nil?
+      redirect_to root_path
+    end
+
+    @unlabeled = ImageLabel.where("target IS ?", nil)
+    @unlabeled = @unlabeled.reject { |il|
+      (il.user != current_user)
+    }
+
+    @unlabeled_first = @unlabeled.first
+    if @unlabeled_first.nil?
       redirect_to action: "outofwork"
     else
-      @image_label_set = @unlabeled.image.image_label_set
+      @image_label_set = @unlabeled_first.image.image_label_set
     end
   end
 
