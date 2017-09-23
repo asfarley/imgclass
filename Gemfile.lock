@@ -45,6 +45,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
     byebug (9.1.0)
+    cancancan (2.0.0)
     carrierwave (1.1.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -203,6 +204,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   byebug
+  cancancan (~> 2.0)
   carrierwave
   coffee-rails (~> 4.1.0)
   devise

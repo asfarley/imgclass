@@ -88,7 +88,7 @@ class ImageLabelSetsController < ApplicationController
           i = Image.new
           new_path = images_folder_path + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
-          i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
+          i.url = "/images/#{@image_label_set.id}/" + uf.original_filename.to_s
           i.image_label_set_id = @image_label_set.id
           i.save
         end
