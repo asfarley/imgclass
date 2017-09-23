@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   resources :label_sets
   resources :images
   resources :image_sets
-  devise_for :admins
   devise_for :users
   #devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
