@@ -150,3 +150,8 @@ form {
 	margin:5em;
 	font-size:24px;
 }
+
+#jobstable {
+	border-spacing: 0px 5px;
+	border-collapse:separate;
+}
