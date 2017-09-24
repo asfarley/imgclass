@@ -43,7 +43,8 @@ class Job < ActiveRecord::Base
   # Determine the percentage agreement between this job and other jobs containing
   # the same images.
   def percent_agreement
-    100.0
+    sum = image_labels.inject(0) { |sum, il| sum + il.single_measure_agreement_against_competing_labels }
+    avg = sum / image_labels.count.to_f
   end
 
   # Clear all image labels in this job.

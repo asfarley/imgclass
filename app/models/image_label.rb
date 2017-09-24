@@ -13,7 +13,6 @@ class ImageLabel < ActiveRecord::Base
   belongs_to :job
   has_one :image_label_set, through: :image
 
-
   #Return other labels for the same image.
   #Used to compare the degree of similarity between different user's responses.
   def competing_image_labels
@@ -22,6 +21,9 @@ class ImageLabel < ActiveRecord::Base
 
   def to_object_count_hash
     count_hash = {}
+    if(target.nil?)
+      return {}
+    end
     json = JSON.parse(target)
     json.each do |bounding_box|
       if count_hash.key? bounding_box["classname"]
@@ -74,12 +76,14 @@ class ImageLabel < ActiveRecord::Base
 
   def single_measure_agreement_against_competing_labels
     match_hashes = match_against_competing_image_labels()
+    if(match_hashes.count < 1)
+      return 100.0
+    end
     match_percents = match_hashes.map{ |match_hash|
       match_on_each_class = match_hash.values
       return match_on_each_class.reduce(:+) / match_on_each_class.size.to_f
     }
     average = match_percents.reduce(:+) / match_percents.size.to_f
-    byebug
   end
 
 end
