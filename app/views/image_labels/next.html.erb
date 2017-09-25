@@ -12,8 +12,8 @@
   </div>
 </div>
 <div class="progress" style="width:500px;height:20px;">
-<div class="progress-bar" role="progressbar" aria-valuenow="<%= 100- (@unlabeled_first.image.image_label_set.percent_remaining/2) %>"
-aria-valuemin="0" aria-valuemax="100" style="width:<%= 100- (@unlabeled_first.image.image_label_set.percent_remaining/2) %>%">
+<div class="progress-bar" role="progressbar" aria-valuenow="<%= current_user.progress_percentage %>"
+aria-valuemin="0" aria-valuemax="100" style="width:<%= current_user.progress_percentage %>%">
   <span class="sr-only">70% Complete</span>
 </div>
 </div>
