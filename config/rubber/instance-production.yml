@@ -1,4 +1,105 @@
 ---
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: db01
+  domain: imgclass.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: db
+    options:
+      primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: postgresql
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: postgresql_master
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-052f47155b2464185
+  image_type: t2.micro
+  image_id: ami-d732f0b7
+  security_groups:
+  - default
+  zone: us-west-2a
+  network: 
+  gateway: 
+  external_host: ec2-34-212-128-224.us-west-2.compute.amazonaws.com
+  external_ip: 34.212.128.224
+  internal_host: ip-172-31-23-99.us-west-2.compute.internal
+  internal_ip: 172.31.23.99
+  provider: aws
+  platform: linux
+  root_device_type: ebs
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: app01
+  domain: imgclass.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: app
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: passenger
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: apache
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-0706553c4a5bb10f6
+  image_type: t2.micro
+  image_id: ami-d732f0b7
+  security_groups:
+  - default
+  zone: us-west-2a
+  network: 
+  gateway: 
+  external_host: ec2-52-32-141-44.us-west-2.compute.amazonaws.com
+  external_ip: 52.32.141.44
+  internal_host: ip-172-31-22-235.us-west-2.compute.internal
+  internal_ip: 172.31.22.235
+  provider: aws
+  platform: linux
+  root_device_type: ebs
+- !ruby/object:Rubber::Configuration::InstanceItem
+  name: web01
+  domain: imgclass.com
+  roles:
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: web
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: haproxy
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: collectd
+    options: {}
+  - !ruby/object:Rubber::Configuration::RoleItem
+    name: monit
+    options: {}
+  instance_id: i-07da7f5e963a76a8f
+  image_type: t2.micro
+  image_id: ami-d732f0b7
+  security_groups:
+  - default
+  - web
+  zone: us-west-2a
+  network: 
+  gateway: 
+  external_host: ec2-52-43-91-73.us-west-2.compute.amazonaws.com
+  external_ip: 52.43.91.73
+  internal_host: ip-172-31-16-154.us-west-2.compute.internal
+  internal_ip: 172.31.16.154
+  provider: aws
+  platform: linux
+  root_device_type: ebs
 - volumes: {}
   static_ips: {}
   vpc: {}
