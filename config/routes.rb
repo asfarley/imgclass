@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   get 'image_label_sets/makejob/:id' => 'image_label_sets#makejob'
   get 'image_label_sets/admin/:id' => 'image_label_sets#admin'
   get 'image_label_sets/download/:id' => 'image_label_sets#download'
@@ -15,9 +16,7 @@ Rails.application.routes.draw do
   resources :label_sets
   resources :images
   resources :image_sets
-  devise_for :admins
-  devise_for :users
-  #devise_for :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

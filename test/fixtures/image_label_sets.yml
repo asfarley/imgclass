@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  image_set_id: 
-  label_set_id: 
-  user_id: 
+  user: one
+  name: MyString
+  bouncing_box_mode: false
 
 two:
-  image_set_id: 
-  label_set_id: 
-  user_id: 
+  user: two
+  name: MyString
+  bouncing_box_mode: false

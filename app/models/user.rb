@@ -9,4 +9,6 @@ class User < ActiveRecord::Base
 
   has_many :image_label_sets
   has_many :jobs
+
+  enum gender: [:admin, :worker]
 end
