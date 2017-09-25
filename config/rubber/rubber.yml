@@ -58,9 +58,9 @@ cloud_providers:
 
     # REQUIRED The amazon keys and account ID (digits only, no dashes) used to access the AWS API
     #
-    access_key: AKIAJCJTTTDAOGGCTUZQ
-    secret_access_key: 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
-    account: 206539074866
+    access_key: ENV['access_key']
+    secret_access_key: ENV['secret_access_key']
+    account: ENV['account']
 
     # REQUIRED:  The name of the amazon keypair and location of its private key
     #

@@ -38,3 +38,4 @@ bower.json
 .byebug_history
 
 /public/images/*
+config/application.yml

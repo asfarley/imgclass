@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'byebug'
 
 gem 'pg'
+gem 'figaro'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', platforms: :ruby
 
