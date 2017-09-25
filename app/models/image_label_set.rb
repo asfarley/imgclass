@@ -91,6 +91,46 @@ class ImageLabelSet < ActiveRecord::Base
     return labelsPath
   end
 
+  def generateYoloTrainingFiles
+    #Delete old output folder if it exists
+    output_path = File.join(Rails.root, "tmp", "yolo_set")
+    FileUtils.rm_rf(output_path) if (File.exist?(output_path) && File.directory?(output_path))
+    Dir.mkdir(output_path)#Create temporary output folder
+    images.each do |image| #For each image
+      image_path = File.join(Rails.root, "public", image.url)
+      this_image_label = image.most_likely_bounding_boxes
+      basename = File.basename(image.url, ".*")
+      basename_with_ext = File.basename(image.url)
+      this_image_subfolder = File.join(output_path, basename)
+      Dir.mkdir(this_image_subfolder) # Create folder
+      #this_image_path = File.join(this_image_subfolder, basename_with_ext)
+      FileUtils.cp(image_path,this_image_subfolder) #Copy image
+      # Create textfile
+      this_image_label_path = File.join(this_image_subfolder, basename + ".txt")
+      File.write(this_image_label_path, toYoloFormat(this_image_label))
+    end
+    return output_path
+  end
+
+  def toYoloFormat(image_label_json)
+    yolo_format_string = ""
+    image_label_hashes = JSON.parse(image_label_json)
+    image_label_hashes.each do |bb_json|
+      class_int = classStringToInt(bb_json["classname"])
+      left = bb_json["x"].to_f.round(4)
+      top = bb_json["y"].to_f.round(4)
+      right = (left + bb_json["width"].to_f).round(4)
+      bottom = (top + bb_json["height"].to_f).round(4)
+      yolo_format_string += "#{class_int} #{left} #{top} #{right} #{bottom}\n"
+    end
+    return yolo_format_string
+  end
+
+  def classStringToInt(class_string)
+    class_list = labels.map{ |l| l.text }
+    int = class_list.find_index(class_string)
+  end
+
   # Generate the header (first line) of a textfile containing
   # ground-truth answers for an image set. The purpose of the first line
   # is to provide human-readable string mappings to the one-hot output

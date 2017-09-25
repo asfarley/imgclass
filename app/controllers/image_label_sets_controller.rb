@@ -6,6 +6,7 @@ class ImageLabelSetsController < ApplicationController
   require 'fastimage'
   require 'zip'
   require 'byebug'
+  require './app/lib/zipfilegenerator'
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -125,22 +126,24 @@ class ImageLabelSetsController < ApplicationController
 
   def download
     fileLabelsString=""
-    labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
-    input_filenames = Dir.entries(folder) - %w(. ..)
-    zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip")
+    #labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
+    yoloPath = ImageLabelSet.find(params[:id]).generateYoloTrainingFiles
+    #folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
+    #input_filenames = Dir.entries(folder) - %w(. ..)
+    zipfile_name = File.join(Rails.root, "tmp", "yolo_trainingset.zip")
     FileUtils.rm_rf(zipfile_name)
-    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      input_filenames.each do |filename|
+    zf = ZipFileGenerator.new(yoloPath, zipfile_name)
+    zf.write()
+    #Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      #input_filenames.each do |filename|
         # Two arguments:
         # - The name of the file as it will appear in the archive
         # - The original file, including the path to find it
-        zipfile.add(filename, folder + '/' + filename)
-      end
-      zipfile.add("labels.txt", labelsPath)
-    end
-
-    send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
+        #zipfile.add(filename, folder + '/' + filename)
+        #end
+      #zipfile.add("labels.txt", labelsPath)
+    #end
+    send_file zipfile_name, :filename => "yolo_trainingset.zip", disposition: 'attachment'
   end
 
   def assign

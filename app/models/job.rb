@@ -45,6 +45,7 @@ class Job < ActiveRecord::Base
   def percent_agreement
     sum = image_labels.inject(0) { |sum, il| sum + il.single_measure_agreement_against_competing_labels }
     avg = sum / image_labels.count.to_f
+    avg.round(1)
   end
 
   # Clear all image labels in this job.
