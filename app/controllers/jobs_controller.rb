@@ -52,7 +52,7 @@ class JobsController < ApplicationController
       #Assign user id to image label
       #Assign job to image
       il.job_id = @job.id
-      il.user_id = current_user.id
+      il.user_id = @job.user_id
       il.image = image
       il.save
     end

@@ -6,6 +6,7 @@ class ImageLabelSetsController < ApplicationController
   require 'fastimage'
   require 'zip'
   require 'byebug'
+  require './app/lib/zipfilegenerator'
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -88,7 +89,7 @@ class ImageLabelSetsController < ApplicationController
           i = Image.new
           new_path = images_folder_path + uf.original_filename.to_s
           FileUtils.mv(uf.tempfile.path, new_path)
-          i.url = "/images/#{image_set.id}/" + uf.original_filename.to_s
+          i.url = "/images/#{@image_label_set.id}/" + uf.original_filename.to_s
           i.image_label_set_id = @image_label_set.id
           i.save
         end
@@ -125,22 +126,24 @@ class ImageLabelSetsController < ApplicationController
 
   def download
     fileLabelsString=""
-    labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
-    input_filenames = Dir.entries(folder) - %w(. ..)
-    zipfile_name = File.join(Rails.root, "tmp", "trainingset.zip")
+    #labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
+    yoloPath = ImageLabelSet.find(params[:id]).generateYoloTrainingFiles
+    #folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
+    #input_filenames = Dir.entries(folder) - %w(. ..)
+    zipfile_name = File.join(Rails.root, "tmp", "yolo_trainingset.zip")
     FileUtils.rm_rf(zipfile_name)
-    Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      input_filenames.each do |filename|
+    zf = ZipFileGenerator.new(yoloPath, zipfile_name)
+    zf.write()
+    #Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+      #input_filenames.each do |filename|
         # Two arguments:
         # - The name of the file as it will appear in the archive
         # - The original file, including the path to find it
-        zipfile.add(filename, folder + '/' + filename)
-      end
-      zipfile.add("labels.txt", labelsPath)
-    end
-
-    send_file zipfile_name, :filename => "trainingset.zip", disposition: 'attachment'
+        #zipfile.add(filename, folder + '/' + filename)
+        #end
+      #zipfile.add("labels.txt", labelsPath)
+    #end
+    send_file zipfile_name, :filename => "yolo_trainingset.zip", disposition: 'attachment'
   end
 
   def assign

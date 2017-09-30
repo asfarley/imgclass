@@ -10,5 +10,30 @@ class User < ActiveRecord::Base
   has_many :image_label_sets
   has_many :jobs
 
-  enum gender: [:admin, :worker]
+  def remaining_work_items
+    il_total = 0
+    jobs.each do |job|
+      il_total += (job.image_labels.select{ |il| il.target.nil? }).count
+    end
+    return il_total
+  end
+
+  def total_work_items
+    il_total = 0
+    jobs.each do |job|
+      il_total += job.image_labels.count
+    end
+    return il_total
+  end
+
+  def progress_percentage
+    total = total_work_items()
+    if (total == 0)
+      total = 1 #Prevent division by zero
+    end
+    remaining = remaining_work_items()
+    percent_remaining = 100.0*(remaining.to_f/total.to_f)
+    percent_progress = 100.0 - percent_remaining
+  end
+
 end

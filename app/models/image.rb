@@ -30,7 +30,7 @@ class Image < ActiveRecord::Base
 
     #2. Calculate the number of objects of each type, in each target JSON object
     #2.1 Identify all classes present in targets
-    byebug
+    #byebug
     #2.2 Calculate the number of each previously-identified object type
 
     #3. Calculate the average number of object of each type in targets

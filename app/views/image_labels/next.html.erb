@@ -1,7 +1,7 @@
 
 <div id="imgframe">
   <div id="imgtight">
-    <img class="img-responsive" id="mainimage" src="<%= @unlabeled.image.url %>" draggable="false">
+    <img class="img-responsive" id="mainimage" src="<%= @unlabeled_first.image.url %>" draggable="false">
     <svg id="overlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;">
     </svg>
   </div>
@@ -12,16 +12,16 @@
   </div>
 </div>
 <div class="progress" style="width:500px;height:20px;">
-<div class="progress-bar" role="progressbar" aria-valuenow="<%= 100- (@unlabeled.image.image_label_set.percent_remaining/2) %>"
-aria-valuemin="0" aria-valuemax="100" style="width:<%= 100- (@unlabeled.image.image_label_set.percent_remaining/2) %>%">
+<div class="progress-bar" role="progressbar" aria-valuenow="<%= current_user.progress_percentage %>"
+aria-valuemin="0" aria-valuemax="100" style="width:<%= current_user.progress_percentage %>%">
   <span class="sr-only">70% Complete</span>
 </div>
 </div>
 <% if @image_label_set.bounding_box_mode %>
 <div id="radiocontainer" class="container" style="width:500px;">
-  <%= form_for @unlabeled do |f| %>
+  <%= form_for @unlabeled_first do |f| %>
   <div class="row">
-    <% @unlabeled.image.image_label_set.labels.each do |label| %>
+    <% @unlabeled_first.image.image_label_set.labels.each do |label| %>
     <div class="col-sm-4">
         <input value="<%= label.text %>" name="classname" type="radio" >
         <%= label.text %>
@@ -35,9 +35,9 @@ aria-valuemin="0" aria-valuemax="100" style="width:<%= 100- (@unlabeled.image.im
 </div>
 <% else %>
 <div id="btncontainer" class="container" width="500px;">
-  <%= form_for @unlabeled do |f| %>
+  <%= form_for @unlabeled_first do |f| %>
   <div class="row">
-    <% @unlabeled.image.image_label_set.labels.each do |label| %>
+    <% @unlabeled_first.image.image_label_set.labels.each do |label| %>
     <div class="col-sm-4">
         <button value="<%= label.id %>" name="label_id" type="submit" class="btn btn-default btn-lg btn-block"><%= label.text %></button>
       </div>

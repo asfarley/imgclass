@@ -10,42 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925211740) do
+ActiveRecord::Schema.define(version: 20170923193620) do
 
   create_table "image_label_sets", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "name"
-    t.boolean  "bounding_box_mode"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.boolean  "bounding_box_mode"
+    t.string   "name"
     t.index ["user_id"], name: "index_image_label_sets_on_user_id"
   end
 
   create_table "image_labels", force: :cascade do |t|
-    t.integer  "label_id"
     t.integer  "image_id"
+    t.integer  "label_id"
     t.integer  "user_id"
-    t.integer  "job_id"
-    t.string   "target"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "job_id"
+    t.string   "target"
     t.index ["image_id"], name: "index_image_labels_on_image_id"
-    t.index ["job_id"], name: "index_image_labels_on_job_id"
     t.index ["label_id"], name: "index_image_labels_on_label_id"
     t.index ["user_id"], name: "index_image_labels_on_user_id"
   end
 
   create_table "images", force: :cascade do |t|
-    t.integer  "image_label_set_id"
     t.string   "url"
+    t.integer  "image_label_set_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["image_label_set_id"], name: "index_images_on_image_label_set_id"
   end
 
   create_table "jobs", force: :cascade do |t|
-    t.integer  "user_id"
     t.integer  "image_label_set_id"
+    t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["image_label_set_id"], name: "index_jobs_on_image_label_set_id"
@@ -53,8 +52,8 @@ ActiveRecord::Schema.define(version: 20170925211740) do
   end
 
   create_table "labels", force: :cascade do |t|
-    t.integer  "image_label_set_id"
     t.string   "text"
+    t.integer  "image_label_set_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["image_label_set_id"], name: "index_labels_on_image_label_set_id"
@@ -65,7 +64,6 @@ ActiveRecord::Schema.define(version: 20170925211740) do
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.integer  "role"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
@@ -74,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170925211740) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "roles"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

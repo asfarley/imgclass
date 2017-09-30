@@ -35,11 +35,13 @@
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <% if current_user %>
         <ul class="nav navbar-nav">
-          <% if current_user.role == "admin" %>
-            <li><%= link_to "ImageLabelSets", image_label_sets_url %></li>
-            <li><%= link_to "Jobs", jobs_url %></li>
+          <% if (not current_user.roles.nil?) %>
+            <% if current_user.roles.include? "admin" %>
+              <li><%= link_to "ImageLabelSets", image_label_sets_url %></li>
+              <li><%= link_to "Jobs", jobs_url %></li>
+              <li><%= link_to "ImageLabels", image_labels_url %></li>
             <% end %>
-          <li><%= link_to "ImageLabels", image_labels_url %></li>
+          <% end %>
           <li><%= link_to "Next", {controller:"image_labels", action: "next"} %></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
