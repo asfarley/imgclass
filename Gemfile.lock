@@ -56,7 +56,7 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.12.2)
+    coffee-script-source (1.8.0)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.3)
     devise (4.3.0)
@@ -207,6 +207,7 @@ DEPENDENCIES
   cancancan (~> 2.0)
   carrierwave
   coffee-rails (~> 4.1.0)
+  coffee-script-source (= 1.8.0)
   devise
   fastimage
   jbuilder (~> 2.0)
