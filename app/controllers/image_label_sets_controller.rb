@@ -56,8 +56,15 @@ class ImageLabelSetsController < ApplicationController
     accepted_formats = [".jpg", ".png", ".bmp"]
 
     params["upload"].each do |uf|
-      #Check if zipfile or raw images
-      if (File.extname(uf.tempfile.path)==".zip")
+      #Check if zipfile, raw images or URL textfile
+      if (File.extname(uf.tempfile.path)==".txt")
+        File.readlines(uf.tempfile.path).each do |line|
+          i = Image.new
+          i.url = line
+          i.image_label_set_id = @image_label_set.id
+          i.save
+        end
+      elsif (File.extname(uf.tempfile.path)==".zip")
         Zip::File.open(uf.tempfile.path) do |zipfile|
         zipfile.each do |file|
           if(file.ftype == :file)
