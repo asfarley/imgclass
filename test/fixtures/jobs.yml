@@ -1,9 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  image_label_set_id: 
-  user_id: 
+  image_label_set_id: 0
+  user_id: 1
 
 two:
-  image_label_set_id: 
-  user_id: 
+  image_label_set_id: 0
+  user_id: 2

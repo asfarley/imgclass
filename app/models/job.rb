@@ -4,7 +4,7 @@
 # 2) Provide a mechanism for redundantly classifying images in a particular ImageLabelSet in order to guage agreement
 #    between users' label responses.
 
-class Job < ActiveRecord::Base
+class Job < ApplicationRecord
   belongs_to :image_label_set
   belongs_to :user
   has_many :image_labels

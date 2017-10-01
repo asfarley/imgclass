@@ -7,7 +7,7 @@
 # provides the functionality for flagging incorrectly-labelled images and for determining
 # the most-likely label for a particular image in the case of conflicting labels.
 
-class ImageLabelSet < ActiveRecord::Base
+class ImageLabelSet < ApplicationRecord
   require 'fileutils'
   belongs_to :user
   has_many :jobs

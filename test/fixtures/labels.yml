@@ -1,9 +1,7 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  text: Car
+  image_label_set_id: 0
 
 one:
-  text: MyString
-  label_set_id: 
-
-two:
-  text: MyString
-  label_set_id: 
+  text: Truck
+  image_label_set_id: 0

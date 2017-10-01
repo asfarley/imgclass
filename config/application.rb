@@ -20,10 +20,7 @@ module Imgclass
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     config.x.image_upload.mindimension = 0
-
     config.public_file_server.enabled = true
 
     config.autoload_paths += Dir["#{config.root}/lib/**/"]

@@ -1,7 +1,7 @@
 ## The User class represents workers who will perform image classification and labelling.
 # Users may classify images; they cannot create new image sets or assign jobs to other users.
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

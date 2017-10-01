@@ -1,9 +1,23 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+image_one:
+  url: '/images/test/0000.jpg'
+  image_label_set_id: 0
 
-one:
-  url: MyString
-  image_set_id: 
+image_two:
+  url: '/images/test/0001.jpg'
+  image_label_set_id: 0
 
-two:
-  url: MyString
-  image_set_id: 
+image_three:
+  url: '/images/test/0002.jpg'
+  image_label_set_id: 0
+
+image_four:
+  url: '/images/test/0003.jpg'
+  image_label_set_id: 0
+
+image_five:
+  url: '/images/test/0004.jpg'
+  image_label_set_id: 0
+
+image_size:
+  url: '/images/test/0005.jpg'
+  image_label_set_id: 0

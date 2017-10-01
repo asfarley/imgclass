@@ -6,7 +6,7 @@
 # (one-hot vector output) or a more generic string representation
 # capable of storing bounding-box lists.
 
-class ImageLabel < ActiveRecord::Base
+class ImageLabel < ApplicationRecord
   belongs_to :image
   belongs_to :label
   belongs_to :user
