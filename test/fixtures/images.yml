@@ -1,23 +1,15 @@
 image_one:
-  url: '/images/test/0000.jpg'
+  url: 'https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0000.jpg'
   image_label_set_id: 0
 
 image_two:
-  url: '/images/test/0001.jpg'
+  url: 'https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg'
   image_label_set_id: 0
 
 image_three:
-  url: '/images/test/0002.jpg'
+  url: 'https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/00010.jpg'
   image_label_set_id: 0
 
 image_four:
-  url: '/images/test/0003.jpg'
-  image_label_set_id: 0
-
-image_five:
-  url: '/images/test/0004.jpg'
-  image_label_set_id: 0
-
-image_size:
-  url: '/images/test/0005.jpg'
+  url: 'https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001000.jpg'
   image_label_set_id: 0
