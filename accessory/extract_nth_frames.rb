@@ -4,10 +4,15 @@
 # Every Nth frame is exported to the location ./Frames (relative to this script) where
 # the parameter N is passed as a command-line argument.
 #
+# Example usage: 
+# ruby extract_nth_frames.rb . .
+#
 # Alexander Farley
 # 2017-08-20
 require 'fileutils'
 require 'pry'
+
+FRAMES_PER_VIDEO = 1000
 
 #Parse command-line arguments
 if (ARGV.count < 2)
@@ -51,12 +56,12 @@ export_movie_index = 0
 movie_files.each do |movie_path|
 	if force_yes
 		puts "Exporting from #{movie_path}"
-		`ffmpeg -i "#{movie_path}" -vframes 100 -r #{export_framerate} #{out_directory}/#{export_movie_index}_%03d.jpg`
+		`ffmpeg -i "#{movie_path}" -vframes #{FRAMES_PER_VIDEO} -r #{export_framerate} #{out_directory}/#{export_movie_index}_%03d.jpg`
 	else
 		puts "Export frames from #{movie_path}?"
 		ans = STDIN.gets
 		if ans.downcase.include? "y"
-			`ffmpeg -i "#{movie_path}" -vframes 100 -r #{export_framerate} #{out_directory}/#{export_movie_index}_%03d.jpg`
+			`ffmpeg -i "#{movie_path}" -vframes #{FRAMES_PER_VIDEO} -r #{export_framerate} #{out_directory}/#{export_movie_index}_%03d.jpg`
 		end
 	end	
 	export_movie_index += 1
