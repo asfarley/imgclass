@@ -177,7 +177,7 @@ class ImageLabelSet < ApplicationRecord
 
   def downloadImageToPath(url,path)
     path_filtered = path.delete('\n')
-    uri = URI.parse(URI.encode(url.strip))
+    uri = URI.parse(URI.encode(url))
     open(path_filtered, 'wb') do |file|
       file << open(uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
     end
