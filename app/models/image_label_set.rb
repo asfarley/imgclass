@@ -98,7 +98,8 @@ class ImageLabelSet < ApplicationRecord
     logger.debug("Removing old output folder if it exists...")
     if (File.exist?(output_path) && File.directory?(output_path))
       logger.debug("Old folder found, rm_rf called...")
-      FileUtils.rm_rf(output_path)
+      result = FileUtils.rm_rf(output_path, :verbose => true)
+      logger.debug("rm_rf result: #{result}")
     end
     logger.debug("Creating new output folder")
     Dir.mkdir(output_path)#Create temporary output folder
@@ -119,7 +120,9 @@ class ImageLabelSet < ApplicationRecord
       # Create textfile
       this_image_label_path = File.join(this_image_subfolder, basename + ".txt")
       this_image_label = image.most_likely_bounding_boxes
-      f = File.write(this_image_label_path, toYoloFormat(this_image_label))
+      File.open(this_image_label_path, 'w') do |f|
+        f.write(toYoloFormat(this_image_label))
+      end
     end
     return output_path
   end
@@ -176,9 +179,13 @@ class ImageLabelSet < ApplicationRecord
   end
 
   def downloadImageToPath(url,path)
-    path_filtered = path.delete('\n')
+    path_filtered = path.delete("\n")
+    if(url[-1] == "\n")
+      url.chop!
+    end
     uri = URI.parse(URI.encode(url))
     open(path_filtered, 'wb') do |file|
+      logger.debug("URI: #{uri}")
       file << open(uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
     end
   end
