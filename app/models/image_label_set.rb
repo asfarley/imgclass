@@ -9,6 +9,7 @@
 
 class ImageLabelSet < ApplicationRecord
   require 'fileutils'
+  require 'open-uri'
   belongs_to :user
   has_many :jobs
   has_many :images
@@ -94,20 +95,31 @@ class ImageLabelSet < ApplicationRecord
   def generateYoloTrainingFiles
     #Delete old output folder if it exists
     output_path = File.join(Rails.root, "tmp", "yolo_set")
-    FileUtils.rm_rf(output_path) if (File.exist?(output_path) && File.directory?(output_path))
+    logger.debug("Removing old output folder if it exists...")
+    if (File.exist?(output_path) && File.directory?(output_path))
+      logger.debug("Old folder found, rm_rf called...")
+      FileUtils.rm_rf(output_path)
+    end
+    logger.debug("Creating new output folder")
     Dir.mkdir(output_path)#Create temporary output folder
     images.each do |image| #For each image
-      image_path = File.join(Rails.root, "public", image.url)
-      this_image_label = image.most_likely_bounding_boxes
+
       basename = File.basename(image.url, ".*")
       basename_with_ext = File.basename(image.url)
       this_image_subfolder = File.join(output_path, basename)
       Dir.mkdir(this_image_subfolder) # Create folder
-      #this_image_path = File.join(this_image_subfolder, basename_with_ext)
-      FileUtils.cp(image_path,this_image_subfolder) #Copy image
+
+      if (image.url.include? "http")
+        downloadImageToPath(image.url,File.join(this_image_subfolder,basename_with_ext))
+      else
+        image_path = File.join(Rails.root, "public", image.url)
+        FileUtils.cp(image_path,this_image_subfolder) #Copy image
+      end
+
       # Create textfile
       this_image_label_path = File.join(this_image_subfolder, basename + ".txt")
-      File.write(this_image_label_path, toYoloFormat(this_image_label))
+      this_image_label = image.most_likely_bounding_boxes
+      f = File.write(this_image_label_path, toYoloFormat(this_image_label))
     end
     return output_path
   end
@@ -161,6 +173,14 @@ class ImageLabelSet < ApplicationRecord
   def labelledImagesCount
     labelledImages = image_labels.select{ |il| ! (il.label.nil? and il.target.nil?) }
     return labelledImages.count
+  end
+
+  def downloadImageToPath(url,path)
+    path_filtered = path.delete("\n")
+    url_filtered = url.delete("\n")
+    open(path_filtered, 'wb') do |file|
+      file << open(url_filtered, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
+    end
   end
 
 end
