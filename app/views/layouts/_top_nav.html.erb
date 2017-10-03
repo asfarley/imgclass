@@ -16,6 +16,10 @@
         <li><%= link_to "ImageLabels", image_labels_url %></li>
         <li><%= link_to "Next", {controller:"image_labels", action: "next"} %></li>
       </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+      </ul>
     </div>
   </div>
 </nav>

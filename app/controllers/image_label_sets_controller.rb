@@ -60,7 +60,7 @@ class ImageLabelSetsController < ApplicationController
       if (File.extname(uf.tempfile.path)==".txt")
         File.readlines(uf.tempfile.path).each do |line|
           i = Image.new
-          i.url = line
+          i.url = line.strip
           i.image_label_set_id = @image_label_set.id
           i.save
         end
