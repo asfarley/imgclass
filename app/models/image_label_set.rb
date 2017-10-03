@@ -190,4 +190,16 @@ class ImageLabelSet < ApplicationRecord
     end
   end
 
+  def assignmentCoverageBinaryVector
+    #For each image, map to a boolean: has this image been assigned in a job?
+    images.map { |image| (image.image_labels.count > 0) }
+  end
+
+  def completionCoverageBinaryVector
+    #For each images, map to a boolean: has this image been labelled?
+    images.map { |image|
+      (image.image_labels.select{ |il| (not il.target.nil?) }.count > 0)
+    }
+  end
+
 end

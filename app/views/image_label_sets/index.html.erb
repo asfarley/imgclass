@@ -12,21 +12,21 @@
           <% end %>
         </span>
       </div>
-      
+
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
         <a href="<%= image_label_set_path(image_label_set.id) %>">
           <button type="button" class="btn btn-default">View</button>
         </a>
       </div>
-    
+
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
         <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
           <button type="button" class="btn btn-danger">Destroy</button>
         <% end %>
       </div>
-    
+
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
         <% if image_label_set.isComplete? %>
@@ -37,7 +37,7 @@
           <button type="button" class="btn btn-default disabled">Download</button>
         <% end %>
       </div>
-    
+
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
         <%= link_to ({:controller => "image_label_sets", :action => "admin", :id => image_label_set.id}) do %>
@@ -45,6 +45,23 @@
         <% end %>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        Assignment coverage:
+        <canvas class="completion" height="30" id="assignmentCoverage<%= image_label_set.id %>"></canvas>
+
+        Completion coverage:
+        <canvas class="completion" height="30" id="completionCoverage<%= image_label_set.id %>"></canvas>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var assignmentCoverage<%= image_label_set.id %> = <%= image_label_set.assignmentCoverageBinaryVector.to_json %>;
+      var completionCoverage<%= image_label_set.id %> = <%= image_label_set.completionCoverageBinaryVector.to_json %>;
+      renderCoverage(assignmentCoverage<%= image_label_set.id %>, 'assignmentCoverage<%= image_label_set.id %>',  "#AA0000", "#FFDDDD", 1, 20);
+      renderCoverage(completionCoverage<%= image_label_set.id %>, 'completionCoverage<%= image_label_set.id %>',  "#0000AA", "#DDDDFF", 1, 20)
+    </script>
+
     <br><br>
   <% end %>
 
