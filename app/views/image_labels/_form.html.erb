@@ -1,29 +1,31 @@
-<%= form_for(@image_label) do |f| %>
-  <% if @image_label.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@image_label.errors.count, "error") %> prohibited this image_label from being saved:</h2>
+<div class="panel">
+  <%= form_for(@image_label) do |f| %>
+    <% if @image_label.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@image_label.errors.count, "error") %> prohibited this image_label from being saved:</h2>
 
-      <ul>
-      <% @image_label.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @image_label.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :image_id %><br>
+      <%= f.text_field :image_id, :class => "form-control" %>
+    </div>
+    <div class="field">
+      <%= f.label :label_id %><br>
+      <%= f.text_field :label_id, :class => "form-control" %>
+    </div>
+    <div class="field">
+      <%= f.label :user_id %><br>
+      <%= f.text_field :user_id, :class => "form-control" %>
+    </div>
+    <div class="actions">
+      <%= f.submit nil, :class => "btn btn-primary" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :image_id %><br>
-    <%= f.text_field :image_id %>
-  </div>
-  <div class="field">
-    <%= f.label :label_id %><br>
-    <%= f.text_field :label_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

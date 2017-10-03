@@ -1,26 +1,27 @@
 <p id="notice"><%= notice %></p>
 
 <div class="container">
-<h1>Jobs</h1>
+  <h1>Jobs</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Image label set</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Image label set</th>
+          <th>User</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @jobs.each do |job| %>
-      <tr>
-        <td><%= job.image_label_set.name %></td>
-        <td><%= job.user.email %></td>
-        <td><%= link_to 'Start Labeling', job %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+      <tbody>
+        <% @jobs.each do |job| %>
+          <tr>
+            <td><%= job.image_label_set.name %></td>
+            <td><%= job.user.email %></td>
+            <td><%= link_to 'Start Labeling', job %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

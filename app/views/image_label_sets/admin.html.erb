@@ -2,8 +2,8 @@
 
 <div class="container">
 <h2>Jobs</h2>
-<br><br>
-<table id="jobstable">
+  <div class="table-responsive">
+<table class="table">
   <tr>
     <th>ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
     <th>Assigned to:&nbsp;&nbsp;</th>
@@ -28,6 +28,7 @@
   </tr>
 <% end %>
 </table>
-<br>
-<%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id)%>
+  </div>
+
+  <%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
 </div>

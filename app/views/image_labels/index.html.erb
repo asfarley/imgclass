@@ -2,30 +2,32 @@
 
 <h1>Listing Image Labels</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Image</th>
-      <th>Label</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @image_labels.each do |image_label| %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= image_label.image %></td>
-        <td><%= image_label.label %></td>
-        <td><%= image_label.user %></td>
-        <td><%= link_to 'Show', image_label %></td>
-        <td><%= link_to 'Edit', edit_image_label_path(image_label) %></td>
-        <td><%= link_to 'Destroy', image_label, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Image</th>
+        <th>Label</th>
+        <th>User</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @image_labels.each do |image_label| %>
+        <tr>
+          <td><%= image_label.image %></td>
+          <td><%= image_label.label %></td>
+          <td><%= image_label.user %></td>
+          <td><%= link_to 'Show', image_label %></td>
+          <td><%= link_to 'Edit', edit_image_label_path(image_label) %></td>
+          <td><%= link_to 'Destroy', image_label, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
-<%= link_to 'New Image label', new_image_label_path %>
+<%= link_to 'New Image label', new_image_label_path, class: "btn btn-primary" %>

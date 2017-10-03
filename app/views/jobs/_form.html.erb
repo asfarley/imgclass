@@ -1,3 +1,4 @@
+<div class="panel">
 <%= form_for(@job) do |f| %>
   <% if @job.errors.any? %>
     <div id="error_explanation">
@@ -12,14 +13,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :image_label_set_id %><br>
-    <%= f.text_field :image_label_set_id, :readonly => true %>
+      <%= f.label :image_label_set_id %>
+      <%= f.text_field :image_label_set_id, :readonly => true, :class => "form-control" %>
   </div>
   <div class="field">
     <%= f.label "Assigned worker:" %><br>
-    <%= f.select :user_id, User.all.map{ |u| [u.email, u.id] } %>
+    <%= f.select :user_id, User.all.map{ |u| [u.email, u.id] }, :class => "form-control" %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit nil, :class => "btn btn-primary" %>
   </div>
 <% end %>
+</div>

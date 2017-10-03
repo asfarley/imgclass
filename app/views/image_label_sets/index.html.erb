@@ -4,33 +4,57 @@
 
   <% @image_label_sets.each do |image_label_set| %>
     <div class="row">
-    <div class="col-sm-3"><b><%= image_label_set.name %></b><span class="small"> (x<%= image_label_set.images.count %> images)<br>
-      <% image_label_set.labels.each_with_index do |label,index| %>
-      <%= label.text %><%= (index == image_label_set.labels.count - 1)? '' : ',' %>
-      <% end %>
-    </span></div>
-    <div class="col-sm-1"><a href="<%= image_label_set_path(image_label_set.id) %>"><button type="button" class="btn btn-default">View</button></a></div>
-    <div class="col-sm-1">
-      <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
-        <button type="button" class="btn btn-danger">Destroy</button>
-      <% end %>
-    </div>
-    <div class="col-sm-1">
-      <% if image_label_set.isComplete? %>
-      <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
-      <button type="button" class="btn btn-default">Download</button>
-      <% end %>
-      <% else %>
-      <button type="button" class="btn btn-default disabled">Download</button>
-      <% end %>
-    </div>
-    <div class="col-sm-1"><%= link_to ({:controller => "image_label_sets", :action => "admin", :id => image_label_set.id}) do %><button type="button" class="btn btn-default btn-success">Admin</button><% end %></div>
+      <div class="col-sm-3">
+        <b><%= image_label_set.name %></b>
+        <span class="small"> (x<%= image_label_set.images.count %> images)<br>
+          <% image_label_set.labels.each_with_index do |label,index| %>
+            <%= label.text %><%= (index == image_label_set.labels.count - 1)? '' : ',' %>
+          <% end %>
+        </span>
+      </div>
+      
+      <!-- <div class="col-sm-1"> -->
+      <div class="pull-left">
+        <a href="<%= image_label_set_path(image_label_set.id) %>">
+          <button type="button" class="btn btn-default">View</button>
+        </a>
+      </div>
+    
+      <!-- <div class="col-sm-1"> -->
+      <div class="pull-left">
+        <%= link_to image_label_set, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <button type="button" class="btn btn-danger">Destroy</button>
+        <% end %>
+      </div>
+    
+      <!-- <div class="col-sm-1"> -->
+      <div class="pull-left">
+        <% if image_label_set.isComplete? %>
+          <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
+            <button type="button" class="btn btn-default">Download</button>
+          <% end %>
+        <% else %>
+          <button type="button" class="btn btn-default disabled">Download</button>
+        <% end %>
+      </div>
+    
+      <!-- <div class="col-sm-1"> -->
+      <div class="pull-left">
+        <%= link_to ({:controller => "image_label_sets", :action => "admin", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success">Admin</button>
+        <% end %>
+      </div>
     </div>
     <br><br>
   <% end %>
 
-<div class="row">
-<div class="col-sm-3">Upload new set</div><div class="col-sm-1"><a href="<%= new_image_label_set_path %>"><button id="view1" type="button" class="btn btn-primary btn-block">Upload</button></a></div>
-</div>
+  <div class="row">
+    <div class="col-sm-3">Upload new set</div>
+    <div class="col-sm-1">
+      <a href="<%= new_image_label_set_path %>">
+        <button id="view1" type="button" class="btn btn-primary btn-block">Upload</button>
+      </a>
+    </div>
+  </div>
 
 </div>

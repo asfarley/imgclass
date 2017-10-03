@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>imgclass</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
@@ -30,7 +31,8 @@
   </head>
   <body>
 
-
+<%
+=begin%>
   <nav class="navbar navbar-default">
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <% if current_user %>
@@ -50,13 +52,20 @@
       <% end %>
     </div>
   </nav>
+<%
+=end%>
 
-  <div id="mainui">
-  <h1>img<font color="grey">&thinsp;class</font></h1>
-  <h2>batch image classification</h2>
-  <h2>================================</h2>
-  <br><br>
-  <%= yield %>
+  <%= render partial: "layouts/top_nav" if user_signed_in? %>
+
+  <!-- <div id="mainui"> -->
+  <div class="container">
+    <div class="panel" style="text-align: center">
+      <h1>img<font color="grey">&thinsp;class</font></h1>
+      <h2>batch image classification</h2>
+      <h2>================================</h2>
+      <br><br>
+    </div>
+    <%= yield %>
   </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>

@@ -1,41 +1,53 @@
-<%= form_for @image_label_set, html: {multipart: true } do |f| %>
-  <% if @image_label_set.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@image_label_set.errors.count, "error") %> prohibited this image_label_set from being saved:</h2>
+<div class="panel">
+  <%= form_for @image_label_set, html: {multipart: true } do |f| %>
+    <% if @image_label_set.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@image_label_set.errors.count, "error") %> prohibited this image_label_set from being saved:</h2>
 
-      <ul>
-      <% @image_label_set.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @image_label_set.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">(1) Select your URL file, images or zip file</div>
+        <div class="col-sm-2">
+          <span class="btn btn-default btn-file">
+            Select Images<%= file_field_tag 'upload[]', :multiple => true %>
+          </span>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="col-sm-4">(2) Choose your classes <br> e.g. cars, people, other </div>
+        <div class="col-sm-3"> 
+          <input type="text" class="form-control" placeholder="Classes" name="labels">
+        </div>
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="col-sm-4">(3) Name this training set </div>
+        <div class="col-sm-3"> 
+          <input type="text" class="form-control" placeholder="Name" name="name">
+        </div>
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="col-sm-4">(3) Upload </div>
+        <div class="col-sm-3">
+          <span class="actions">
+            <%= submit_tag "Upload", class: "btn btn-default" %>
+          </span>
+        </div>
+      </div>
     </div>
+
   <% end %>
-
-  <div class="container">
-  <div class="row">
-  <div class="col-sm-3">(1) Select your images, zip file or URL textfile</div><div class="col-sm-2"><span class="btn btn-default btn-file">Select images or file<%= file_field_tag 'upload[]', :multiple => true %></span></div>
-  </div>
-
-  <br><br>
-  <div class="row">
-  <div class="col-sm-3">(2) Choose your classes <br> e.g. cars, people, other </div><div class="col-sm-3"> <input type="text" class="form-control" placeholder="Classes" name="labels"></div>
-  </div>
-
-  <br><br>
-  <div class="row">
-  <div class="col-sm-3">(3) Name this training set </div><div class="col-sm-3"> <input type="text" class="form-control" placeholder="Name" name="name"></div>
-  </div>
-
-  <br><br>
-  <div class="row">
-  <div class="col-sm-3">(3) Upload </div><div class="col-sm-3">
-
-    <span class="actions btn btn-default">
-      <%= submit_tag("Upload") %>
-    </span>
-    </div>
-  </div>
-
 </div>
-
-<% end %>
