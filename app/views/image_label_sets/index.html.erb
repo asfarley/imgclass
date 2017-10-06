@@ -45,7 +45,7 @@
         <% end %>
       </div>
     </div>
-
+    <br>
     <div class="row">
       <div class="col-sm-3">
         Assignment coverage:
@@ -55,14 +55,15 @@
         <canvas class="completion" height="30" id="completionCoverage<%= image_label_set.id %>"></canvas>
       </div>
     </div>
+    <br>
+
     <script type="text/javascript">
       var assignmentCoverage<%= image_label_set.id %> = <%= image_label_set.assignmentCoverageBinaryVector.to_json %>;
       var completionCoverage<%= image_label_set.id %> = <%= image_label_set.completionCoverageBinaryVector.to_json %>;
-      renderCoverage(assignmentCoverage<%= image_label_set.id %>, 'assignmentCoverage<%= image_label_set.id %>',  "#AA0000", "#FFDDDD", 1, 20);
-      renderCoverage(completionCoverage<%= image_label_set.id %>, 'completionCoverage<%= image_label_set.id %>',  "#0000AA", "#DDDDFF", 1, 20)
+      renderCoverage(assignmentCoverage<%= image_label_set.id %>, 'assignmentCoverage<%= image_label_set.id %>',  "#0000AA", "#DDDDFF", 1, 20);
+      renderCoverage(completionCoverage<%= image_label_set.id %>, 'completionCoverage<%= image_label_set.id %>',  "#0055AA", "#DDEEFF", 1, 20)
     </script>
 
-    <br><br>
   <% end %>
 
   <div class="row">

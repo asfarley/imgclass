@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :image_label_sets
   has_many :jobs
+  has_many :image_labels, through: :jobs
 
   def remaining_work_items
     il_total = 0
@@ -16,6 +17,10 @@ class User < ApplicationRecord
       il_total += (job.image_labels.select{ |il| il.target.nil? }).count
     end
     return il_total
+  end
+
+  def get_next_work_item
+    image_labels.select{ |il| il.target.nil? }.first
   end
 
   def total_work_items

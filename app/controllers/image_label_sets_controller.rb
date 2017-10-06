@@ -116,21 +116,6 @@ class ImageLabelSetsController < ApplicationController
     end
   end
 
-  def makejob
-    #Create a new ImageLabel for each image in this set
-    #TODO: Rename this function since it's not actually creating/manipulating Job objects
-    ils = ImageLabelSet.find(params[:id]).images.each do |image|
-      il = ImageLabel.new()
-      #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
-
-      #Assign user id to image label
-      #Assign job to image
-      il.image = image
-      il.save
-    end
-    redirect_to action: "index"
-  end
-
   def download
     fileLabelsString=""
     #labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
@@ -159,29 +144,6 @@ class ImageLabelSetsController < ApplicationController
     @openjobs = Job.all.select{|j| j.isOpen}
     @completedjobs = Job.all.select{|j| j.isComplete}
     @job = Job.new
-  end
-
-  def createjob
-    #Create a new Job
-    j = Job.new
-
-    #Assign this job to worker
-    j.user_id = params[:userid]
-    j.save
-
-    #Get the next N image_labels for this image_label_set
-    ims = ImageLabelSet.find(params[:id])
-    batch = ims.batchOfRemainingLabels(5000)
-    #Assign the next N image_labels to this job
-
-    batch.each do |il|
-      il.job_id = j.id
-      il.save
-    end
-
-    #binding.pry
-
-    redirect_to action: "assign", id: params[:id]
   end
 
   # PATCH/PUT /image_label_sets/1

@@ -51,8 +51,7 @@ class Job < ApplicationRecord
   # Clear all image labels in this job.
   def reset_imagelabels
     image_labels.each do |il|
-      il.job_id = nil
-      il.save
+      il.delete
     end
   end
 

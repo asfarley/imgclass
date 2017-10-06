@@ -2,6 +2,8 @@ class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
   before_action :set_image_label_set, only: [:new]
 
+  MAX_JOB_SIZE = 100
+
   # GET /jobs
   # GET /jobs.json
   def index
@@ -45,17 +47,7 @@ class JobsController < ApplicationController
   def create
     @job = Job.new(job_params)
     save_response = @job.save
-    @job.image_label_set.images.each do |image|
-      il = ImageLabel.new()
-      #Get ID of signed-in user, if signed in (otherwise - bail, only logged-in users should be creating image labels)
-
-      #Assign user id to image label
-      #Assign job to image
-      il.job_id = @job.id
-      il.user_id = @job.user_id
-      il.image = image
-      il.save
-    end
+    unlabelled_images = @job.image_label_set.batchOfRemainingLabels(MAX_JOB_SIZE, @job.id)
 
     respond_to do |format|
       if save_response

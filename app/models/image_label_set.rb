@@ -156,21 +156,26 @@ class ImageLabelSet < ApplicationRecord
   end
 
   # Return a list of image labels which haven't been assigned to a job.
-  #
-  # This method should not be necessary - image labels should only
-  # be created upon job creation.
   def remainingImageLabels
-    image_labels.select{ |il| il.job.nil? }
+    image_labels.eager_load(:job).select{ |il| il.job.nil? }
+  end
+
+  def unassignedImages
+    images.eager_load(:image_labels).select{ |im| im.image_labels.nil? || im.image_labels.count == 0 }
   end
 
   # Return a subset of image-labels which have not yet been
   # assigned to a job, up to a maximum number.
-  #
-  # This method may be obsolete - review whether it's actually called
-  # at any point.
-  def batchOfRemainingLabels(max)
-    rem = remainingImageLabels
-    rem[0..max]
+  def batchOfRemainingLabels(max, job_id)
+    rem = unassignedImages()
+    remaining_selected = rem[0...max]
+    remaining_selected.each do |image|
+      il = ImageLabel.new()
+      il.image = image
+      il.job_id = job_id
+      il.save
+    end
+    return remaining_selected
   end
 
   def labelledImagesCount
@@ -192,12 +197,12 @@ class ImageLabelSet < ApplicationRecord
 
   def assignmentCoverageBinaryVector
     #For each image, map to a boolean: has this image been assigned in a job?
-    images.map { |image| (image.image_labels.count > 0) }
+    images.eager_load(:image_labels).map { |image| (image.image_labels.size > 0) }
   end
 
   def completionCoverageBinaryVector
     #For each images, map to a boolean: has this image been labelled?
-    images.map { |image|
+    images.eager_load(:image_labels).map { |image|
       (image.image_labels.select{ |il| (not il.target.nil?) }.count > 0)
     }
   end
