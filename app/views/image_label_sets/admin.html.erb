@@ -12,11 +12,11 @@
     <th>% Complete&nbsp;&nbsp;</th>
     <th>% Agreement</th>
   </tr>
-<% @image_label_set.jobs.each do |job| %>
+<% @jobs.each do |job| %>
   <tr>
     <td><%= job.id %></td>
     <td><%= User.find(job.user_id).email %>&nbsp;&nbsp;</td>
-    <td><%= job.image_labels.count %></td>
+    <td><%= job.image_labels.size %></td>
     <td><%= job.labelledImagesCount() %></thd>
     <td><%= job.percent_complete %></td>
     <td><%= job.percent_agreement %></td>
@@ -31,4 +31,8 @@
   </div>
 
   <%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
+  <br><br><br><br>
+  <div class="row" id="pagination-links">
+    <div class="col-sm-5"><%= paginate @jobs %></div>
+  </div>
 </div>

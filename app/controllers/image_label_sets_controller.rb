@@ -24,6 +24,11 @@ class ImageLabelSetsController < ApplicationController
   end
 
   def admin
+    if params.has_key?(:page)
+      @jobs = Kaminari.paginate_array(@image_label_set.jobs).page(params[:page])
+    else
+      @jobs = Kaminari.paginate_array(@image_label_set.jobs).page(1)
+    end
   end
 
   # GET /image_label_sets/new

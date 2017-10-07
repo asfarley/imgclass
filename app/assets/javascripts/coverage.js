@@ -1,4 +1,5 @@
-function renderCoverage(coverage,elementID, outlineColor = "#0000AA",fillColor = "#DDDDFF", elementWidth = 1, elementHeight = 20)
+//function renderCoverage(coverage,elementID, outlineColor = "#0000AA",fillColor = "#DDDDFF", elementWidth = 1, elementHeight = 20)
+function renderCoverage(coverage, elementID, outlineColor, fillColor, elementWidth, elementHeight)
 {
 	elementWidth = 300.0 / coverage.length;
 

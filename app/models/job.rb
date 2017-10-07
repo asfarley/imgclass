@@ -23,29 +23,35 @@ class Job < ApplicationRecord
 
   # Determine the percentage of remaining images to be classified by users.
   def percent_remaining
-    totalImages = image_labels.count
-    remainingImages = image_labels.count - labelledImagesCount()
-    pct = (remainingImages.count.to_f/totalImages)*100.0
-    pct.round(1)
+    Rails.cache.fetch("job#{id}/percent_remaining", expires_in: 12.hours) do
+      totalImages = image_labels.count
+      remainingImages = image_labels.count - labelledImagesCount()
+      pct = (remainingImages.count.to_f/totalImages)*100.0
+      pct.round(1)
+    end
   end
 
   # Determine the percentage of images already classified by users.
   def percent_complete
-    totalImages = image_labels.count
-    if totalImages == 0
-      totalImages = 1;
+    Rails.cache.fetch("job#{id}/percent_complete", expires_in: 12.hours) do
+      totalImages = image_labels.count
+      if totalImages == 0
+        totalImages = 1;
+      end
+      completeImages = labelledImagesCount()
+      pct = (completeImages.to_f/totalImages)*100.0
+      pct.round(1)
     end
-    completeImages = labelledImagesCount()
-    pct = (completeImages.to_f/totalImages)*100.0
-    pct.round(1)
   end
 
   # Determine the percentage agreement between this job and other jobs containing
   # the same images.
   def percent_agreement
-    sum = image_labels.inject(0) { |sum, il| sum + il.single_measure_agreement_against_competing_labels }
-    avg = sum / image_labels.count.to_f
-    avg.round(1)
+    Rails.cache.fetch("job#{id}/percent_agreement", expires_in: 12.hours) do
+      sum = image_labels.inject(0) { |sum, il| sum + il.single_measure_agreement_against_competing_labels }
+      avg = sum / image_labels.count.to_f
+      avg.round(1)
+    end
   end
 
   # Clear all image labels in this job.
@@ -56,7 +62,9 @@ class Job < ApplicationRecord
   end
 
   def labelledImagesCount
-    image_labels.select{ |il| !(il.target.nil? and il.label.nil?) }.count
+    Rails.cache.fetch("job#{id}/labelledImagesCount", expires_in: 12.hours) do
+      image_labels.select{ |il| !(il.target.nil? and il.label.nil?) }.count
+    end
   end
 
 
