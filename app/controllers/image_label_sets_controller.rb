@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download, :refresh_zipfile]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
@@ -36,6 +36,13 @@ class ImageLabelSetsController < ApplicationController
     respond_to do |format|
         format.html { redirect_to @image_label_set, notice: 'Image label set was fully assigned.' }
     end
+  end
+
+  def refresh_zipfile
+    respond_to do |format|
+        format.html { redirect_to image_label_sets_url, notice: 'Zipfile is being refreshed.' }
+    end
+    GenerateZipfilesJob.perform_later
   end
 
   # GET /image_label_sets/new
@@ -131,25 +138,8 @@ class ImageLabelSetsController < ApplicationController
   end
 
   def download
-    fileLabelsString=""
-    #labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    yoloPath = @image_label_set.generateYoloTrainingFiles
-    #folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
-    #input_filenames = Dir.entries(folder) - %w(. ..)
-    zipfile_name = File.join(Rails.root, "tmp", "yolo_trainingset.zip")
-    FileUtils.rm_rf(zipfile_name)
-    zf = ZipFileGenerator.new(yoloPath, zipfile_name)
-    zf.write()
-    #Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-      #input_filenames.each do |filename|
-        # Two arguments:
-        # - The name of the file as it will appear in the archive
-        # - The original file, including the path to find it
-        #zipfile.add(filename, folder + '/' + filename)
-        #end
-      #zipfile.add("labels.txt", labelsPath)
-    #end
-    send_file zipfile_name, :filename => "yolo_trainingset.zip", disposition: 'attachment'
+    zipfile_name = @image_label_set.zipped_output_folder_name()
+    send_file zipfile_name, :filename => "yolo_trainingset_#{@image_label_set.path_safe_name()}.zip", disposition: 'attachment'
   end
 
   def assign

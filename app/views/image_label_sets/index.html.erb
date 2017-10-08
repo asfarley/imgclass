@@ -29,7 +29,7 @@
 
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
-        <% if image_label_set.isComplete? %>
+        <% if image_label_set.zipped_output_folder_exists %>
           <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
             <button type="button" class="btn btn-default">Download</button>
           <% end %>
@@ -41,6 +41,12 @@
       <div class="pull-left">
         <%= link_to ({:controller => "image_label_sets", :action => "assign_entire_set", :id => image_label_set.id}) do %>
           <button type="button" class="btn btn-default btn-success">Assign All</button>
+        <% end %>
+      </div>
+
+      <div class="pull-left">
+        <%= link_to ({:controller => "image_label_sets", :action => "refresh_zipfile", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success">Refresh zipfile</button>
         <% end %>
       </div>
 

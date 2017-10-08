@@ -22,10 +22,10 @@ class ImageLabelSet < ApplicationRecord
   before_destroy {|ils|
     FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.id}")
     ImageLabelSet.transaction do
-      ils.images.delete_all
-      ils.labels.delete_all
-      ils.image_labels.delete_all
-      ils.jobs.delete_all
+      ils.images.destroy_all
+      ils.labels.destroy_all
+      ils.image_labels.destroy_all
+      ils.jobs.destroy_all
     end
   }
 
@@ -305,6 +305,18 @@ class ImageLabelSet < ApplicationRecord
     t2 = Time.now
     delta = t2 - t1
     puts "generate_output_folder_if_complete took #{delta} seconds"
+  end
+
+  def zipped_output_folder_name
+    return File.join(Rails.root, "tmp", "ImageLabelSet_#{id}.zip")
+  end
+
+  def zipped_output_folder_exists
+    return (File.exist?(zipped_output_folder_name()))
+  end
+
+  def path_safe_name
+    name.gsub /[^a-z0-9\-]+/i, '_'
   end
 
 end
