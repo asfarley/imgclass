@@ -11,6 +11,8 @@ class Job < ApplicationRecord
 
   before_destroy :reset_imagelabels
 
+  MAX_JOB_SIZE = 100
+
   # Determine whether this job has remaining images to classify.
   def isOpen
     percent_remaining > 0

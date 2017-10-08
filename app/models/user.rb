@@ -41,4 +41,11 @@ class User < ApplicationRecord
     percent_progress = 100.0 - percent_remaining
   end
 
+  def is_worker
+    if (roles.nil?)
+      return true
+    end
+    return (not roles.include? "admin")
+  end
+
 end

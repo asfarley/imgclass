@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
       return "/image_labels/next"
     end
     if(not current_user.roles.include? "admin")
-      return "/image_labels/next"
+      return "/image_label/next"
     end
     image_label_sets_url
   end

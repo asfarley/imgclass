@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
@@ -28,6 +28,13 @@ class ImageLabelSetsController < ApplicationController
       @jobs = Kaminari.paginate_array(@image_label_set.jobs).page(params[:page])
     else
       @jobs = Kaminari.paginate_array(@image_label_set.jobs).page(1)
+    end
+  end
+
+  def assign_entire_set
+    @image_label_set.assign_entire_set
+    respond_to do |format|
+        format.html { redirect_to @image_label_set, notice: 'Image label set was fully assigned.' }
     end
   end
 
@@ -63,11 +70,13 @@ class ImageLabelSetsController < ApplicationController
     params["upload"].each do |uf|
       #Check if zipfile, raw images or URL textfile
       if (File.extname(uf.tempfile.path)==".txt")
-        File.readlines(uf.tempfile.path).each do |line|
-          i = Image.new
-          i.url = line.strip
-          i.image_label_set_id = @image_label_set.id
-          i.save
+        Image.transaction do 
+          File.readlines(uf.tempfile.path).each do |line|
+            i = Image.new
+            i.url = line.strip
+            i.image_label_set_id = @image_label_set.id
+            i.save
+          end
         end
       elsif (File.extname(uf.tempfile.path)==".zip")
         Zip::File.open(uf.tempfile.path) do |zipfile|

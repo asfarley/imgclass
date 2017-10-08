@@ -17,10 +17,13 @@ class ImageLabelSet < ApplicationRecord
   has_many :image_labels, through: :images
 
   before_destroy {|ils|
-    FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.id}")
-    ils.images.destroy_all
-    ils.labels.destroy_all
-    ils.image_labels.destroy_all
+    #FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.id}")
+    ImageLabelSet.transaction do
+      ils.images.delete_all
+      ils.labels.delete_all
+      ils.image_labels.delete_all
+      ils.jobs.delete_all
+    end
   }
 
   # Determine the percentage of unclassified images in this training set.
@@ -161,19 +164,24 @@ class ImageLabelSet < ApplicationRecord
   end
 
   def unassignedImages
-    images.eager_load(:image_labels).select{ |im| im.image_labels.nil? || im.image_labels.count == 0 }
+    images.eager_load(:image_labels).select{ |im| im.image_labels.nil? || im.image_labels.size == 0 }
   end
 
   # Return a subset of image-labels which have not yet been
   # assigned to a job, up to a maximum number.
   def batchOfRemainingLabels(max, job_id)
     rem = unassignedImages()
+    if(rem.count == 0)
+      rem = images.eager_load(:image_labels).sort_by{ |image| image.image_labels.size }
+    end
     remaining_selected = rem[0...max]
-    remaining_selected.each do |image|
-      il = ImageLabel.new()
-      il.image = image
-      il.job_id = job_id
-      il.save
+    ImageLabel.transaction do
+      remaining_selected.each do |image|
+        il = ImageLabel.new()
+        il.image = image
+        il.job_id = job_id
+        il.save
+      end
     end
     return remaining_selected
   end
@@ -197,14 +205,50 @@ class ImageLabelSet < ApplicationRecord
 
   def assignmentCoverageBinaryVector
     #For each image, map to a boolean: has this image been assigned in a job?
-    images.eager_load(:image_labels).map { |image| (image.image_labels.size > 0) }
+    images.eager_load(:image_labels).map { |image| image.image_labels.size }
   end
 
   def completionCoverageBinaryVector
     #For each images, map to a boolean: has this image been labelled?
     images.eager_load(:image_labels).map { |image|
-      (image.image_labels.select{ |il| (not il.target.nil?) }.count > 0)
+      (image.image_labels.select{ |il| (il.target.nil?) }.count == 0) && (image.image_labels.size != 0)
     }
+  end
+
+  def assign_entire_set
+    workers = User.all.select{ |user| user.is_worker}
+    #Calculate number of jobs to create for a full assignment
+    total_assignment_count = images.count.to_f
+    ImageLabel.transaction do
+      images.each_slice(Job::MAX_JOB_SIZE) do |images_slice|
+        worker = workers.sample
+        j = Job.new()
+        j.image_label_set_id = id
+        j.user_id = worker.id
+        j.save
+        images_slice.each do |image|
+          il = ImageLabel.new
+          il.image_id = image.id
+          il.job_id = j.id
+          il.user_id = worker.id
+          il.save
+        end
+      end
+    end
+
+    #job_size = (Job::MAX_JOB_SIZE).to_f
+    #number_of_jobs = (total_assignment_count / job_size).ceil
+    #Job.transaction do
+      #for i in 0...number_of_jobs
+        #j = Job.new()
+        #j.image_label_set_id = id
+        #j.user_id = workers.sample.id
+        #j.save
+        #unlabelled_images = batchOfRemainingLabels(Job::MAX_JOB_SIZE, j.id)
+        #Assign MAX_JOB_SIZE image_labels to this job
+
+      #end
+    #end
   end
 
 end

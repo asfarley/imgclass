@@ -1,6 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <div class="container">
+  <%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
+  <br><br>
 <h2>Jobs</h2>
   <div class="table-responsive">
 <table class="table">
@@ -29,8 +31,6 @@
 <% end %>
 </table>
   </div>
-
-  <%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
   <br><br><br><br>
   <div class="row" id="pagination-links">
     <div class="col-sm-5"><%= paginate @jobs %></div>

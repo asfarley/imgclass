@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'image_label_sets/admin/:id' => 'image_label_sets#admin'
   get 'image_label_sets/download/:id' => 'image_label_sets#download'
   get 'image_label_sets/assign/:id' => 'image_label_sets#assign'
+  get 'image_label_sets/assign_entire_set/:id' => 'image_label_sets#assign_entire_set'
   post 'image_label_sets/createjob/:id' => 'image_label_sets#createjob'
   get 'image_labels/next' => 'image_labels#next'
   get 'image_labels/outofwork' => 'image_labels#outofwork'
