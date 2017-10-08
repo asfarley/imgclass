@@ -10,6 +10,9 @@
 class ImageLabelSet < ApplicationRecord
   require 'fileutils'
   require 'open-uri'
+  require 'parallel'
+  require 'zip'
+  require './app/lib/zipfilegenerator'
   belongs_to :user
   has_many :jobs
   has_many :images
@@ -17,7 +20,7 @@ class ImageLabelSet < ApplicationRecord
   has_many :image_labels, through: :images
 
   before_destroy {|ils|
-    #FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.id}")
+    FileUtils.rm_rf("/srv/imgclass/public/images/#{ils.id}")
     ImageLabelSet.transaction do
       ils.images.delete_all
       ils.labels.delete_all
@@ -55,6 +58,10 @@ class ImageLabelSet < ApplicationRecord
   # Calculate to total number of unclassified images remaining in this training set.
   def numImagesRemaining
     num_remaining = image_labels.count - image_labels.select{ |il| ! il.label.nil? }.count
+  end
+
+  def numImageLabelsRemaining
+    image_labels.select{ |il| il.target.nil? }.count
   end
 
   # Determine whether all training images in this set have been classified.
@@ -107,7 +114,6 @@ class ImageLabelSet < ApplicationRecord
     logger.debug("Creating new output folder")
     Dir.mkdir(output_path)#Create temporary output folder
     images.each do |image| #For each image
-
       basename = File.basename(image.url, ".*")
       basename_with_ext = File.basename(image.url)
       this_image_subfolder = File.join(output_path, basename)
@@ -198,7 +204,6 @@ class ImageLabelSet < ApplicationRecord
     end
     uri = URI.parse(URI.encode(url))
     open(path_filtered, 'wb') do |file|
-      logger.debug("URI: #{uri}")
       file << open(uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
     end
   end
@@ -235,20 +240,71 @@ class ImageLabelSet < ApplicationRecord
         end
       end
     end
+  end
 
-    #job_size = (Job::MAX_JOB_SIZE).to_f
-    #number_of_jobs = (total_assignment_count / job_size).ceil
-    #Job.transaction do
-      #for i in 0...number_of_jobs
-        #j = Job.new()
-        #j.image_label_set_id = id
-        #j.user_id = workers.sample.id
-        #j.save
-        #unlabelled_images = batchOfRemainingLabels(Job::MAX_JOB_SIZE, j.id)
-        #Assign MAX_JOB_SIZE image_labels to this job
+  # Debug-only.
+  # This method is intended to give a blank
+  # target to each image/image_label in the set.
+  # This is used to quickly give labels to the set, so it can be
+  # downloaded.
+  def label_with_blanks
+    ImageLabel.transaction do
+      image_labels.each do |il|
+        il.target = "[]";
+        il.save
+      end
+    end
+  end
 
-      #end
-    #end
+  def download_folder_path
+    return File.join(Rails.root, "tmp", "ImageLabelSet_#{id}")
+  end
+
+  # In parallel for each image in this set,
+  # a) create a folder for this image
+  # b) download the image
+  # c) write the most-likely bounding box tags to the folder containing the image
+  def parallel_download(urls_targets_hash_list, storage_path)
+  	Parallel.each(urls_targets_hash_list, in_threads: 32) { |url_target_pair|
+      #Download image
+  		basename = File.basename(url_target_pair[:url], ".*")
+  		basename_with_ext = File.basename(url_target_pair[:url])
+  		this_image_subfolder = File.join(storage_path, basename)
+  		Dir.mkdir(this_image_subfolder) # Create folder
+  		path = File.join(this_image_subfolder,basename_with_ext)
+  		downloadImageToPath(url_target_pair[:url], path)
+      # Create textfile
+      this_image_label_path = File.join(this_image_subfolder, basename + ".txt")
+      this_image_label = url_target_pair[:target]
+      File.open(this_image_label_path, 'w') do |f|
+        f.write(toYoloFormat(this_image_label))
+      end
+  	}
+  end
+
+  def generate_output_folder_if_complete
+    t1 = Time.now
+    # If not complete, bail out
+    if(numImageLabelsRemaining() != 0) then return end
+    # If output folder already exists, delete it
+    output_path = download_folder_path()
+    if (File.exist?(output_path) && File.directory?(output_path))
+      result = FileUtils.rm_rf(output_path, :verbose => true)
+    end
+    FileUtils::mkdir_p(output_path)
+    #Zip urls with most likely bounding boxes
+    urls_targets_hash_list = images.eager_load(:image_labels).map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
+    parallel_download(urls_targets_hash_list, output_path);nil
+    puts "Zipping folder..."
+    zipfile_name = File.join(Rails.root, "tmp", "ImageLabelSet_#{id}.zip")
+    FileUtils.rm_rf(zipfile_name)
+    zf = ZipFileGenerator.new(output_path, zipfile_name);nil
+    zf.write();nil
+    FileUtils.rm_rf(output_path)
+    puts "Done."
+    t2 = Time.now
+    delta = t2 - t1
+    puts "generate_output_folder_if_complete took #{delta} seconds"
   end
 
 end

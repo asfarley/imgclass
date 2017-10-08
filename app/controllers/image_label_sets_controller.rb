@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
@@ -70,7 +70,7 @@ class ImageLabelSetsController < ApplicationController
     params["upload"].each do |uf|
       #Check if zipfile, raw images or URL textfile
       if (File.extname(uf.tempfile.path)==".txt")
-        Image.transaction do 
+        Image.transaction do
           File.readlines(uf.tempfile.path).each do |line|
             i = Image.new
             i.url = line.strip
@@ -133,7 +133,7 @@ class ImageLabelSetsController < ApplicationController
   def download
     fileLabelsString=""
     #labelsPath = ImageLabelSet.find(params[:id]).generateLabelsTextfile
-    yoloPath = ImageLabelSet.find(params[:id]).generateYoloTrainingFiles
+    yoloPath = @image_label_set.generateYoloTrainingFiles
     #folder = File.join(Rails.root, "public", "images", "#{params[:id]}")
     #input_filenames = Dir.entries(folder) - %w(. ..)
     zipfile_name = File.join(Rails.root, "tmp", "yolo_trainingset.zip")
