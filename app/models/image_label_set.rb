@@ -295,16 +295,16 @@ class ImageLabelSet < ApplicationRecord
     #Zip urls with most likely bounding boxes
     urls_targets_hash_list = images.eager_load(:image_labels).map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
     parallel_download(urls_targets_hash_list, output_path);nil
-    puts "Zipping folder..."
+    logger.debug "Zipping folder..."
     zipfile_name = File.join(Rails.root, "tmp", "ImageLabelSet_#{id}.zip")
     FileUtils.rm_rf(zipfile_name)
     zf = ZipFileGenerator.new(output_path, zipfile_name);nil
     zf.write();nil
     FileUtils.rm_rf(output_path)
-    puts "Done."
+    logger.debug "Done."
     t2 = Time.now
     delta = t2 - t1
-    puts "generate_output_folder_if_complete took #{delta} seconds"
+    logger.debug "generate_output_folder_if_complete took #{delta} seconds"
   end
 
   def zipped_output_folder_name
