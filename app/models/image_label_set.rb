@@ -289,7 +289,7 @@ class ImageLabelSet < ApplicationRecord
     # If output folder already exists, delete it
     output_path = download_folder_path()
     if (File.exist?(output_path) && File.directory?(output_path))
-      result = FileUtils.rm_rf(output_path, :verbose => true)
+      result = FileUtils.rm_rf(output_path)
     end
     FileUtils::mkdir_p(output_path)
     #Zip urls with most likely bounding boxes
