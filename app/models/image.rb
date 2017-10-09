@@ -36,7 +36,7 @@ class Image < ApplicationRecord
 
     #4. Select the target nearest to the average
     most_likely = targets[absolute_diff_sum_hashes.index(absolute_diff_sum_hashes.min)]
-    most_likely.nil? ? "Unknown" : most_likely
+    most_likely.nil? ? "[]" : most_likely
   end
 
 
