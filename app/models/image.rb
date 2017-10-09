@@ -22,6 +22,13 @@ class Image < ApplicationRecord
     most_likely.nil? ? "Unknown" : most_likely.text
   end
 
+  # Select the best apparent choice from
+  # competing ImageLabels.
+  # The best choice is identified by counting
+  # the number of objects in each competing
+  # ImageLabel and selecting the ImageLabel
+  # closest to the average.
+  # A simple form of outlier rejection.
   def most_likely_bounding_boxes
     targets = image_labels.map{ |il| il.target }
     #1. Calculate the number of objects of each type, in each target JSON object
@@ -118,14 +125,21 @@ class Image < ApplicationRecord
     return counts_hash_list
   end
 
+  # Add the values for each key in two hashes.
+  # Result undefined if hashes contain different keys.
   def add_count_hashes(hash1, hash2)
     result = hash1.merge(hash2) {|key,val1,val2| val1+val2}
   end
 
+  # Calculate the absolute difference in value for a given key in two hashes.
+  # Result undefined if hashes contain different keys.
   def absolute_difference_count_hashes(hash1, hash2)
     result = hash1.merge(hash2) {|key,val1,val2| (val1-val2).abs }
   end
 
+  # Takes a list of hashes mapping strings to numbers.
+  # Each hash is assumed to contain the same set of keys.
+  # The returned hash contains the average value of the corresponding key for each hash in the input list.
   def average_counts_hash
     counts_padded = all_targets_count_hash_padded()
     class_list = classes_present_in_all_image_labels()
