@@ -1,11 +1,4 @@
-one:
-  id: 0
-  user_id: 0
+ils_one:
+  user: user1
   bounding_box_mode: true
-  name: TestSet1
-
-two:
-  id: 1
-  user_id: 1
-  bounding_box_mode: true
-  name: TestSet2
+  name: TestSet

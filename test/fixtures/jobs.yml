@@ -1,7 +1,11 @@
-one:
-  image_label_set_id: 0
-  user_id: 1
+job1:
+  image_label_set: ils_one
+  user: user2
 
-two:
-  image_label_set_id: 0
-  user_id: 2
+job2:
+  image_label_set: ils_one
+  user: user3
+
+job2:
+  image_label_set: ils_one
+  user: user3

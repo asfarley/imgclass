@@ -57,6 +57,14 @@ class ImageLabelSetsController < ApplicationController
   # POST /image_label_sets
   # POST /image_label_sets.json
   def create
+
+    if(params["labels"].nil?)
+      respond_to do |format|
+          format.html { redirect_to image_label_sets_url, error: 'Labels not present.' }
+      end
+      return
+    end
+
     @image_label_set = ImageLabelSet.new
     @image_label_set.bounding_box_mode = true
     @image_label_set.name = params["name"]

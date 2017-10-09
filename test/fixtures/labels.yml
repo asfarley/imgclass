@@ -1,7 +1,23 @@
-one:
+label1:
   text: Car
-  image_label_set_id: 0
+  image_label_set: ils_one
 
-one:
+label2:
   text: Truck
-  image_label_set_id: 0
+  image_label_set: ils_one
+
+label3:
+  text: Bus
+  image_label_set: ils_one
+
+label4:
+  text: Person
+  image_label_set: ils_one
+
+label5:
+  text: Bicycle
+  image_label_set: ils_one
+
+label6:
+  text: Motorcycle
+  image_label_set: ils_one
