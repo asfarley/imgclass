@@ -265,11 +265,17 @@ class ImageLabelSet < ApplicationRecord
   # b) download the image
   # c) write the most-likely bounding box tags to the folder containing the image
   def parallel_download(urls_targets_hash_list, storage_path)
+    preexisting_folders = Dir.entries(storage_path)
+    puts "Before parallel_download, folders exist: #{preexisting_folders}"
   	Parallel.each(urls_targets_hash_list, in_threads: 32) { |url_target_pair|
       #Download image
   		basename = File.basename(url_target_pair[:url], ".*")
   		basename_with_ext = File.basename(url_target_pair[:url])
   		this_image_subfolder = File.join(storage_path, basename)
+      puts "Making directory: #{this_image_subfolder}"
+      if(File.exist? this_image_subfolder)
+        FileUtils.rm_rf(this_image_subfolder)
+      end
   		Dir.mkdir(this_image_subfolder) # Create folder
   		path = File.join(this_image_subfolder,basename_with_ext)
   		downloadImageToPath(url_target_pair[:url], path)
@@ -290,8 +296,11 @@ class ImageLabelSet < ApplicationRecord
     output_path = download_folder_path()
     if (File.exist?(output_path) && File.directory?(output_path))
       result = FileUtils.rm_rf(output_path)
+      puts "Result of deletion: #{result}"
     end
     FileUtils::mkdir_p(output_path)
+    preexisting_folders = Dir.entries(output_path)
+    puts "In generate_output_folder_if_complete, folders exist: #{preexisting_folders}"
     #Zip urls with most likely bounding boxes
     urls_targets_hash_list = images.eager_load(:image_labels).map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
     parallel_download(urls_targets_hash_list, output_path);nil
