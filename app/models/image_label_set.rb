@@ -13,6 +13,7 @@ class ImageLabelSet < ApplicationRecord
   require 'parallel'
   require 'zip'
   require './app/lib/zipfilegenerator'
+  require './app/lib/yolofilegenerator'
   belongs_to :user
   has_many :jobs
   has_many :images
@@ -113,6 +114,7 @@ class ImageLabelSet < ApplicationRecord
     end
     logger.debug("Creating new output folder")
     Dir.mkdir(output_path)#Create temporary output folder
+    #Create Yolo configuration files
     images.each do |image| #For each image
       basename = File.basename(image.url, ".*")
       basename_with_ext = File.basename(image.url)
@@ -304,6 +306,10 @@ class ImageLabelSet < ApplicationRecord
     #Zip urls with most likely bounding boxes
     urls_targets_hash_list = images.eager_load(:image_labels).map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
     parallel_download(urls_targets_hash_list, output_path);nil
+    puts "Generating Yolo CFG files..."
+    image_file_paths = images.map{ |i| i.url }
+    names_list = labels.map { |l| l.text }
+    YoloFileGenerator.generate_all_yolo_training_files(output_path, image_file_paths, names_list)
     logger.debug "Zipping folder..."
     zipfile_name = File.join(Rails.root, "tmp", "ImageLabelSet_#{id}.zip")
     FileUtils.rm_rf(zipfile_name)
