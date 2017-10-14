@@ -3,13 +3,13 @@ sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libread
 
 cd
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-source ~/.bashrc
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
 
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+source ~/.bash_profile
 
 rbenv install 2.4.1
 rbenv global 2.4.1
@@ -29,4 +29,5 @@ rbenv rehash
 rails -v
 # Rails 5.1.3
 
+cd /srv/imgclass
 bundle install
