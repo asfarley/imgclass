@@ -31,11 +31,11 @@ gem 'figaro'
 gem 'puma'
 
 group :development do
-  gem 'capistrano', '~> 3.4.0'
-  gem 'capistrano3-puma'
-  gem 'capistrano-rails', require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano-rbenv'
+  gem 'capistrano', '~> 3.4.0',   require: false
+  gem 'capistrano3-puma',         require: false
+  gem 'capistrano-rails',         require: false
+  gem 'capistrano-bundler',       require: false
+  gem 'capistrano-rbenv',         require: false
 end
 
 # Use Unicorn as the app server
@@ -56,7 +56,7 @@ gem 'parallel'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  #gem 'byebug'
+  gem 'byebug'
 end
 
 group :development do
