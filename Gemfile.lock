@@ -199,6 +199,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.3.13-x86-mingw32)
     sshkit (1.14.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -230,7 +231,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bcrypt
+  bcrypt (~> 3.1.11)
   byebug
   cancancan (~> 2.0)
   capistrano (~> 3.4.0)
@@ -256,6 +257,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
+  sqlite3
   turbolinks
   tzinfo-data
   uglifier (>= 1.3.0)
