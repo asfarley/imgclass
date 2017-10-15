@@ -31,7 +31,8 @@ gem 'figaro'
 gem 'puma'
 
 group :development do
-  gem 'capistrano', require: false
+  gem "capistrano", "~> 3.9"
+  gem 'capistrano-rails', '~> 1.1'
 end
 
 # Use Unicorn as the app server
