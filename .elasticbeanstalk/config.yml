@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: imgclass2
 environment-defaults:
   imgclass:
     branch: null
