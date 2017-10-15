@@ -1,0 +1,18 @@
+branch-defaults:
+  master:
+    environment: production
+    group_suffix: null
+global:
+  application_name: imgclass
+  branch: null
+  default_ec2_keyname: shared
+  default_platform: Ruby 2.4 (Passenger Standalone)
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: git
+  workspace_type: Application
