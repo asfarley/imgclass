@@ -1,18 +1,18 @@
 lock '3.4.1'
 
-set :rbenv_type, :system # or :system, depends on your rbenv setup
-set :rbenv_ruby, '2.4.1'
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
-set :rbenv_roles, :all # default value
+#set :rbenv_type, :system # or :system, depends on your rbenv setup
+#set :rbenv_ruby, '2.4.1'
+#set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+#set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+#set :rbenv_roles, :all # default value
 
 set :application, 'imgclass'
 set :repo_url, 'git@github.com:asfarley/imgclass.git' # Edit this to match your repository
 set :branch, 'master'
 set :deploy_to, '/srv/imgclass'
-set :pty, true
-set :linked_files, %w{config/database.yml config/application.yml}
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+set :pty, false
+#set :linked_files, %w{config/database.yml config/application.yml}
+#set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 set :keep_releases, 5
 #set :rvm_type, :user
 #set :rvm_ruby_version, 'jruby-1.7.19' # Edit this if you are using MRI Ruby
