@@ -1,6 +1,13 @@
 branch-defaults:
   master:
-    environment: imgclass-eb2
+    environment: null
+environment-defaults:
+  imgclass:
+    branch: null
+    repository: null
+  imgclass-eb2:
+    branch: null
+    repository: null
 global:
   application_name: imgclass
   branch: null

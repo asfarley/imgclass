@@ -5,7 +5,7 @@ class ImageLabelSetsController < ApplicationController
   require 'kaminari'
   require 'fastimage'
   require 'zip'
-  require 'byebug'
+  #require 'byebug'
   require './app/lib/zipfilegenerator'
   # GET /image_label_sets
   # GET /image_label_sets.json
