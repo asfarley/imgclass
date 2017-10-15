@@ -31,3 +31,12 @@ rails -v
 
 cd /srv/imgclass
 bundle install
+
+rails db:create
+rails db:schema:load
+
+git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
+
+chmod +x ./launch.sh
+
+sh ./launch.sh
