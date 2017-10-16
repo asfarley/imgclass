@@ -2,7 +2,7 @@
 lock "3.9.1"
 
 set :application, "imgclass"
-set :repo_url, 'git@github.com:asfarley/imgclass.git' # Edit this to match your repository
+set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match your repository
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
