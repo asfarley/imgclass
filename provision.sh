@@ -13,19 +13,19 @@
 #
 #
 # Before running this script, create a deploy user:
-# >> sudo adduser deploy
+#
+# >> sudo adduser deploy --gecos ""
 # >> sudo adduser deploy sudo
 # >> su deploy
-# >> cd ~
-#
+
 # Give the user ssh ability:
-# >> sudo mkdir /home/deploy/.ssh
-# >> sudo cp /home/ubuntu/.ssh/authorized_keys /home/deploy/.ssh/
-# >> su deploy
+#
 # >> cd ~
+# >> mkdir .ssh
+# >> sudo cp /home/ubuntu/.ssh/authorized_keys .ssh/
 # >> chmod 700 .ssh
 # >> sudo chown deploy .ssh/authorized_keys
-# >> chmod 600 .ssh/authorized_keys
+# >> sudo chmod 600 .ssh/authorized_keys
 # >> sudo mkdir /var/www
 # >> sudo chown deploy /var/www
 # >> sudo mkdir /var/db
@@ -73,6 +73,7 @@ sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 bundle install
 sudo mkdir /var/db
 sudo chown deploy /var/db
+source ~/.bash_profile
 rails db:create
 rails db:schema:load
 rails db:seed
