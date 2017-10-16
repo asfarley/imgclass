@@ -70,7 +70,9 @@ sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.c
 
 cd /var/www/imgclass/current/
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
+
 bundle install
+sudo mkdir /var/db
 rails db:create
 rails db:schema:load
 rails db:seed
