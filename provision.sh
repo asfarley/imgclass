@@ -73,6 +73,7 @@ sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 
 bundle install
 sudo mkdir /var/db
+sudo chown deploy /var/db
 rails db:create
 rails db:schema:load
 rails db:seed
