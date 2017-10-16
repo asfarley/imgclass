@@ -15,7 +15,16 @@
 # Before running this script, create a deploy user:
 # >> sudo adduser deploy
 # >> sudo adduser deploy sudo
+#
+# Give the user ssh ability:
+# >> sudo mkdir /home/deploy/.ssh
+# >> sudo cp /home/ubuntu/.ssh/authorized_keys /home/deploy/.ssh/
 # >> su deploy
+# >> cd ~
+# >> chmod 700 .ssh
+# >> chmod 600 .ssh/authorized_keys
+# >> sudo mkdir /var/www
+# >> sudo chown deploy /var/www
 
 sudo apt-get update -y
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev nodejs libpq-dev nginx -y
@@ -58,5 +67,6 @@ sudo apt-get update -y
 sudo apt-get install -y nginx-extras passenger
 sudo sed -i 's|# include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
+cd /var/www/imgclass/current/
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 sudo service nginx restart
