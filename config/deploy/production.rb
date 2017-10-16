@@ -6,7 +6,7 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server '54.213.17.237', user: "deploy", roles: %w{app db web}, ssh_options: {
+server '52.24.239.52', user: "deploy", roles: %w{app db web}, ssh_options: {
 keys: %w(/home/asfarley/.ssh/shared.pem),
 forward_agent: false,
 auth_methods: %w(publickey)

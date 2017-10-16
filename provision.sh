@@ -55,12 +55,6 @@ rbenv rehash
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-gem install rails -v 5.1.3
-
-rbenv rehash
-
-rails -v # Rails 5.1.3
-
 git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
 
 sudo apt-get install -y dirmngr gnupg
