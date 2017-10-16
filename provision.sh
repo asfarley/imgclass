@@ -74,8 +74,8 @@ bundle install
 sudo mkdir /var/db
 sudo chown deploy /var/db
 source ~/.bash_profile
-rails db:create
-rails db:schema:load
-rails db:seed
+RAILS_ENV=production rails db:create
+RAILS_ENV=production rails db:schema:load
+RAILS_ENV=production rails db:seed
 sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
