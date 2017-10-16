@@ -67,6 +67,11 @@ sudo apt-get update -y
 sudo apt-get install -y nginx-extras passenger
 sudo sed -i 's|# include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
+
 cd /var/www/imgclass/current/
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
+bundle install
+rails db:create
+rails db:schema:load
+rails db:seed
 sudo service nginx restart
