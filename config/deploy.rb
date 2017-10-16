@@ -22,7 +22,6 @@ set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match y
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
-append :linked_files, "db/production.sqlite3"
 
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
