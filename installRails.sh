@@ -43,4 +43,5 @@ sudo apt-get update -y
 sudo apt-get install -y nginx-extras passenger
 sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 sudp cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
