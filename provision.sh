@@ -1,3 +1,22 @@
+#
+# imgclass.com provisioning script
+#
+# Oct 15, 2017
+#
+# This script:
+# * Installs dependencies
+# * Installs Rails, Ruby, rbenv, nodejs, nginx, passenger
+# * Configures nginx to serve this application
+#
+#
+# Tested on Ubuntu 16.04.
+#
+#
+# Before running this script, create a deploy user:
+# >> sudo adduser deploy
+# >> sudo adduser deploy sudo
+# >> su deploy
+
 sudo apt-get update -y
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev nodejs libpq-dev nginx -y
 
@@ -37,7 +56,7 @@ sudo apt-get install -y apt-transport-https ca-certificates
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
 sudo apt-get update -y
 sudo apt-get install -y nginx-extras passenger
+sudo sed -i 's|# include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
-sudp cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
-sudo rm /etc/nginx/sites-enabled/default
+sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 sudo service nginx restart
