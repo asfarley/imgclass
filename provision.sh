@@ -15,6 +15,8 @@
 # Before running this script, create a deploy user:
 # >> sudo adduser deploy
 # >> sudo adduser deploy sudo
+# >> su deploy
+# >> cd ~
 #
 # Give the user ssh ability:
 # >> sudo mkdir /home/deploy/.ssh
@@ -22,9 +24,12 @@
 # >> su deploy
 # >> cd ~
 # >> chmod 700 .ssh
+# >> sudo chown deploy .ssh/authorized_keys
 # >> chmod 600 .ssh/authorized_keys
 # >> sudo mkdir /var/www
 # >> sudo chown deploy /var/www
+# >> sudo mkdir /var/db
+# >> sudo chown deploy /var/db
 
 sudo apt-get update -y
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev nodejs libpq-dev nginx -y
@@ -77,4 +82,5 @@ sudo chown deploy /var/db
 rails db:create
 rails db:schema:load
 rails db:seed
+sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
