@@ -28,8 +28,20 @@
 # >> sudo chmod 600 .ssh/authorized_keys
 # >> sudo mkdir /var/www
 # >> sudo chown deploy /var/www
-# >> sudo mkdir /var/db
-# >> sudo chown deploy /var/db
+# >> exit
+# >> exit
+#
+# At this point, on your workstation you may use:
+# >> cap production deploy
+# which will push the code to the server.
+# The administrator will have to manually log in to the
+# production server and execute this provisioning script
+# after this script has been pushed to the production server
+# by Capistrano.
+#
+# >> cd /var/www/imgclass/current
+# >> ./provision.sh
+# >> exit
 
 sudo apt-get update -y
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev nodejs libpq-dev nginx -y
