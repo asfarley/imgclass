@@ -82,7 +82,7 @@ sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.c
 cd /var/www/imgclass/current/
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 
-bundle install
+bundle install --without development test
 sudo mkdir /var/db
 sudo chown deploy /var/db
 source ~/.bash_profile
