@@ -4,6 +4,7 @@ body {
 	color:grey;
 	font-family: 'Inconsolata';
 	font-size:18px;
+	min-width:850px;
 }
 
 .jobform {

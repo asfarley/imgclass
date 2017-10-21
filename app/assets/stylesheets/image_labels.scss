@@ -26,6 +26,17 @@ img {
 }
 
 #bblistcontainer {
-  margin-right: -8em;
+  position:absolute;
+  right:0px;
+}
+
+#delete-bb-button {
+  right:0px;
+  margin-right:1em;
   float:right;
+  margin-bottom:2em;
+}
+
+#bblist {
+  margin-top:2em;
 }
