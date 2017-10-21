@@ -14,22 +14,24 @@
 #
 # Before running this script, create a deploy user:
 #
-# >> sudo adduser deploy --gecos ""
-# >> sudo adduser deploy sudo
-# >> su deploy
+INITIAL_DIRECTORY="$(dirname "$0")"
+
+sudo adduser deploy --gecos ""
+sudo adduser deploy sudo
+su deploy
 
 # Give the user ssh ability:
 #
-# >> cd ~
-# >> mkdir .ssh
-# >> sudo cp /home/ubuntu/.ssh/authorized_keys .ssh/
-# >> chmod 700 .ssh
-# >> sudo chown deploy .ssh/authorized_keys
-# >> sudo chmod 600 .ssh/authorized_keys
-# >> sudo mkdir /var/www
-# >> sudo chown deploy /var/www
-# >> exit
-# >> exit
+cd ~
+mkdir .ssh
+sudo cp /home/ubuntu/.ssh/authorized_keys .ssh/
+chmod 700 .ssh
+sudo chown deploy .ssh/authorized_keys
+sudo chmod 600 .ssh/authorized_keys
+sudo mkdir /var/www
+sudo chown deploy /var/www
+#exit
+#exit
 #
 # At this point, on your workstation you may use:
 # >> cap production deploy
@@ -79,7 +81,7 @@ sudo apt-get install -y nginx-extras passenger
 sudo sed -i 's|# include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.conf|' /etc/nginx/nginx.conf
 
-cd /var/www/imgclass/current/
+cd $INITIAL_DIRECTORY
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 
 bundle install --without development test
