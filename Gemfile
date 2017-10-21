@@ -33,6 +33,7 @@ gem 'puma'
 group :development do
   gem "capistrano", "~> 3.9"
   gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-passenger'
 end
 
 # Use Unicorn as the app server

@@ -23,6 +23,7 @@
   <div class="field">
     <%= f.label "Roles:" %><br>
     <%= f.text_field :roles, :class => "form-control" %>
+    <%= f.select :roles, ['admin', 'worker,active', 'worker,inactive']%>
   </div>
   <div class="actions">
     <%= f.submit nil, :class => "btn btn-primary" %>
