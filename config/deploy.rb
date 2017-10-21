@@ -1,8 +1,6 @@
 # config valid only for current version of Capistrano
 lock "3.9.1"
 
-require 'bundler/capistrano'
-
 set :application, "imgclass"
 set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match your repository
 
