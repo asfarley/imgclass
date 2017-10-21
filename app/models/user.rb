@@ -48,4 +48,11 @@ class User < ApplicationRecord
     return (not roles.include? "admin")
   end
 
+  def is_active_worker
+    if(roles.nil?)
+      return false
+    end
+    return (roles.include? "worker" and not roles.include? "inactive" and not roles.include? "disabled")
+  end
+
 end

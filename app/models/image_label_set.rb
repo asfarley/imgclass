@@ -223,7 +223,7 @@ class ImageLabelSet < ApplicationRecord
   end
 
   def assign_entire_set
-    workers = User.all.select{ |user| user.is_worker}
+    workers = User.all.select{ |user| user.is_active_worker}
     #Calculate number of jobs to create for a full assignment
     total_assignment_count = images.count.to_f
     ImageLabel.transaction do
