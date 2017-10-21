@@ -17,7 +17,6 @@ aria-valuemin="0" aria-valuemax="100" style="width:<%= current_user.progress_per
   <span class="sr-only">70% Complete</span>
 </div>
 </div>
-<% if @image_label_set.bounding_box_mode %>
 <div id="radiocontainer" class="container" style="width:500px;">
   <%= form_for @unlabeled_first do |f| %>
   <div class="row">
@@ -33,16 +32,3 @@ aria-valuemin="0" aria-valuemax="100" style="width:<%= current_user.progress_per
   <button value="" name="" type="submit" class="btn btn-default btn-lg btn-block">Next</button>
   <% end %>
 </div>
-<% else %>
-<div id="btncontainer" class="container" width="500px;">
-  <%= form_for @unlabeled_first do |f| %>
-  <div class="row">
-    <% @unlabeled_first.image.image_label_set.labels.each do |label| %>
-    <div class="col-sm-4">
-        <button value="<%= label.id %>" name="label_id" type="submit" class="btn btn-default btn-lg btn-block"><%= label.text %></button>
-      </div>
-    <% end %>
-  </div>
-  <% end %>
-</div>
-<% end %>

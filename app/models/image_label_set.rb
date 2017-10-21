@@ -92,12 +92,7 @@ class ImageLabelSet < ApplicationRecord
   # Generate labels.txt file containing user class responses (ground truth) for a particular ImageLabelSet.
   def generateLabelsTextfile
     downloadString = ""
-    if bounding_box_mode
-      downloadString += fileTargetBoundingBoxes.inject("") {|textfileString,targetBoundingBox| textfileString + "\"" + targetBoundingBox["url"] + "\" " + targetBoundingBox["target"] + "\n"}
-    else
-      downloadString += textfileHeader + "\r\n"
-      downloadString += fileLabelVectorTriples.inject("") {|textfileString,fileLabelVectorTriple| textfileString + "\"" + fileLabelVectorTriple["url"] + "\" " + fileLabelVectorTriple["label"] + " " + fileLabelVectorTriple["vector"] + "\n"}
-    end
+    downloadString += fileTargetBoundingBoxes.inject("") {|textfileString,targetBoundingBox| textfileString + "\"" + targetBoundingBox["url"] + "\" " + targetBoundingBox["target"] + "\n"}
     labelsPath = File.join(Rails.root, "tmp", "labels.txt")
     File.open(labelsPath, 'w+') {|f| f.write(downloadString) }
     return labelsPath
