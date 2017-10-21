@@ -13,8 +13,7 @@
   <% end %>
 
   <div class="field">
-      <%= f.label :user_id %>
-      <%= f.text_field :id, :readonly => true, :class => "form-control" %>
+      <%= f.hidden_field :id, :readonly => true, :class => "form-control" %>
   </div>
   <div class="field">
       <%= f.label :email %>
@@ -23,6 +22,13 @@
   <div class="field">
     <%= f.label "Roles:" %><br>
     <%= f.text_field :roles, :class => "form-control" %>
+    <p>*choose from the following options for roles: <br>
+      <ul>
+        <li>admin</li>
+        <li>worker,active</li>
+        <li>worker,inactive</li>
+      </ul>
+    </p>
   </div>
   <div class="actions">
     <%= f.submit nil, :class => "btn btn-primary" %>

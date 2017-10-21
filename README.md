@@ -14,12 +14,15 @@ imgclass is intended to be used for neural network research in the construction 
 Once the complete image set has been labeled, a textfile containing bounding boxes for each image can be downloaded.
 
 Installation/Usage:
-1. Install Rails (tested with Rails 5 on Ubuntu 16.04, Windows 10 and Mac OSX)
-2. Clone imgclass repository
-3. Create database (rake db:create), install Gems etc
-4. Upload image URLs textfile and define labels
-5. Assign labeling jobs to workers
-6. Download completed training sets
+1. Clone imgclass repository on Ubuntu 16.04 server
+2. Run provision.sh on server (or manually install Ruby, Rails 5 etc)
+3. Login as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
+4. Assign labeling jobs to workers
+5. Workers log in (worker@imgclass, password: password) and label images
+5. Adming downloads labelled training set
+
+Deployment:
+Execute 'cap production deploy' to push to production server.
 
 The recommended format for inputing images to be tagged is a textfile with each line containing an image URL, ex:
 https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg
@@ -47,11 +50,5 @@ The image-tagging page renders bounding-boxes as SVG. The form transmit a JSON r
 The performance demands on the server should be relatively light-weight using the external URL strategy.
 
 ### To-do:
- * Write unit tests
- * One-click/one-line deployment
  * Automated backups
  * Write validations
- * Implement ImageLabelSet statistics visualizations
- * Test completed-set download using external URLs
- * Add view for editing ImageLabels
- * Add Users and Images headings to nav-bar
