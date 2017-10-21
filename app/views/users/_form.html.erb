@@ -1,0 +1,31 @@
+<div class="panel">
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user's roles from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+      <%= f.label :user_id %>
+      <%= f.text_field :id, :readonly => true, :class => "form-control" %>
+  </div>
+  <div class="field">
+      <%= f.label :email %>
+      <%= f.text_field :email, :readonly => true, :class => "form-control" %>
+  </div>
+  <div class="field">
+    <%= f.label "Roles:" %><br>
+    <%= f.text_field :roles, :class => "form-control" %>
+  </div>
+  <div class="actions">
+    <%= f.submit nil, :class => "btn btn-primary" %>
+  </div>
+<% end %>
+</div>
