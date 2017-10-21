@@ -9,18 +9,6 @@
 <% @images.each do |image| %>
   <div class="row">
   <div class="col-sm-2"><%= File.basename image.url %><br><br>
-  <% if @image_label_set.bounding_box_mode %>
-  <% else %>
-    <%= image.most_likely_label_text %>
-    <table class="table" >
-      <tr><% @image_label_set.labels.each do |label| %>
-        <td><b><%= label.text %></b></td>
-      <% end %></tr>
-      <tr><% @image_label_set.labels.each do |label| %>
-        <td><%= image.count_labels(label) %></td>
-      <% end %></tr>
-    </table>
-  <% end %>
   </div>
   <div class="col-sm-8">
     <%= render partial: "bbimage", locals: {image: image} %>

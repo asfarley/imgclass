@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170923193620) do
+ActiveRecord::Schema.define(version: 20171021191607) do
 
   create_table "image_label_sets", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.boolean  "bounding_box_mode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "name"
     t.index ["user_id"], name: "index_image_label_sets_on_user_id"
   end

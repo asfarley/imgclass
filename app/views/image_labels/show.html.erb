@@ -10,21 +10,6 @@
 </p>
 
 <%= render partial: "bbimage", locals: {image: @image_label.image, il: @image_label} %>
-<!-- <div class="imtight">
-  <img class="bbthumbnail" src="<%=@image_label.image.url %>" onload="RedrawAllBoundingBoxes()">
-  <svg id="overlay<%=@image_label.image.id%>" class="svgoverlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;"></svg>
-  </svg>
-</div> -->
-
-<% if @image_label.image_label_set.bounding_box_mode %>
-<!-- <script type="text/javascript">
-    var BoundingBoxes<%=@image_label.image.id%>_<%=@image_label.id %>=<%=raw(@image_label.target)%>;
-    var BoundingBoxInfo<%=@image_label.image.id%>_<%=@image_label.id%> = {};
-    BoundingBoxInfo<%=@image_label.image.id%>_<%=@image_label.id%>["overlayElementId"] = "overlay<%=@image_label.image.id%>";
-    BoundingBoxInfo<%=@image_label.image.id%>_<%=@image_label.id%>["BoundingBoxes"] = BoundingBoxes<%=@image_label.image.id%>_<%=@image_label.id%>;
-    BoundingBoxesGroups.push(BoundingBoxInfo<%=@image_label.image.id%>_<%=@image_label.id%>);
-</script> -->
-<% end %>
 
 <p>
   <strong>Label:</strong>

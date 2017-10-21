@@ -66,7 +66,6 @@ class ImageLabelSetsController < ApplicationController
     end
 
     @image_label_set = ImageLabelSet.new
-    @image_label_set.bounding_box_mode = true
     @image_label_set.name = params["name"]
     save_success = @image_label_set.save
 
@@ -92,42 +91,6 @@ class ImageLabelSetsController < ApplicationController
             i.image_label_set_id = @image_label_set.id
             i.save
           end
-        end
-      elsif (File.extname(uf.tempfile.path)==".zip")
-        Zip::File.open(uf.tempfile.path) do |zipfile|
-        zipfile.each do |file|
-          if(file.ftype == :file)
-            extension = File.extname(file.name)
-            basename = File.basename(file.name)
-            if not accepted_formats.include? extension
-              next #Ignore non-image files
-            end
-            if basename[0] == '.'
-              next #This case catches some non-image files with image extensions created by OSX
-            end
-            new_path = images_folder_path + File.basename(file.name)
-            zipfile.extract(file, new_path) unless File.exist?(new_path)
-            fs = FastImage.size(new_path)
-            if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
-              i = Image.new
-              i.url = "/images/#{@image_label_set.id}/" + File.basename(file.name)
-              i.image_label_set_id = @image_label_set.id
-              i.save
-            else
-              FileUtils.rm(new_path)
-            end
-          end
-          end
-        end
-      else
-        fs = FastImage.size(uf.tempfile.path)
-        if (fs[0] >= Rails.configuration.x.image_upload.mindimension) and (fs[1] >= Rails.configuration.x.image_upload.mindimension)
-          i = Image.new
-          new_path = images_folder_path + uf.original_filename.to_s
-          FileUtils.mv(uf.tempfile.path, new_path)
-          i.url = "/images/#{@image_label_set.id}/" + uf.original_filename.to_s
-          i.image_label_set_id = @image_label_set.id
-          i.save
         end
       end
       uf.tempfile.close

@@ -1,4 +1,3 @@
 ils_one:
   user: user1
-  bounding_box_mode: true
   name: TestSet
