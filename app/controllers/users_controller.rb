@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   #Show a particular user
   def show
-    @worksample = (image_labels.sort_by &:created_at).take(10)
+    @worksample = (@user.image_labels.select{ |il| not il.target.nil?}.sort_by &:created_at).take(10)
   end
 
   def edit
