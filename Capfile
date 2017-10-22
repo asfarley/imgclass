@@ -39,23 +39,12 @@ require "capistrano/rails/assets"
 # require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 
-desc "Install gems"
-task :install_gems do
-  on roles(:all) do |host|
-    with path: "/home/deploy/.rbenv/bin:$PATH" do
-      execute "cd /var/www/imgclass/current && bundle install"
-    end
-  end
-end
-
 desc "Prepare database on first deployment"
 task :prepare_database do
   on roles(:all) do |host|
-    with path: "/home/deploy/.rbenv/bin:$PATH" do
       execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:create"
       execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:schema:load"
       execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:seed"
-    end
   end
 end
 
