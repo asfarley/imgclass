@@ -13,16 +13,24 @@ imgclass is intended to be used for neural network research in the construction 
 
 Once the complete image set has been labeled, a textfile containing bounding boxes for each image can be downloaded.
 
-Installation/Usage:
-1. Clone imgclass repository on Ubuntu 16.04 server
-2. Run provision.sh on server (or manually install Ruby, Rails 5 etc)
-3. Login as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
-4. Assign labeling jobs to workers
-5. Workers log in (worker@imgclass, password: password) and label images
-5. Adming downloads labelled training set
+Server Provisioning and Deployment
+ 1. Create AWS EC2 t2.micro Ubuntu 16.03 instance
+ 2. SSH into server
+ 3. Clone imgclass repository on server
+ 4. Follow instructions in provision.sh to create a new user
+ 5. Run provision.sh on server
+ 6. Close SSH connection
+ 7. In local development environment, run 'cap production deploy'
+ 8. In local development environment, run 'cap production rails:rake:db:setup'
+ 9. Login to server as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
+ 10. Assign labeling jobs to workers
+ 11. Workers log in (worker@imgclass, password: password) and label images
+ 12. Adming downloads labelled training set
 
-Deployment:
-Execute 'cap production deploy' to push to production server.
+Development Environment Setup
+ 1. Clone imgclass repo
+ 2. Install rbenv, ruby, etc (follow provision.sh script)
+ 3. Launch development server using launch.sh
 
 The recommended format for inputing images to be tagged is a textfile with each line containing an image URL, ex:
 https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg
