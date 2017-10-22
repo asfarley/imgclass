@@ -32,7 +32,7 @@ gem 'puma'
 
 group :development do
   gem "capistrano", "~> 3.9"
-  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rails', '~> 1.3'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler', '~> 1.3'
 end

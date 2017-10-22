@@ -4,6 +4,10 @@ lock "3.9.1"
 set :application, "imgclass"
 set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match your repository
 
+#set :default_env, {
+#  'PATH' => 'PATH=$PATH:/home/deploy/.rbenv/bin'
+#}
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -18,7 +22,7 @@ set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match y
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :pty is false
-# set :pty, true
+#set :pty, true
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
@@ -28,6 +32,7 @@ set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match y
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
+#set :default_env, { path: "/home/deploy/.rbenv/bin:$PATH" }
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
