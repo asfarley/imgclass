@@ -10,4 +10,7 @@ class StaticController < ApplicationController
     end
   end
 
+  def instructions
+  end
+
 end
