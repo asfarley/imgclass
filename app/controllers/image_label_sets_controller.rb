@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download, :refresh_zipfile]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download, :refresh_zipfile, :label_with_blanks]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
@@ -119,6 +119,13 @@ class ImageLabelSetsController < ApplicationController
     @openjobs = Job.all.select{|j| j.isOpen}
     @completedjobs = Job.all.select{|j| j.isComplete}
     @job = Job.new
+  end
+
+  def label_with_blanks
+    @image_label_set.label_with_blanks
+    respond_to do |format|
+        format.html { redirect_to image_label_sets_url, notice: 'Image label set has been labelled with blanks.' }
+    end
   end
 
   # PATCH/PUT /image_label_sets/1
