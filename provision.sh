@@ -29,9 +29,11 @@ chmod 700 .ssh
 sudo chown deploy .ssh/authorized_keys
 sudo chmod 600 .ssh/authorized_keys
 
-# Create deployment folder for Capistrano
+# Create deployment folders for Capistrano/Rails
 sudo mkdir /var/www
 sudo chown deploy /var/www
+sudo mkdir /var/db
+sudo chown deploy /var/db
 
 # Update and get dependencies
 sudo apt-get update -y
@@ -81,14 +83,7 @@ sudo sed -i 's|#include /etc/nginx/passenger.conf|include /etc/nginx/passenger.c
 cd $INITIAL_DIRECTORY
 sudo cp ./accessory/imgclass.conf /etc/nginx/sites-enabled/
 
-# Set up Rails
-bundle install --without development test
-sudo mkdir /var/db
-sudo chown deploy /var/db
-source ~/.bash_profile
-RAILS_ENV=production rails db:create
-RAILS_ENV=production rails db:schema:load
-RAILS_ENV=production rails db:seed
+# Remove default NGINX page
 sudo rm /etc/nginx/sites-enabled/default
 
 # Restart
@@ -97,3 +92,8 @@ sudo service nginx restart
 # At this point, on your workstation you may use:
 # >> cap production deploy
 # which will push the code to the server.
+
+#bundle install --without development test
+#RAILS_ENV=production rails db:create
+#RAILS_ENV=production rails db:schema:load
+#RAILS_ENV=production rails db:seed
