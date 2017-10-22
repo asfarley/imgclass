@@ -50,6 +50,12 @@
         <% end %>
       </div>
 
+      <div class="pull-left">
+        <%= link_to ({:controller => "image_label_sets", :action => "label_with_blanks", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success">Label with blanks</button>
+        <% end %>
+      </div>
+
       <!-- <div class="col-sm-1"> -->
       <div class="pull-left">
         <%= link_to ({:controller => "image_label_sets", :action => "admin", :id => image_label_set.id}) do %>
