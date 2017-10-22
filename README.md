@@ -13,31 +13,29 @@ imgclass is intended to be used for neural network research in the construction 
 
 Once the complete image set has been labeled, a textfile containing bounding boxes for each image can be downloaded.
 
-### Server Provisioning and Deployment
+#### Server Provisioning and Deployment
  1. Create AWS EC2 t2.micro Ubuntu 16.04 instance
  2. SSH into server
- 3. Clone imgclass repository on server
+ 3. ```git clone https://github.com/asfarley/imgclass.git && cd imgclass```
  4. Follow instructions in provision.sh to create a new user
- 5. Run provision.sh on server
+ 5. Execute ```./provision.su``` on server
  6. Close SSH connection
- 7. In local development environment, run 'cap production deploy'
- 8. In local development environment, run 'cap production rails:rake:db:setup'
+ 7. In local development environment, run ```cap production deploy```
+ 8. In local development environment, run ```cap production rails:rake:db:setup```
  9. Login to server as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
  10. Assign labeling jobs to workers
- 11. Workers log in (worker@imgclass, password: password) and label images
+ 11. Workers log in (worker@imgclass.com, password: password) and label images
  12. Adming downloads labelled training set
 
-### Development Environment Setup
+#### Development Environment Setup
  1. Clone imgclass repo
  2. Install rbenv, ruby, etc (follow provision.sh script)
  3. Launch development server using launch.sh
 
-The recommended format for inputing images to be tagged is a textfile with each line containing an image URL, ex:
+The recommended format for inputing images to be tagged is a textfile with each line containing an image URL, ex:  
 https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg
 
----
-
-### Technical Background
+#### Technical Background
 
 The imgclass application code contains the following models:
  * ImageLabelSet: The main concept linking a set of images to a set of possible tags, and the results from user tagging.
@@ -56,7 +54,3 @@ Image tags are represented as JSON-formatted rectangles:
 The image-tagging page renders bounding-boxes as SVG. The form transmit a JSON representation of the bounding-box set to the Rails server for storage.
 
 The performance demands on the server should be relatively light-weight using the external URL strategy.
-
-### To-do:
- * Automated backups
- * Write validations
