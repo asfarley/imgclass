@@ -19,7 +19,7 @@
 # >> su deploy
 
 # Store initial directory for use later
-INITIAL_DIRECTORY="$(dirname "$0")"
+INITIAL_DIRECTORY="$PWD"
 
 # Copy over the authorized public keys in the ubuntu user's .ssh directory
 cd ~
