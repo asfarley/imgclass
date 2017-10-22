@@ -16,15 +16,15 @@ Once the complete image set has been labeled, a textfile containing bounding box
 #### Server Provisioning and Deployment
  1. Create AWS EC2 t2.micro Ubuntu 16.04 instance
  2. SSH into server
- 3. ```git clone https://github.com/asfarley/imgclass.git && cd imgclass```
+ 3. ```>> git clone https://github.com/asfarley/imgclass.git && cd imgclass```
  4. Follow instructions in provision.sh to create a new user
- 5. Execute ```./provision.su``` on server
+ 5. Execute ```>> ./provision.su``` on server
  6. Close SSH connection
- 7. In local development environment, run ```cap production deploy```
- 8. In local development environment, run ```cap production rails:rake:db:setup```
- 9. Login to server as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
+ 7. In local development environment, execute ```>> cap production deploy```
+ 8. In local development environment, execute ```>> cap production rails:rake:db:setup```
+ 9. Login to EC2 instance URL landing page as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
  10. Assign labeling jobs to workers
- 11. Workers log in (worker@imgclass.com, password: password) and label images
+ 11. Workers log in to EC2 instance URL landing page (worker@imgclass.com, password: password) and label images
  12. Adming downloads labelled training set
 
 #### Development Environment Setup
