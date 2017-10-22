@@ -14,9 +14,11 @@
 #
 # Before running this script, create a deploy user:
 #
-# >> sudo adduser deploy --gecos ""
-# >> sudo adduser deploy sudo
-# >> su deploy
+INITIAL_DIRECTORY="$(dirname "$0")"
+
+sudo adduser deploy --gecos ""
+sudo adduser deploy sudo
+su deploy
 
 # Copy over the authorized public keys in the ubuntu user's .ssh directory
 cd ~
