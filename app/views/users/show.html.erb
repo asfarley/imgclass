@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= @user.email %></strong>
+  <br><br>
+  <h4>Work sample</h4>
+</p>
+
+<% @worksample.each do |imagelabel| %>
+  <div class="row">
+  <div class="col-sm-2"><%= File.basename imagelabel.image.url %><br><br>
+  </div>
+  <div class="col-sm-8">
+    <%= render partial: "bbimage", locals: {image: imagelabel.image} %>
+  </div>
+  </div>
+  <br><br>
+<% end %>
