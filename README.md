@@ -13,8 +13,8 @@ imgclass is intended to be used for neural network research in the construction 
 
 Once the complete image set has been labeled, a textfile containing bounding boxes for each image can be downloaded.
 
-Server Provisioning and Deployment
- 1. Create AWS EC2 t2.micro Ubuntu 16.03 instance
+### Server Provisioning and Deployment
+ 1. Create AWS EC2 t2.micro Ubuntu 16.04 instance
  2. SSH into server
  3. Clone imgclass repository on server
  4. Follow instructions in provision.sh to create a new user
@@ -27,7 +27,7 @@ Server Provisioning and Deployment
  11. Workers log in (worker@imgclass, password: password) and label images
  12. Adming downloads labelled training set
 
-Development Environment Setup
+### Development Environment Setup
  1. Clone imgclass repo
  2. Install rbenv, ruby, etc (follow provision.sh script)
  3. Launch development server using launch.sh
@@ -37,7 +37,7 @@ https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg
 
 ---
 
-## Technical Background
+### Technical Background
 
 The imgclass application code contains the following models:
  * ImageLabelSet: The main concept linking a set of images to a set of possible tags, and the results from user tagging.
