@@ -36,6 +36,7 @@ require "capistrano/rbenv"
 # require "capistrano/chruby"
 # require "capistrano/bundler"
 require "capistrano/rails/assets"
+require 'capistrano/rails/collection'
 # require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 

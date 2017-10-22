@@ -35,6 +35,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.3'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler', '~> 1.3'
+  gem 'capistrano-rails-collection'
 end
 
 # Use Unicorn as the app server
