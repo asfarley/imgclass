@@ -12,10 +12,7 @@ class ImageLabelsController < ApplicationController
       redirect_to root_path
     end
 
-    @unlabeled = ImageLabel.where("target IS ?", nil)
-    @unlabeled = @unlabeled.reject { |il|
-      (il.user != current_user)
-    }
+    @unlabeled = current_user.image_labels.select{ |il| il.target.nil? }
 
     @unlabeled_first = @unlabeled.first
     if @unlabeled_first.nil?
