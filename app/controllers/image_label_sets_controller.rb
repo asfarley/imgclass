@@ -1,5 +1,5 @@
 class ImageLabelSetsController < ApplicationController
-  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download, :refresh_zipfile, :label_with_blanks]
+  before_action :set_image_label_set, only: [:show, :edit, :update, :destroy, :admin, :assign_entire_set, :download, :refresh_zipfile, :label_with_blanks, :assign_remaining]
   require 'fileutils'
   require 'pathname'
   require 'kaminari'
