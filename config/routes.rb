@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'image_label_sets/download/:id' => 'image_label_sets#download'
   get 'image_label_sets/assign/:id' => 'image_label_sets#assign'
   get 'image_label_sets/assign_entire_set/:id' => 'image_label_sets#assign_entire_set'
+  get 'image_label_sets/assign_remaining/:id' => 'image_label_sets#assign_remaining'
   get 'image_label_sets/refresh_zipfile/:id' => 'image_label_sets#refresh_zipfile'
   get 'image_label_sets/label_with_blanks/:id' => 'image_label_sets#label_with_blanks'
   post 'image_label_sets/createjob/:id' => 'image_label_sets#createjob'

@@ -38,6 +38,13 @@ class ImageLabelSetsController < ApplicationController
     end
   end
 
+  def assign_remaining
+    @image_label_set.assign_remaining
+    respond_to do |format|
+        format.html { redirect_to @image_label_set, notice: 'Remaining images were assigned.' }
+    end
+  end
+
   def refresh_zipfile
     respond_to do |format|
         format.html { redirect_to image_label_sets_url, notice: 'Zipfile is being refreshed.' }

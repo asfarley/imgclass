@@ -39,6 +39,12 @@
       </div>
 
       <div class="pull-left">
+        <%= link_to ({:controller => "image_label_sets", :action => "assign_remaining", :id => image_label_set.id}) do %>
+          <button type="button" class="btn btn-default btn-success">Assign Remaining</button>
+        <% end %>
+      </div>
+
+      <div class="pull-left">
         <%= link_to ({:controller => "image_label_sets", :action => "assign_entire_set", :id => image_label_set.id}) do %>
           <button type="button" class="btn btn-default btn-success">Assign All</button>
         <% end %>

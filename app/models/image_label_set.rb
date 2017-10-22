@@ -239,6 +239,28 @@ class ImageLabelSet < ApplicationRecord
     end
   end
 
+  def assign_remaining
+    workers = User.all.select{ |user| user.is_active_worker}
+    #Calculate number of jobs to create for a full assignment
+    total_assignment_count = unassignedImages().count.to_f
+    ImageLabel.transaction do
+      unassignedImages().each_slice(Job::MAX_JOB_SIZE) do |images_slice|
+        worker = workers.sample
+        j = Job.new()
+        j.image_label_set_id = id
+        j.user_id = worker.id
+        j.save
+        images_slice.each do |image|
+          il = ImageLabel.new
+          il.image_id = image.id
+          il.job_id = j.id
+          il.user_id = worker.id
+          il.save
+        end
+      end
+    end
+  end
+
   # Debug-only.
   # This method is intended to give a blank
   # target to each image/image_label in the set.
