@@ -40,14 +40,5 @@ require 'capistrano/rails/collection'
 # require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 
-desc "Prepare database on first deployment"
-task :prepare_database do
-  on roles(:all) do |host|
-      execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:create"
-      execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:schema:load"
-      execute "cd /var/www/imgclass/current/ && RAILS_ENV=production rails db:seed"
-  end
-end
-
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

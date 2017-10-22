@@ -3,6 +3,7 @@ lock "3.9.1"
 
 set :application, "imgclass"
 set :repo_url, 'https://github.com/asfarley/imgclass.git' # Edit this to match your repository
+set :bundle_path, -> { nil }
 
 #set :default_env, {
 #  'PATH' => 'PATH=$PATH:/home/deploy/.rbenv/bin'
