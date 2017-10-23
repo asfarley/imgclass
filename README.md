@@ -15,16 +15,18 @@ Once the complete image set has been labeled, a textfile containing bounding box
 
 #### User Instructions
 
-Default administrator account: admin@imgclass.com  
-Default administrator password: password  
+Default administrator account: ```admin@imgclass.com```  
+Default administrator password: ```password```  
 
-Default worker account: worker@imgclass.com  
-Default worker password: password  
+Default worker account: ```worker@imgclass.com```  
+Default worker password: ```password```  
 
-1. Login to imgclass as administrator. Upload image URLs textfile and define labels
-2. Assign labeling jobs to workers
-3. Workers log in to imgclass and labels images
-4. Administrator downloads completed training set
+1. Upload a large set of images to AWS S3 or other cloud file storage platform. Images must be publicly readable.
+2. Generate a text-file containing one image URL per line.
+3. Login to imgclass as administrator. Upload image URLs textfile and define labels
+4. Assign labeling jobs to workers
+5. Workers log in to imgclass and labels images
+6. Administrator downloads completed training set
 
 #### Server Provisioning and Deployment
  1. Create AWS EC2 t2.micro Ubuntu 16.04 instance

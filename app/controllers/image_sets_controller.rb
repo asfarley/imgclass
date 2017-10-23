@@ -1,6 +1,8 @@
 class ImageSetsController < ApplicationController
   before_action :set_image_set, only: [:show, :edit, :update, :destroy]
 
+  before_filter :check_roles
+  
   # GET /image_sets
   # GET /image_sets.json
   def index
@@ -58,6 +60,16 @@ class ImageSetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to image_sets_url, notice: 'Image set was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin"
+      redirect_to '/'
     end
   end
 

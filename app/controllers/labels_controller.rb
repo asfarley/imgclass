@@ -1,6 +1,8 @@
 class LabelsController < ApplicationController
   before_action :set_label, only: [:show, :edit, :update, :destroy]
 
+  before_filter :check_roles
+
   # GET /labels
   # GET /labels.json
   def index
@@ -58,6 +60,16 @@ class LabelsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to labels_url, notice: 'Label was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin"
+      redirect_to '/'
     end
   end
 

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  before_filter :check_roles
+
   #Show all users
   def index
     @users = User.all
@@ -8,7 +10,7 @@ class UsersController < ApplicationController
 
   #Show a particular user
   def show
-    @worksample = (@user.image_labels.select{ |il| not il.target.nil?}.sort_by &:created_at).take(10)
+    @worksample = (@user.image_labels.select{ |il| not il.target.nil?}.sort_by &:created_at).reverse().take(10)
   end
 
   def edit
@@ -29,6 +31,16 @@ class UsersController < ApplicationController
 
   #Destroy a user
   def destroy
+  end
+
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin"
+      redirect_to '/'
+    end
   end
 
   private

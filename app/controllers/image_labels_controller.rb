@@ -1,6 +1,8 @@
 class ImageLabelsController < ApplicationController
   before_action :set_image_label, only: [:show, :edit, :update, :destroy]
 
+  before_filter :check_roles
+
   # GET /image_labels
   # GET /image_labels.json
   def index
@@ -78,6 +80,16 @@ class ImageLabelsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to image_labels_url, notice: 'Image label was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin" and not current_user.roles.include? "worker"
+      redirect_to '/'
     end
   end
 

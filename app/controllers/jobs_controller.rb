@@ -2,6 +2,8 @@ class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
   before_action :set_image_label_set, only: [:new]
 
+  before_filter :check_roles
+
   # GET /jobs
   # GET /jobs.json
   def index
@@ -79,6 +81,16 @@ class JobsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin"
+      redirect_to '/'
     end
   end
 

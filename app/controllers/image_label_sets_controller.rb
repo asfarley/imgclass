@@ -7,6 +7,10 @@ class ImageLabelSetsController < ApplicationController
   require 'zip'
   #require 'byebug'
   require './app/lib/zipfilegenerator'
+
+
+  before_filter :check_roles
+
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
@@ -156,6 +160,16 @@ class ImageLabelSetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to image_label_sets_url, notice: 'Image label set was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def check_roles
+    if(current_user.roles.nil?)
+      redirect_to '/'
+    end
+
+    if not current_user.roles.include? "admin"
+      redirect_to '/'
     end
   end
 
