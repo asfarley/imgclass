@@ -13,6 +13,19 @@ imgclass is intended to be used for neural network research in the construction 
 
 Once the complete image set has been labeled, a textfile containing bounding boxes for each image can be downloaded.
 
+#### User Instructions
+
+Default administrator account: admin@imgclass.com  
+Default administrator password: password  
+
+Default worker account: worker@imgclass.com  
+Default worker password: password  
+
+1. Login to imgclass as administrator. Upload image URLs textfile and define labels
+2. Assign labeling jobs to workers
+3. Workers log in to imgclass and labels images
+4. Administrator downloads completed training set
+
 #### Server Provisioning and Deployment
  1. Create AWS EC2 t2.micro Ubuntu 16.04 instance
  2. SSH into server
@@ -22,17 +35,13 @@ Once the complete image set has been labeled, a textfile containing bounding box
  6. Close SSH connection
  7. In local development environment, execute ```>> cap production deploy```
  8. In local development environment, execute ```>> cap production rails:rake:db:setup```
- 9. Login to EC2 instance URL landing page as administrator (default account: admin@imgclass.com, password: password). Upload image URLs textfile and define labels
- 10. Assign labeling jobs to workers
- 11. Workers log in to EC2 instance URL landing page (worker@imgclass.com, password: password) and label images
- 12. Adming downloads labelled training set
 
 #### Development Environment Setup
  1. Clone imgclass repo
  2. Install rbenv, ruby, etc (follow provision.sh script)
  3. Launch development server using launch.sh
 
-The recommended format for inputing images to be tagged is a textfile with each line containing an image URL, ex:  
+The format for inputing images to be tagged is a textfile with each line containing an image URL, ex:  
 https://s3-us-west-2.amazonaws.com/imgclass-images/LargeSet6200Images/0001.jpg
 
 #### Technical Background
@@ -41,7 +50,7 @@ The imgclass application code contains the following models:
  * ImageLabelSet: The main concept linking a set of images to a set of possible tags, and the results from user tagging.
  * ImageLabel: A user's tagged results from a single image
  * Image: A single image to be tagged, possible by multiple users
- * Job: A group of ImageLabels assiged to a particular worker
+ * Job: A group of ImageLabels assigned to a particular worker
  * Label: One of several possible object types that may occur in a given ImageLabelSet
  * User: Either an admin (capable of uploading ImageLabelSets and assigning jobs) or a worker (capable of tagging images).
 
