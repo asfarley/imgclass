@@ -7,16 +7,57 @@
 <p>
   <strong><%= @user.email %></strong>
   <br><br>
-  <h4>Work sample</h4>
-</p>
-
-<% @worksample.each do |imagelabel| %>
-  <div class="row">
-  <div class="col-sm-2"><%= File.basename imagelabel.image.url %><br><br>
-  </div>
-  <div class="col-sm-8">
-    <%= render partial: "bbimage", locals: {image: imagelabel.image} %>
-  </div>
-  </div>
+  <h2>Jobs</h2>
+  <br>
+  <button data-toggle="collapse" class="btn collapsed" data-target="#jobs_table" aria-expanded="false">
+    <span class="glyphicon glyphicon-collapse-down"></span>
+  </button>
   <br><br>
-<% end %>
+  <div class="table-responsive collapse" id="jobs_table" aria-expanded="false" style="height: 0px;">
+  <table class="table">
+    <tr>
+      <th>ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th>Total image count&nbsp;&nbsp;</th>
+      <th>Labelled images&nbsp;&nbsp;</th>
+      <th>% Complete&nbsp;&nbsp;</th>
+      <th>% Agreement</th>
+      <th>Date created</th>
+    </tr>
+  <% @user.jobs.each do |job| %>
+    <tr>
+      <td><%= job.id %></td>
+      <td><%= job.image_labels.size %></td>
+      <td><%= job.labelledImagesCount() %></thd>
+      <td><%= job.percent_complete %></td>
+      <td><%= job.percent_agreement %></td>
+      <td><%= job.created_at %></td>
+      <td>
+        <%= link_to job, method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <button type="button" class="btn btn-danger">Destroy</button>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  </div>
+
+  <br><br>
+  <h2>Work samples</h2>
+  <br>
+  <button data-toggle="collapse" class="btn" data-target="#worksamples" aria-expanded="true">
+    <span class="glyphicon glyphicon-collapse-down"></span>
+  </button>
+  <br><br>
+  <div id="worksamples" aria-expanded="true" class="collapse in">
+  <% @worksample.each do |imagelabel| %>
+    <div class="row">
+    <div class="col-sm-2"><%= File.basename imagelabel.image.url %><br><br>
+    </div>
+    <div class="col-sm-8">
+      <%= render partial: "bbimage", locals: {image: imagelabel.image} %>
+    </div>
+    </div>
+    <br><br>
+  <% end %>
+  </div>
+</p>

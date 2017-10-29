@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <div class="container">
-  <%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
-  <br><br>
+<%= link_to "Create Job", new_job_path(:image_label_set_id => @image_label_set.id), class: "btn btn-primary" %>
+<br><br>
 <h2>Jobs</h2>
-  <div class="table-responsive">
+<div class="table-responsive">
 <table class="table">
   <tr>
     <th>ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -13,6 +13,7 @@
     <th>Labelled images&nbsp;&nbsp;</th>
     <th>% Complete&nbsp;&nbsp;</th>
     <th>% Agreement</th>
+    <th>Date created</th>
   </tr>
 <% @jobs.each do |job| %>
   <tr>
@@ -22,6 +23,7 @@
     <td><%= job.labelledImagesCount() %></thd>
     <td><%= job.percent_complete %></td>
     <td><%= job.percent_agreement %></td>
+    <td><%= job.created_at %></td>
     <td>
       <%= link_to job, method: :delete, data: { confirm: 'Are you sure?' } do %>
         <button type="button" class="btn btn-danger">Destroy</button>
@@ -30,7 +32,7 @@
   </tr>
 <% end %>
 </table>
-  </div>
+</div>
   <br><br><br><br>
   <div class="row" id="pagination-links">
     <div class="col-sm-5"><%= paginate @jobs %></div>

@@ -32,6 +32,10 @@ function renderCoverage(coverage, elementID, outlineColor, fillColor, elementWid
     return Math.max(a, b);
 	});
 
+  coverage_min = coverage.reduce(function(a, b) {
+    return Math.min(a, b);
+  });
+
 	//console.log("Coverage_max: " + coverage_max);
 
 	var canvas = document.getElementById(elementID);
@@ -50,7 +54,7 @@ function renderCoverage(coverage, elementID, outlineColor, fillColor, elementWid
 				integer_width = 0;
 			}
 
-			if(coverage[i] != 0)
+			if((coverage[i] - coverage_min) != 0)
 			{
 				percent = 100*(coverage[i]/coverage_max);
 				adjusted_fill = increase_brightness("#010101", percent);
@@ -70,5 +74,20 @@ function renderCoverage(coverage, elementID, outlineColor, fillColor, elementWid
 				//ctx.stroke();
 			}
 		}
+
+    var fontHeight = elementHeight * 0.8;
+    var ctxfontString = fontHeight.toString() + "pt Arial";
+    console.log("ctxfontString is " + ctxfontString);
+    ctx.font = fontHeight.toString() + "pt arial";
+    //ctx.fillStyle="#ff0066";
+    //ctx.strokeStyle="#ff0066";
+    ctx.fillStyle="#ffffff";
+    ctx.lineWidth = 1;
+    ctx.strokeStyle="#000000";
+    if(coverage_min > 0)
+    {
+      ctx.fillText("+" + coverage_min.toString(), 10, elementHeight - 0.1 * elementHeight);
+      ctx.strokeText("+" + coverage_min.toString(), 10, elementHeight - 0.1 * elementHeight);
+    }
 	}
 }
