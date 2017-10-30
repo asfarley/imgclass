@@ -312,16 +312,18 @@ class ImageLabelSet < ApplicationRecord
     # If output folder already exists, delete it
     output_path = download_folder_path()
     if (File.exist?(output_path) && File.directory?(output_path))
+      logger.debug "Zipped output path exists, deleting..."
       result = FileUtils.rm_rf(output_path)
-      puts "Result of deletion: #{result}"
+      logger.debug "Result of deletion: #{result}"
     end
     FileUtils::mkdir_p(output_path)
     preexisting_folders = Dir.entries(output_path)
-    puts "In generate_output_folder_if_complete, folders exist: #{preexisting_folders}"
+    logger.debug "In generate_output_folder_if_complete, folders exist: #{preexisting_folders}"
     #Zip urls with most likely bounding boxes
     urls_targets_hash_list = images.eager_load(:image_labels).select{ |image| image.is_labelled}.map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
+    logger.debug "Downloading #{urls_targets_hash_list.count} images..."
     parallel_download(urls_targets_hash_list, output_path);nil
-    puts "Generating Yolo CFG files..."
+    logger.debug "Generating Yolo CFG files..."
     image_file_paths = images.map{ |i| i.url }
     names_list = labels.map { |l| l.text }
     YoloFileGenerator.generate_all_yolo_training_files(output_path, image_file_paths, names_list)
