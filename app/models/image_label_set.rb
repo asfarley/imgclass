@@ -309,8 +309,6 @@ class ImageLabelSet < ApplicationRecord
 
   def generate_output_folder_if_complete
     t1 = Time.now
-    # If not complete, bail out
-    if(numImageLabelsRemaining() != 0) then return end
     # If output folder already exists, delete it
     output_path = download_folder_path()
     if (File.exist?(output_path) && File.directory?(output_path))
@@ -321,7 +319,7 @@ class ImageLabelSet < ApplicationRecord
     preexisting_folders = Dir.entries(output_path)
     puts "In generate_output_folder_if_complete, folders exist: #{preexisting_folders}"
     #Zip urls with most likely bounding boxes
-    urls_targets_hash_list = images.eager_load(:image_labels).map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
+    urls_targets_hash_list = images.eager_load(:image_labels).select{ |image| image.is_labelled}.map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
     parallel_download(urls_targets_hash_list, output_path);nil
     puts "Generating Yolo CFG files..."
     image_file_paths = images.map{ |i| i.url }

@@ -9,6 +9,10 @@ class Image < ApplicationRecord
       ImageLabel.where("image_id = ? and label_id = ?", self.id, label.id).count
   end
 
+  def is_labelled
+    return (image_labels.select{|image_label| not image_label.target.nil? }.count > 0)
+  end
+
   # Attempt to determine the most-likely correct label/ground-truth for a
   # particular image despite potentially conflicting labels.
   #
