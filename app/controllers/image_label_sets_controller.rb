@@ -121,7 +121,7 @@ class ImageLabelSetsController < ApplicationController
 
   def download
     zipfile_name = @image_label_set.zipped_output_folder_name()
-    send_file zipfile_name, :filename => "yolo_trainingset_#{@image_label_set.path_safe_name()}.zip", disposition: 'attachment'
+    send_file zipfile_name, :filename => "yolo_trainingset_#{@image_label_set.path_safe_name()}.zip", x_sendfile: true, disposition: 'attachment'
   end
 
   def assign

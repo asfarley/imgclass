@@ -202,7 +202,7 @@ class ImageLabelSet < ApplicationRecord
     uri = URI.parse(URI.encode(url))
     nAttempts = 0
     succeeded = false
-    while(nAttempts < 5 && succeeded == false)
+    while (nAttempts < 5 && succeeded == false) do
       begin
         open(path_filtered, 'wb') do |file|
           file << open(uri, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read

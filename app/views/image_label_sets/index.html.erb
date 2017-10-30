@@ -28,7 +28,7 @@
       </div>
 
       <!-- <div class="col-sm-1"> -->
-      <div class="pull-left">
+      <div class="pull-left" data-turbolinks="false">
         <% if image_label_set.zipped_output_folder_exists %>
           <%= link_to ({:controller => "image_label_sets", :action => "download", :id => image_label_set.id}) do %>
             <button type="button" class="btn btn-default">Download</button>
