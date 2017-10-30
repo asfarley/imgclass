@@ -285,13 +285,13 @@ class ImageLabelSet < ApplicationRecord
   # c) write the most-likely bounding box tags to the folder containing the image
   def parallel_download(urls_targets_hash_list, storage_path)
     preexisting_folders = Dir.entries(storage_path)
-    puts "Before parallel_download, folders exist: #{preexisting_folders}"
+    logger.debug "Before parallel_download, folders exist: #{preexisting_folders}"
   	Parallel.each(urls_targets_hash_list, in_threads: 32) { |url_target_pair|
       #Download image
   		basename = File.basename(url_target_pair[:url], ".*")
   		basename_with_ext = File.basename(url_target_pair[:url])
   		this_image_subfolder = File.join(storage_path, basename)
-      puts "Making directory: #{this_image_subfolder}"
+      logger.debug "Making directory: #{this_image_subfolder}"
       if(File.exist? this_image_subfolder)
         FileUtils.rm_rf(this_image_subfolder)
       end
@@ -322,7 +322,11 @@ class ImageLabelSet < ApplicationRecord
     #Zip urls with most likely bounding boxes
     urls_targets_hash_list = images.eager_load(:image_labels).select{ |image| image.is_labelled}.map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
     logger.debug "Downloading #{urls_targets_hash_list.count} images..."
-    parallel_download(urls_targets_hash_list, output_path);nil
+    begin
+      parallel_download(urls_targets_hash_list, output_path);nil
+    rescue Exception => ex
+      logger.debug "Parallel image download failed: #{ex}"
+    end
     logger.debug "Generating Yolo CFG files..."
     image_file_paths = images.map{ |i| i.url }
     names_list = labels.map { |l| l.text }
