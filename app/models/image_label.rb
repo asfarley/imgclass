@@ -19,7 +19,7 @@ class ImageLabel < ApplicationRecord
     return image.image_labels.select{ |il| (not il.target.nil?) && (not il == self) }
   end
 
-  def to_object_count_hash
+  def to_object_count_hashG
     count_hash = {}
     if(target.nil? or target == "")
       return {}
@@ -85,6 +85,11 @@ class ImageLabel < ApplicationRecord
     end
     match_percents = match_hashes.map{ |match_hash|
       match_on_each_class = match_hash.values
+      numerator = match_on_each_class.reduce(:+)
+      denominator = match_on_each_class.size.to_f
+      if(numerator == nil || denominator == nil || denominator == 0)
+        return 0.0
+      end
       return match_on_each_class.reduce(:+) / match_on_each_class.size.to_f
     }
     average = match_percents.reduce(:+) / match_percents.size.to_f
