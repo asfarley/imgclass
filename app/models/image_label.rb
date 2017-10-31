@@ -21,16 +21,20 @@ class ImageLabel < ApplicationRecord
 
   def to_object_count_hash
     count_hash = {}
-    if(target.nil?)
+    if(target.nil? or target == "")
       return {}
     end
-    json = JSON.parse(target)
-    json.each do |bounding_box|
-      if count_hash.key? bounding_box["classname"]
-        count_hash[bounding_box["classname"]] = count_hash[bounding_box["classname"]] + 1
-      else
-        count_hash[bounding_box["classname"]] = 1
+    begin
+      json = JSON.parse(target)
+      json.each do |bounding_box|
+        if count_hash.key? bounding_box["classname"]
+          count_hash[bounding_box["classname"]] = count_hash[bounding_box["classname"]] + 1
+        else
+          count_hash[bounding_box["classname"]] = 1
+        end
       end
+    rescue Exception => ex
+      debugger.log "Exception in JSON object-count parsing: #{ex}"
     end
     return count_hash
   end
