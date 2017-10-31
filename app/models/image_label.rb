@@ -19,7 +19,7 @@ class ImageLabel < ApplicationRecord
     return image.image_labels.select{ |il| (not il.target.nil?) && (not il == self) }
   end
 
-  def to_object_count_hashG
+  def to_object_count_hash
     count_hash = {}
     if(target.nil? or target == "")
       return {}
