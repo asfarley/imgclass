@@ -134,17 +134,21 @@ class ImageLabelSet < ApplicationRecord
   end
 
   def toYoloFormat(image_label_json)
-    yolo_format_string = ""
-    image_label_hashes = JSON.parse(image_label_json)
-    image_label_hashes.each do |bb_json|
-      class_int = classStringToInt(bb_json["classname"])
-      left = bb_json["x"].to_f.round(4)
-      top = bb_json["y"].to_f.round(4)
-      right = (left + bb_json["width"].to_f).round(4)
-      bottom = (top + bb_json["height"].to_f).round(4)
-      yolo_format_string += "#{class_int} #{left} #{top} #{right} #{bottom}\n"
+    begin
+      yolo_format_string = ""
+      image_label_hashes = JSON.parse(image_label_json)
+      image_label_hashes.each do |bb_json|
+        class_int = classStringToInt(bb_json["classname"])
+        left = bb_json["x"].to_f.round(4)
+        top = bb_json["y"].to_f.round(4)
+        right = (left + bb_json["width"].to_f).round(4)
+        bottom = (top + bb_json["height"].to_f).round(4)
+        yolo_format_string += "#{class_int} #{left} #{top} #{right} #{bottom}\n"
+      end
+      return yolo_format_string
+    rescue Exception => ex
+      return ""
     end
-    return yolo_format_string
   end
 
   def classStringToInt(class_string)
