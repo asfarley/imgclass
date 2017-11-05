@@ -330,7 +330,12 @@ class ImageLabelSet < ApplicationRecord
     preexisting_folders = Dir.entries(output_path)
     logger.debug "In generate_output_folder_if_complete, folders exist: #{preexisting_folders}"
     #Zip urls with most likely bounding boxes
-    urls_targets_hash_list = images.eager_load(:image_labels).select{ |image| image.is_labelled}.map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
+    begin
+      logger.debug "Calculating most-likely targets..."
+      urls_targets_hash_list = images.eager_load(:image_labels).select{ |image| image.is_labelled}.map{ |image| {:url => image.url, :target => image.most_likely_bounding_boxes} };nil
+    rescue Exception => ex
+      logger.debug "Most-likely target calculation failed: #{ex}"
+    end
     logger.debug "Downloading #{urls_targets_hash_list.count} images..."
     begin
       parallel_download(urls_targets_hash_list, output_path);nil
