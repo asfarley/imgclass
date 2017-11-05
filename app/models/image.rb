@@ -84,13 +84,18 @@ class Image < ApplicationRecord
   # in the target string. The key's corresponding value is the number of occurrences of that classname in
   # the target string.
   def target_to_count_hash(target)
-    targetJSON = JSON.parse(target)
-    classes = targetJSON.map{ |t| t["classname"] }
-    counts = Hash.new(0)
-    classes.each do |v|
-      counts[v] += 1
+    begin
+      targetJSON = JSON.parse(target)
+      classes = targetJSON.map{ |t| t["classname"] }
+      counts = Hash.new(0)
+      classes.each do |v|
+        counts[v] += 1
+      end
+      return counts
+    rescue Exception => ex
+      debugger.log "In target_to_count_hash: #{ex}"
+      return []
     end
-    return counts
   end
 
   # In order to compare a set of ImageLabels associated with a particular Image,
