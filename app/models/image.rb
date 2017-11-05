@@ -94,7 +94,7 @@ class Image < ApplicationRecord
       return counts
     rescue Exception => ex
       logger.debug "In target_to_count_hash: #{ex}"
-      return []
+      return {}
     end
   end
 
