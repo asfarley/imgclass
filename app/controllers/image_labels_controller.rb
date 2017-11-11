@@ -86,6 +86,7 @@ class ImageLabelsController < ApplicationController
   def check_roles
     if(current_user.roles.nil?)
       redirect_to '/'
+      return
     end
 
     if not current_user.roles.include? "admin" and not current_user.roles.include? "worker"
