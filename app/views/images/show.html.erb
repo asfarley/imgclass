@@ -7,5 +7,28 @@
 
 <img class="bbthumbnail" src="<%= @image.url %>" >
 
+<br><br>
+
+<% @image.image_labels.each do |il| %>
+  <div class="row">
+    <div class="col-sm-1">
+      ID: <%= il.id %>
+    </div>
+    <div class="col-sm-3">
+      Counts: <%= il.to_object_count_hash %>
+    </div>
+    <div class="col-sm-4">
+      Competing counts: <%= il.competing_object_count_hashes %>
+    </div>
+    <div class="col-sm-2">
+      Average agreement: <%= il.single_measure_agreement_against_competing_labels %>
+    </div>
+    <div class="col-sm-2">
+      Competing image_labels: <%= il.competing_image_labels.map{ |il| il.id } %>
+    </div>
+  </div>
+  <br><br>
+<% end %>
+
 <%= link_to 'Edit', edit_image_path(@image) %> |
 <%= link_to 'Back', images_path %>

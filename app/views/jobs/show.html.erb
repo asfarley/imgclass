@@ -13,6 +13,9 @@
   <div class="col-sm-8">
     <%= render partial: "bbimage", locals: {image: image} %>
   </div>
+  <div class="col-sm-2">
+    Target counts: <%= image.all_targets_count_hash_padded %><br>
+  </div>
   </div>
   <br><br>
 <% end %>
