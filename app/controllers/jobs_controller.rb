@@ -1,8 +1,9 @@
 class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
   before_action :set_image_label_set, only: [:new]
-
   before_filter :check_roles
+
+  require 'kaminari'
 
   # GET /jobs
   # GET /jobs.json
@@ -20,11 +21,16 @@ class JobsController < ApplicationController
   # GET /jobs/1.json
   def show
     #params.delete :id
-    redirect_to "/image_label_sets"
+    #redirect_to "/image_label_sets"
     #@unlabeled = Job.find(params[:id]).image_labels.select{ |il| il.label.nil? }.first
-    #binding.pry
     #@unlabeled = ImageLabel.where("label_id IS ?", nil).first
     #if @unlabeled.nil? then redirect_to action: "index" end
+
+    if params.has_key?(:page)
+      @images = Kaminari.paginate_array(@job.image_labels.map{ |il| il.image }).page(params[:page])
+    else
+      @images = Kaminari.paginate_array(@job.image_labels.map{ |il| il.image }).page(1)
+    end
   end
 
   # GET /jobs/new
