@@ -11,10 +11,11 @@
   <div class="col-sm-2"><%= File.basename image.url %><br><br>
   </div>
   <div class="col-sm-8">
-    <%= render partial: "bbimage", locals: {image: image} %>
+    <%= render partial: "bbimage", locals: {image: image, il: image.label_for_job(@job)} %>
   </div>
   <div class="col-sm-2">
-    Target counts: <%= image.all_targets_count_hash_padded %><br>
+    <b>This label's target counts:</b> <%= image.label_for_job(@job).to_object_count_hash %><br><br>
+    <b>All target counts:</b> <%= image.all_targets_count_hash_padded %><br><br>
   </div>
   </div>
   <br><br>

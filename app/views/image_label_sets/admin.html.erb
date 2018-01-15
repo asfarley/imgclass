@@ -17,7 +17,11 @@
   </tr>
 <% @jobs.each do |job| %>
   <tr>
-    <td><%= job.id %></td>
+    <td>
+      <%= link_to job do%>
+        <%= job.id %>
+      <% end %>
+    </td>
     <td><%= User.find(job.user_id).email %>&nbsp;&nbsp;</td>
     <td><%= job.image_labels.size %></td>
     <td><%= job.labelledImagesCount() %></thd>
