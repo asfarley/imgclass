@@ -16,11 +16,14 @@ class ImageLabelsController < ApplicationController
 
     @unlabeled = current_user.image_labels.select{ |il| il.target.nil? }
 
+    @progressratio = (current_user.image_labels.count - @unlabeled.count).to_s + "/" + current_user.image_labels.count.to_s
+
     @unlabeled_first = @unlabeled.first
     if @unlabeled_first.nil?
       redirect_to action: "outofwork"
     else
       @image_label_set = @unlabeled_first.image.image_label_set
+      render :layout => "next"
     end
   end
 

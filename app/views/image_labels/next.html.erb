@@ -5,28 +5,25 @@
     <svg id="overlay" xmlns="http://www.w3.org/2000/svg" style="left:0px;top:0px;">
     </svg>
   </div>
-  <div id="bblistcontainer">
-    <div class="glyphicon glyphicon-trash" id="delete-bb-button" onclick="DeleteSelectedBoxes()"></div>
-    <ul id="bblist" class="listgroup">
-    </ul>
-  </div>
+    <ul id="bblist" class="listgroup"></ul>
 </div>
-<div class="progress" style="width:500px;height:20px;">
-<div class="progress-bar" role="progressbar" aria-valuenow="<%= current_user.progress_percentage %>"
-aria-valuemin="0" aria-valuemax="100" style="width:<%= current_user.progress_percentage %>%">
-  <span class="sr-only">70% Complete</span>
+<div class="workprogress">
+  <%= @progressratio %>
 </div>
-</div>
-<div id="radiocontainer" class="container" style="width:500px;">
+<div id="radiocontainer" class="container" style="width:20%; z-index:50;left:0px;position:absolute;">
   <%= form_for @unlabeled_first do |f| %>
-  <div class="row">
+
     <% @unlabeled_first.image.image_label_set.labels.each do |label| %>
-    <div class="col-sm-4">
+    <div class="row">
+      <div class="col-sm-6">
+        <label>
         <input value="<%= label.text %>" name="classname" type="radio" >
         <%= label.text %>
+        </label>
       </div>
+    </div>
     <% end %>
-  </div>
+
   <br>
   <input id="target" value="" name="target" type="hidden" >
   <button value="" name="" type="submit" class="btn btn-default btn-lg btn-block">Next</button>
