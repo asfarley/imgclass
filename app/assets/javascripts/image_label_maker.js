@@ -265,4 +265,17 @@ $(document).on("ready, turbolinks:load", function() {
      UpdateBoundingBoxList();
      RedrawBoundingBoxes(BoundingBoxes, 'overlay');
    }
+
+   if(window.location.pathname=="/image_labels/next")
+   {
+     window.onkeyup = function(e) {
+       var key = e.keyCode ? e.keyCode : e.which;
+       if (key == 68) {
+         BoundingBoxes.pop();
+         UpdateBoundingBoxList();
+         RedrawBoundingBoxes(BoundingBoxes, 'overlay');
+       }
+     }
+   }
+
 });
