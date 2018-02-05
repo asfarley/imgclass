@@ -161,6 +161,15 @@ class Image < ApplicationRecord
     return class_averages
   end
 
+  def label_for_job(job)
+    labels_for_job = image_labels.select{ |il| il.job == job}
+    if(labels_for_job.count >= 1)
+      return labels_for_job.first
+    else
+      return nil
+    end
+  end
+
   before_destroy {|image|
     image.image_labels.destroy_all
   }

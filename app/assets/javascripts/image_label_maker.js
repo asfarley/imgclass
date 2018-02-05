@@ -2,6 +2,7 @@
 // All this logic will automatically be available in application.js.
 
 var BoundingBoxes = [];
+var Dragging = false;
 
 function SerializeBoundingBoxes()
 {
@@ -86,6 +87,7 @@ function FindPosition(oElement)
 
 function GetCoordinatesDown(e)
 {
+  Dragging = true;
   var PosX = 0;
   var PosY = 0;
   var ImgPos;
@@ -119,8 +121,55 @@ function GetCoordinatesDown(e)
   console.log("PosYDown: " + PosYDown.toString())
 }
 
+function RenderWhileDragging(e)
+{
+  if(Dragging)
+  {
+    console.log("Dragging..")
+  }
+  else {
+    return;
+  }
+  var PosX = 0;
+  var PosY = 0;
+  var ImgPos;
+  ImgPos = FindPosition(mainimage);
+  console.log(ImgPos);
+  if (!e) var e = window.event;
+  if (e.clientX || e.clientY)
+  {
+    PosX = e.clientX;// + document.body.scrollLeft
+      //+ document.documentElement.scrollLeft;
+    PosY = e.clientY;// + document.body.scrollTop
+      //+ document.documentElement.scrollTop;
+  }
+
+  PosXNow = Math.round(PosX - ImgPos[0]);
+  PosYNow = Math.round(PosY - ImgPos[1]);
+
+  var height = Math.abs(PosYNow - PosYDown);
+  var width = Math.abs(PosXNow - PosXDown);
+  var x = Math.min(PosXNow, PosXDown);
+  var y = Math.min(PosYNow, PosYDown);
+
+  var classname = GetSelectedClass();
+
+  //Map x,y,height,width to coordinates in normalized coordinates (0.0->1.0 for each dimension)
+  var mainimagejq = $("#mainimage");
+  var x_scaled = x / mainimagejq.width();
+  var y_scaled = y / mainimagejq.height();
+  var width_scaled = width / mainimagejq.width();
+  var height_scaled = height / mainimagejq.height();
+
+  var bb = new BoundingBox(x_scaled,y_scaled,width_scaled,height_scaled,classname);
+  var DragBoundingBoxes = BoundingBoxes.slice();
+  DragBoundingBoxes.push(bb);
+  RedrawBoundingBoxes(DragBoundingBoxes, 'overlay');
+}
+
 function GetCoordinatesUp(e)
 {
+  Dragging = false;
   var PosX = 0;
   var PosY = 0;
   var ImgPos;
@@ -190,6 +239,7 @@ $(document).on("ready, turbolinks:load", function() {
   {
     mainimage.onmousedown = GetCoordinatesDown;
     mainimage.onmouseup = GetCoordinatesUp;
+    mainimage.onmousemove = RenderWhileDragging;
   }
 
    var overlay = document.getElementById("overlay");
@@ -197,6 +247,7 @@ $(document).on("ready, turbolinks:load", function() {
    {
      overlay.onmousedown = GetCoordinatesDown;
      overlay.onmouseup = GetCoordinatesUp;
+     overlay.onmousemove = RenderWhileDragging;
    }
 
    //Select first item as default selected radiocontainer
@@ -214,4 +265,17 @@ $(document).on("ready, turbolinks:load", function() {
      UpdateBoundingBoxList();
      RedrawBoundingBoxes(BoundingBoxes, 'overlay');
    }
+
+   if(window.location.pathname=="/image_labels/next")
+   {
+     window.onkeyup = function(e) {
+       var key = e.keyCode ? e.keyCode : e.which;
+       if (key == 68) {
+         BoundingBoxes.pop();
+         UpdateBoundingBoxList();
+         RedrawBoundingBoxes(BoundingBoxes, 'overlay');
+       }
+     }
+   }
+
 });
