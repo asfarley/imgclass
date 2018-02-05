@@ -350,12 +350,17 @@ class ImageLabelSet < ApplicationRecord
     image_file_paths = images.map{ |i| i.url }
     names_list = labels.map { |l| l.text }
     YoloFileGenerator.generate_all_yolo_training_files(output_path, image_file_paths, names_list)
-    logger.debug "Zipping folder..."
     zipfile_name = File.join(Rails.root, "tmp", "ImageLabelSet_#{id}.zip")
-    FileUtils.rm_rf(zipfile_name)
+    logger.debug "Removing stale zipfile..."
+    removal_result = FileUtils.rm_rf(zipfile_name)
+    logger.debug "Stale zipfile delete result: #{removal_result}"
     zf = ZipFileGenerator.new(output_path, zipfile_name);nil
-    zf.write();nil
-    FileUtils.rm_rf(output_path)
+    logger.debug "Zipping folder (#{zipfile_name})..."
+    zip_result = zf.write();nil
+    logger.debug "Zip result: #{zip_result}"
+    logger.debug "Removing unzipped folder..."
+    unzipped_delete_result = FileUtils.rm_rf(output_path)
+    logger.debug "Unzipped delete result: #{unzipped_delete_result}"
     logger.debug "Done."
     t2 = Time.now
     delta = t2 - t1
