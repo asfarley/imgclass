@@ -8,7 +8,10 @@
 
 <% @images.each do |image| %>
   <div class="row">
-  <div class="col-sm-2"><%= File.basename image.url %><br><br>
+  <div class="col-sm-2"><%= File.basename image.url %>
+    <br>
+    <%= link_to 'Destroy', image.label_for_job(@job), method: :delete %>
+    <br>
   </div>
   <div class="col-sm-8">
     <%= render partial: "bbimage", locals: {image: image, il: image.label_for_job(@job)} %>
