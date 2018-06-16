@@ -81,7 +81,7 @@ class ImageLabelsController < ApplicationController
   def destroy
     @image_label.destroy
     respond_to do |format|
-      format.html { redirect_to image_labels_url, notice: 'Image label was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Image label was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
