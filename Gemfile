@@ -30,6 +30,8 @@ gem 'bcrypt', '~> 3.1.11'
 gem 'figaro'
 gem 'puma'
 
+gem "sentry-raven"
+
 group :development do
   gem "capistrano", "~> 3.11"
   gem 'capistrano-rails', '~> 1.3'

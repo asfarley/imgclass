@@ -24,5 +24,10 @@ module Imgclass
     config.public_file_server.enabled = true
 
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    Raven.configure do |config|
+      config.dsn = 'https://fafba8aa6a764430985b016d64c93e73:c4e7de71b89c491aa9a2eede91e89d6e@sentry.io/1448142'
+    end
+
   end
 end
