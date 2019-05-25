@@ -14,7 +14,10 @@ class ImageLabelSetsController < ApplicationController
   # GET /image_label_sets
   # GET /image_label_sets.json
   def index
-    @image_label_sets = ImageLabelSet.all
+    if current_user.nil?
+      redirect_to '/'
+    end
+    @image_label_sets = current_user.image_label_sets
   end
 
   # GET /image_label_sets/1
@@ -51,9 +54,10 @@ class ImageLabelSetsController < ApplicationController
 
   def refresh_zipfile
     respond_to do |format|
-        format.html { redirect_to image_label_sets_url, notice: 'Zipfile is being refreshed.' }
+        format.html { redirect_to image_label_sets_url, notice: "Zipfile for #{@image_label_set.name} is being refreshed." }
     end
-    GenerateZipfilesJob.perform_later
+    #GenerateZipfilesJob.perform_later
+    GenerateZipfileJob.perform_later @image_label_set
   end
 
   # GET /image_label_sets/new
@@ -69,6 +73,10 @@ class ImageLabelSetsController < ApplicationController
   # POST /image_label_sets.json
   def create
 
+    if current_user.nil?
+      redirect_to '/'
+    end
+
     if(params["labels"].nil?)
       respond_to do |format|
           format.html { redirect_to image_label_sets_url, error: 'Labels not present.' }
@@ -78,6 +86,7 @@ class ImageLabelSetsController < ApplicationController
 
     @image_label_set = ImageLabelSet.new
     @image_label_set.name = params["name"]
+    @image_label_set.user_id = current_user.id
     save_success = @image_label_set.save
 
     params["labels"].split(",").each do |l|

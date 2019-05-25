@@ -59,6 +59,7 @@
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.6.2, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.7.0, rbenv: 2.6.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="faraday (v0.15.4, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fastimage (v2.1.5, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.10.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="figaro (v1.1.1, rbenv: 2.6.1) [gem]" level="application" />
@@ -81,6 +82,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.4.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.11.3, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.13.1, rbenv: 2.6.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.0.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-scp (v2.0.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-ssh (v5.2.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.3.1, rbenv: 2.6.1) [gem]" level="application" />
@@ -105,6 +107,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.0.7, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sassc (v2.0.1, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sdoc (v0.4.2, rbenv: 2.6.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sentry-raven (v2.9.0, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v2.0.2, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.2, rbenv: 2.6.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.1, rbenv: 2.6.1) [gem]" level="application" />

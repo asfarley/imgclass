@@ -1,0 +1,4 @@
+https://s3-us-west-2.amazonaws.com/imgclass-images/Test/1.jpg
+https://s3-us-west-2.amazonaws.com/imgclass-images/Test/2.jpg
+https://s3-us-west-2.amazonaws.com/imgclass-images/Test/3.jpg
+https://s3-us-west-2.amazonaws.com/imgclass-images/Test/4.jpg
