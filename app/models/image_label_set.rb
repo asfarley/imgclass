@@ -141,9 +141,9 @@ class ImageLabelSet < ApplicationRecord
         class_int = classStringToInt(bb_json["classname"])
         left = bb_json["x"].to_f.round(4)
         top = bb_json["y"].to_f.round(4)
-        right = (left + bb_json["width"].to_f).round(4)
-        bottom = (top + bb_json["height"].to_f).round(4)
-        yolo_format_string += "#{class_int} #{left} #{top} #{right} #{bottom}\n"
+        #right = (left + bb_json["width"].to_f).round(4)
+        #bottom = (top + bb_json["height"].to_f).round(4)
+        yolo_format_string += "#{class_int} #{left} #{top} #{bb_json["width"].to_f.round(4)} #{bb_json["height"].to_f}\n"
       end
       return yolo_format_string
     rescue Exception => ex
@@ -300,25 +300,25 @@ class ImageLabelSet < ApplicationRecord
   def parallel_download(urls_targets_hash_list, storage_path)
     preexisting_folders = Dir.entries(storage_path)
     logger.debug "Before parallel_download, folders exist: #{preexisting_folders}"
-  	Parallel.each(urls_targets_hash_list, in_threads: 32) { |url_target_pair|
-      #Download image
-  		basename = File.basename(url_target_pair[:url], ".*")
-  		basename_with_ext = File.basename(url_target_pair[:url])
-  		this_image_subfolder = File.join(storage_path, basename)
+    Parallel.each(urls_targets_hash_list, in_threads: 32) {|url_target_pair|
+      # Download image
+      basename = File.basename(url_target_pair[:url], ".*")
+      basename_with_ext = File.basename(url_target_pair[:url])
+      this_image_subfolder = File.join(storage_path, basename)
       logger.debug "Making directory: #{this_image_subfolder}"
-      if(File.exist? this_image_subfolder)
+      if (File.exist? this_image_subfolder)
         FileUtils.rm_rf(this_image_subfolder)
       end
-  		Dir.mkdir(this_image_subfolder) # Create folder
-  		path = File.join(this_image_subfolder,basename_with_ext)
-  		downloadImageToPath(url_target_pair[:url], path)
+      Dir.mkdir(this_image_subfolder) # Create folder
+      path = File.join(this_image_subfolder, basename_with_ext)
+      downloadImageToPath(url_target_pair[:url], path)
       # Create textfile
       this_image_label_path = File.join(this_image_subfolder, basename + ".txt")
       this_image_label = url_target_pair[:target]
       File.open(this_image_label_path, 'w') do |f|
         f.write(toYoloFormat(this_image_label))
       end
-  	}
+    }
   end
 
   def generate_output_folder_if_complete
