@@ -141,9 +141,11 @@ class ImageLabelSet < ApplicationRecord
         class_int = classStringToInt(bb_json["classname"])
         left = bb_json["x"].to_f.round(4)
         top = bb_json["y"].to_f.round(4)
+        x_center = left + (bb_json["width"].to_f / 2)
+        y_center = top + (bb_json["height"].to_f / 2)
         #right = (left + bb_json["width"].to_f).round(4)
         #bottom = (top + bb_json["height"].to_f).round(4)
-        yolo_format_string += "#{class_int} #{left} #{top} #{bb_json["width"].to_f.round(4)} #{bb_json["height"].to_f}\n"
+        yolo_format_string += "#{class_int} #{x_center} #{y_center} #{bb_json["width"].to_f.round(4)} #{bb_json["height"].to_f}\n"
       end
       return yolo_format_string
     rescue Exception => ex

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70dff258-ad11-4991-8a63-24d20de62098" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/image_label_set.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/image_label_set.rb" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
@@ -51,8 +50,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/image_label_set.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="138" column="55" lean-forward="true" selection-start-line="138" selection-start-column="55" selection-end-line="138" selection-end-column="55" />
+            <state relative-caret-position="437">
+              <caret line="146" column="57" lean-forward="true" selection-start-line="146" selection-start-column="57" selection-end-line="146" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -330,12 +329,12 @@
       <workItem from="1556445127189" duration="162000" />
       <workItem from="1556446478361" duration="292000" />
       <workItem from="1558814500052" duration="4455000" />
-      <workItem from="1559015627285" duration="1044000" />
+      <workItem from="1559015627285" duration="1741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7893000" />
+    <option name="totallyTimeSpent" value="8590000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="83" y="25" width="1837" height="998" extended-state="6" />
@@ -462,8 +461,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/image_label_set.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="138" column="55" lean-forward="true" selection-start-line="138" selection-start-column="55" selection-end-line="138" selection-end-column="55" />
+        <state relative-caret-position="437">
+          <caret line="146" column="57" lean-forward="true" selection-start-line="146" selection-start-column="57" selection-end-line="146" selection-end-column="57" />
         </state>
       </provider>
     </entry>
