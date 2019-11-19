@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Rails imgclass: development">
-  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.15">
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.16">
     <root id="1">
       <ServerVersion>3.25.1</ServerVersion>
     </root>
     <schema id="2" parent="1" name="main">
       <Current>1</Current>
-      <Visible>1</Visible>
     </schema>
     <collation id="3" parent="1" name="BINARY"/>
     <collation id="4" parent="1" name="NOCASE"/>
@@ -47,7 +46,6 @@
     <index id="20" parent="6" name="sqlite_autoindex_ar_internal_metadata_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>key</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="21" parent="6">
@@ -81,7 +79,6 @@
     </column>
     <index id="27" parent="7" name="index_image_label_sets_on_user_id">
       <ColNames>user_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="28" parent="7">
       <ColNames>id</ColNames>
@@ -125,15 +122,12 @@
     </column>
     <index id="37" parent="8" name="index_image_labels_on_image_id">
       <ColNames>image_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="38" parent="8" name="index_image_labels_on_label_id">
       <ColNames>label_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="39" parent="8" name="index_image_labels_on_user_id">
       <ColNames>user_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="40" parent="8">
       <ColNames>id</ColNames>
@@ -165,7 +159,6 @@
     </column>
     <index id="46" parent="9" name="index_images_on_image_label_set_id">
       <ColNames>image_label_set_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="47" parent="9">
       <ColNames>id</ColNames>
@@ -197,11 +190,9 @@
     </column>
     <index id="53" parent="10" name="index_jobs_on_image_label_set_id">
       <ColNames>image_label_set_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="54" parent="10" name="index_jobs_on_user_id">
       <ColNames>user_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="55" parent="10">
       <ColNames>id</ColNames>
@@ -233,7 +224,6 @@
     </column>
     <index id="61" parent="11" name="index_labels_on_image_label_set_id">
       <ColNames>image_label_set_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="62" parent="11">
       <ColNames>id</ColNames>
@@ -247,7 +237,6 @@
     <index id="64" parent="12" name="sqlite_autoindex_schema_migrations_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="65" parent="12">
@@ -349,12 +338,10 @@
     </column>
     <index id="87" parent="15" name="index_users_on_email">
       <ColNames>email</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <index id="88" parent="15" name="index_users_on_reset_password_token">
       <ColNames>reset_password_token</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="89" parent="15">
